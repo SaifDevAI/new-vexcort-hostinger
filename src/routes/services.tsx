@@ -144,70 +144,64 @@ function getCardStyle(offset: number): React.CSSProperties {
 function ServicesCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const sentinelTopRef = useRef<HTMLDivElement>(null);
-  const sentinelBottomRef = useRef<HTMLDivElement>(null);
-  const isStuckRef = useRef(false);
-  const lastScrollY = useRef(0);
-  const wheelAccum = useRef(0);
-  const animatingRef = useRef(false);
-  const touchStartY = useRef(0);
+  const isProgrammaticScrollRef = useRef(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
 
-  const navigate = useCallback((dir: number) => {
-    if (animatingRef.current) return;
-    const next = Math.max(0, Math.min(services.length - 1, activeIndex + dir));
-    if (next === activeIndex) return;
-    animatingRef.current = true;
-    setActiveIndex(next);
-    setTimeout(() => { animatingRef.current = false; }, 680);
-  }, [activeIndex]);
-
-  // Intercept wheel when section is in viewport
-  useEffect(() => {
+  const scrollToCard = useCallback((targetIndex: number) => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const onWheel = (e: WheelEvent) => {
+    isProgrammaticScrollRef.current = true;
+    setActiveIndex(targetIndex);
+
+    const rect = section.getBoundingClientRect();
+    const absoluteSectionTop = window.scrollY + rect.top;
+    const totalScrollable = rect.height - window.innerHeight;
+    const targetScrollY = absoluteSectionTop + (targetIndex / (services.length - 1)) * totalScrollable;
+
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: "smooth"
+    });
+
+    if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      isProgrammaticScrollRef.current = false;
+    }, 800);
+  }, []);
+
+  const navigate = useCallback((dir: number) => {
+    const next = Math.max(0, Math.min(services.length - 1, activeIndex + dir));
+    if (next === activeIndex) return;
+    scrollToCard(next);
+  }, [activeIndex, scrollToCard]);
+
+  // Sync scroll position with active card index
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isProgrammaticScrollRef.current) return;
+      const section = sectionRef.current;
+      if (!section) return;
+
       const rect = section.getBoundingClientRect();
-      const inView = rect.top <= 80 && rect.bottom >= window.innerHeight - 80;
-      if (!inView) return;
+      const totalScrollable = rect.height - window.innerHeight;
+      if (totalScrollable <= 0) return;
 
-      // If first card reached top boundary or last card reached bottom, let page scroll
-      const atStart = activeIndex === 0 && e.deltaY < 0;
-      const atEnd = activeIndex === services.length - 1 && e.deltaY > 0;
-      if (atStart || atEnd) return;
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / totalScrollable));
+      const index = Math.round(progress * (services.length - 1));
 
-      // Otherwise intercept
-      e.preventDefault();
-      wheelAccum.current += e.deltaY;
-      const threshold = 80;
-      if (Math.abs(wheelAccum.current) >= threshold) {
-        const dir = wheelAccum.current > 0 ? 1 : -1;
-        wheelAccum.current = 0;
-        navigate(dir);
+      if (index !== activeIndex) {
+        setActiveIndex(index);
       }
     };
 
-    // Touch support
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartY.current = e.touches[0].clientY;
-    };
-    const onTouchEnd = (e: TouchEvent) => {
-      const rect = section.getBoundingClientRect();
-      const inView = rect.top <= 80 && rect.bottom >= window.innerHeight - 80;
-      if (!inView) return;
-      const dy = touchStartY.current - e.changedTouches[0].clientY;
-      if (Math.abs(dy) > 40) navigate(dy > 0 ? 1 : -1);
-    };
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
     };
-  }, [activeIndex, navigate]);
+  }, [activeIndex]);
 
   const activeService = services[activeIndex];
 
@@ -278,7 +272,7 @@ function ServicesCarousel() {
                 key={svc.title}
                 style={style}
                 onClick={() => {
-                  if (!isActive) navigate(offset > 0 ? 1 : -1);
+                  if (!isActive) scrollToCard(idx);
                 }}
               >
                 <div
@@ -369,25 +363,25 @@ function ServicesCarousel() {
                       <ul className="mt-5 space-y-2.5">
                         {svc.features.map((f, fi) => (
                           <li
-                            key={f}
-                            className="flex items-center gap-2.5 text-sm text-slate-700"
-                            style={{
-                              animation: `fadeSlideIn 0.4s ease forwards`,
-                              animationDelay: `${fi * 60}ms`,
-                              opacity: 0,
-                            }}
-                          >
-                            <span
-                              className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                              style={{ background: `${svc.color}18`, color: svc.color }}
+                              key={f}
+                              className="flex items-center gap-2.5 text-sm text-slate-700"
+                              style={{
+                                animation: `fadeSlideIn 0.4s ease forwards`,
+                                animationDelay: `${fi * 60}ms`,
+                                opacity: 0,
+                              }}
                             >
-                              <Check className="h-3 w-3" />
-                            </span>
-                            <span className="font-medium">{f}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                              <span
+                                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+                                style={{ background: `${svc.color}18`, color: svc.color }}
+                              >
+                                <Check className="h-3 w-3" />
+                              </span>
+                              <span className="font-medium">{f}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
 
                     {/* CTA – only on active */}
                     {isActive && (
@@ -438,7 +432,7 @@ function ServicesCarousel() {
                 return (
                   <button
                     key={i}
-                    onClick={() => setActiveIndex(i)}
+                    onClick={() => scrollToCard(i)}
                     className="rounded-full transition-all duration-300 cursor-pointer"
                     style={{
                       width: i === activeIndex ? "28px" : dist === 1 ? "8px" : "5px",
