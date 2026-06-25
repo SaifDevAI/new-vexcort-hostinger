@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef, useCallback } from "react";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight, Check, Star, ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CTASection } from "@/components/CTASection";
 
@@ -493,6 +493,19 @@ function ServicesPage() {
           From websites and apps to AI automation, chatbots, and growth programs, Cortvex covers
           the full stack of capabilities a modern brand needs to compete and scale confidently.
         </p>
+        <div className="mt-6 flex flex-wrap items-center gap-6 font-logo text-[0.62rem] uppercase tracking-[0.02em] text-[#7a7f82]">
+          <div className="flex items-center gap-1.5">
+            <div className="flex">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="h-3.5 w-3.5 fill-[#1800AD] text-[#1800AD]" />
+              ))}
+            </div>
+            <span>Rated 4.9 by 80+ clients</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <ShieldCheck className="h-4 w-4 text-[#1800AD]" /> ISO-aligned delivery
+          </div>
+        </div>
       </section>
 
       <ServicesCarousel />
