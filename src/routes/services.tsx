@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { ArrowUpRight, Check, Star, ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CTASection } from "@/components/CTASection";
+import { InteractiveParticles } from "@/components/InteractiveParticles";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -217,7 +218,7 @@ function ServicesCarousel() {
       {/* Sticky carousel viewport */}
       <div className="sticky top-0 w-full h-screen flex flex-col overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)",
+          background: "linear-gradient(135deg, rgba(248, 250, 255, 0.7) 0%, rgba(240, 244, 255, 0.7) 50%, rgba(250, 245, 255, 0.7) 100%)",
         }}
       >
         {/* Animated background aura that matches active card color */}
@@ -484,54 +485,57 @@ function ServicesCarousel() {
 function ServicesPage() {
   return (
     <SiteLayout>
-      <section className="container-x pb-2 pt-28 md:pt-32">
-        <p className="eyebrow">Services</p>
-        <h1 className="h-display mt-3 max-w-4xl text-5xl md:text-6xl">
-          Premium digital services, delivered by a focused senior team.
-        </h1>
-        <p className="mt-5 max-w-3xl text-muted-foreground">
-          From websites and apps to AI automation, chatbots, and growth programs, Cortvex covers
-          the full stack of capabilities a modern brand needs to compete and scale confidently.
-        </p>
-        <div className="mt-6 flex flex-wrap items-center gap-6 font-logo text-[0.62rem] uppercase tracking-[0.02em] text-[#7a7f82]">
-          <div className="flex items-center gap-1.5">
-            <div className="flex">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="h-3.5 w-3.5 fill-[#1800AD] text-[#1800AD]" />
-              ))}
-            </div>
-            <span>Rated 4.9 by 80+ clients</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <ShieldCheck className="h-4 w-4 text-[#1800AD]" /> ISO-aligned delivery
-          </div>
-        </div>
-      </section>
-
-      <ServicesCarousel />
-
-      {/* Services Detail List */}
-      <section className="bg-[color:var(--color-surface)] section">
-        <div className="container-x grid gap-12 lg:grid-cols-2">
-          {services.slice(0, 4).map(({ logo, logoAlt, title, desc, features }) => (
-            <div key={title} id={title.toLowerCase().replace(/\s+/g, "-")} className="service-detail-pop">
-              <span className="grid h-12 w-12 place-items-center rounded-xl bg-white/90 shadow-[0_10px_28px_-20px_rgba(24,0,173,0.55)]">
-                <img src={logo} alt={logoAlt} className="h-6 w-6 object-contain" loading="lazy" />
-              </span>
-              <h2 className="h-display mt-5 text-3xl">{title}</h2>
-              <p className="mt-3 text-muted-foreground">{desc}</p>
-              <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
-                {features.map((f) => (
-                  <div key={f} className="service-pill-pop">{f}</div>
+      <InteractiveParticles />
+      <div className="relative z-10">
+        <section className="container-x pb-2 pt-28 md:pt-32">
+          <p className="eyebrow">Services</p>
+          <h1 className="h-display mt-3 max-w-4xl text-5xl md:text-6xl">
+            Premium digital services, delivered by a focused senior team.
+          </h1>
+          <p className="mt-5 max-w-3xl text-muted-foreground">
+            From websites and apps to AI automation, chatbots, and growth programs, Cortvex covers
+            the full stack of capabilities a modern brand needs to compete and scale confidently.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-6 font-logo text-[0.62rem] uppercase tracking-[0.02em] text-[#7a7f82]">
+            <div className="flex items-center gap-1.5">
+              <div className="flex">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-3.5 w-3.5 fill-[#1800AD] text-[#1800AD]" />
                 ))}
               </div>
-              <Link to="/contact" className="btn btn-dark mt-7">Book a Meeting <ArrowUpRight className="h-4 w-4" /></Link>
+              <span>Rated 4.9 by 80+ clients</span>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className="flex items-center gap-1.5">
+              <ShieldCheck className="h-4 w-4 text-[#1800AD]" /> ISO-aligned delivery
+            </div>
+          </div>
+        </section>
 
-      <CTASection />
+        <ServicesCarousel />
+
+        {/* Services Detail List */}
+        <section className="bg-[color:var(--color-surface)] section">
+          <div className="container-x grid gap-12 lg:grid-cols-2">
+            {services.slice(0, 4).map(({ logo, logoAlt, title, desc, features }) => (
+              <div key={title} id={title.toLowerCase().replace(/\s+/g, "-")} className="service-detail-pop">
+                <span className="grid h-12 w-12 place-items-center rounded-xl bg-white/90 shadow-[0_10px_28px_-20px_rgba(24,0,173,0.55)]">
+                  <img src={logo} alt={logoAlt} className="h-6 w-6 object-contain" loading="lazy" />
+                </span>
+                <h2 className="h-display mt-5 text-3xl">{title}</h2>
+                <p className="mt-3 text-muted-foreground">{desc}</p>
+                <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
+                  {features.map((f) => (
+                    <div key={f} className="service-pill-pop">{f}</div>
+                  ))}
+                </div>
+                <Link to="/contact" className="btn btn-dark mt-7">Book a Meeting <ArrowUpRight className="h-4 w-4" /></Link>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <CTASection />
+      </div>
     </SiteLayout>
   );
 }
