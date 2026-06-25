@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cortvex ERD Diagram Viewer</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #f0fdff;
+        color: #0b1324;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        padding: 2rem;
+        min-height: 100vh;
+      }
+      header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      h1 {
+        font-size: 2rem;
+        color: #1800ad;
+        margin: 0 0 0.5rem 0;
+      }
+      p {
+        color: #4b5563;
+        margin: 0;
+      }
+      .card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px -5px rgba(24, 0, 173, 0.1), 0 8px 10px -6px rgba(24, 0, 173, 0.05);
+        max-width: 95%;
+        width: 1200px;
+        display: flex;
+        justify-content: center;
+        overflow-x: auto;
+        border: 1px solid color-mix(in srgb, #1800ad 12%, #ffffff);
+      }
+      .actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 1rem;
+      }
+      button {
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1800ad 55%, #0ea5a4 100%);
+        color: white;
+        box-shadow: 0 8px 24px -8px rgba(24, 0, 173, 0.45);
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 28px -6px rgba(24, 0, 173, 0.55);
+      }
+      .btn-secondary {
+        background: white;
+        color: #0b1324;
+        border: 1px solid #d1d5db;
+      }
+      .btn-secondary:hover {
+        background: #f9fafb;
+      }
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+        }
+        .card {
+          box-shadow: none;
+          border: none;
+          max-width: 100%;
+          width: 100%;
+          padding: 0;
+        }
+        .actions {
+          display: none;
+        }
+      }
+    </style>
+    <!-- Include Mermaid.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "default",
+        securityLevel: "loose",
+        er: {
+          useMaxWidth: true,
+        },
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Cortvex Database ERD</h1>
+      <p>Interactive schema relationship visualization with simplified cardinality indicators</p>
+    </header>
+
+    <div class="card">
+      <pre class="mermaid">
+erDiagram
+    USERS {
+        uuid id PK
+        text email UK
+    }
+
+    PROFILES {
+        uuid id PK, FK
+        text email UK
+        text full_name
+        timestamptz created_at
+    }
+
+    SERVICE_CATALOG {
+        bigint id PK
+        text code UK
+        text label
+    }
+
+    MEETING_BOOKINGS {
+        uuid id PK
+        uuid user_id FK
+        text company_description
+        text status
+        timestamptz created_at
+        timestamptz updated_at
+        text first_name
+        text last_name
+        text contact_number
+        text contact_email
+        text company_name
+        text price_range
+    }
+
+    MEETING_BOOKING_SERVICES {
+        uuid booking_id PK, FK
+        bigint service_id PK, FK
+        timestamptz created_at
+    }
+
+    MEETING_BOOKING_DOCUMENTS {
+        uuid id PK
+        uuid booking_id FK
+        uuid user_id FK
+        text file_name
+        text file_path
+        bigint file_size
+        text mime_type
+        timestamptz created_at
+    }
+
+    %% Relationships with simplified text cardinalities on lines
+    USERS ||--|| PROFILES : "has profile (1 to 1)"
+    USERS ||--o{ MEETING_BOOKINGS : "creates bookings (1 to many)"
+    USERS ||--o{ MEETING_BOOKING_DOCUMENTS : "uploads files (1 to many)"
+    MEETING_BOOKINGS ||--|{ MEETING_BOOKING_SERVICES : "includes list (1 to many)"
+    SERVICE_CATALOG ||--o{ MEETING_BOOKING_SERVICES : "mapped services (1 to many)"
+    MEETING_BOOKINGS ||--o{ MEETING_BOOKING_DOCUMENTS : "references files (1 to many)"
+      </pre>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="window.print()">Save as PDF</button>
+      <button class="btn-secondary" onclick="window.location.reload()">Refresh Diagram</button>
+    </div>
+  </body>
+</html>

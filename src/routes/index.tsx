@@ -1,0 +1,760 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState, useRef } from "react";
+import { ArrowUpRight, Calendar, Check, Star, ShieldCheck } from "lucide-react";
+import { SiteLayout } from "@/components/SiteLayout";
+import { CTASection } from "@/components/CTASection";
+import * as THREE from "three";
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Cortvex — Web, AI, Apps, SEO & Marketing for Modern Brands" },
+      {
+        name: "description",
+        content:
+          "Cortvex helps businesses design, build, automate, market and scale digital products through web development, AI automation, chatbots, SEO and marketing.",
+      },
+      { property: "og:title", content: "Cortvex — Build smarter websites, apps & AI systems" },
+      {
+        property: "og:description",
+        content: "A premium digital agency for web, AI automation, chatbots, SEO and marketing.",
+      },
+      { property: "og:type", content: "website" },
+    ],
+    links: [{ rel: "canonical", href: "https://cortvex.com/" }],
+  }),
+  component: Home,
+});
+
+const services = [
+  {
+    logo: "https://cdn.simpleicons.org/react",
+    logoAlt: "React logo",
+    title: "Web Development",
+    desc: "Fast, scalable websites and platforms built with modern stacks.",
+  },
+  {
+    logo: "https://cdn.simpleicons.org/figma",
+    logoAlt: "Figma logo",
+    title: "Web Design",
+    desc: "Conversion-focused interfaces designed around your brand.",
+  },
+  {
+    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/openai.svg",
+    logoAlt: "OpenAI logo",
+    title: "AI Automation",
+    desc: "Custom AI workflows that remove repetitive operational work.",
+  },
+  {
+    logo: "https://cdn.simpleicons.org/dialogflow",
+    logoAlt: "Dialogflow logo",
+    title: "Web Chatbots",
+    desc: "Code and no-code chatbots that qualify leads 24/7.",
+  },
+  {
+    logo: "/voice-agent-logo.png",
+    logoAlt: "Voice agent logo",
+    title: "Voice Bots",
+    desc: "Natural voice agents for support, booking and outbound calls.",
+  },
+  {
+    logo: "https://cdn.simpleicons.org/flutter",
+    logoAlt: "Flutter logo",
+    title: "App Development",
+    desc: "iOS and Android apps with refined product experiences.",
+  },
+  {
+    logo: "https://cdn.simpleicons.org/google",
+    logoAlt: "Google logo",
+    title: "SEO",
+    desc: "Technical SEO and content that compound traffic over time.",
+  },
+  {
+    logo: "https://cdn.simpleicons.org/meta",
+    logoAlt: "Meta logo",
+    title: "Marketing",
+    desc: "Performance campaigns wired to revenue, not vanity metrics.",
+  },
+  {
+    logo: "https://cdn.simpleicons.org/instagram",
+    logoAlt: "Instagram logo",
+    title: "Social Media",
+    desc: "Full-service social handling that builds brand authority.",
+  },
+];
+
+function Hero() {
+  return (
+    <section className="relative overflow-hidden w-full h-full flex items-center">
+      <div className="animate-hero-bg-slide-in pointer-events-none absolute inset-0 z-20 flex items-end justify-center">
+        <div
+          className="absolute h-[min(58vh,560px)] w-[min(58vw,620px)] rounded-full opacity-70 blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle, color-mix(in srgb, var(--brand) 58%, transparent) 0%, color-mix(in srgb, var(--brand-accent) 30%, transparent) 42%, transparent 72%)",
+          }}
+        />
+        <img
+          src="/homerobo.png"
+          alt=""
+          className="relative z-10 h-[min(92vh,860px)] w-auto max-w-none object-contain"
+          aria-hidden="true"
+          loading="eager"
+          fetchPriority="high"
+        />
+      </div>
+      <div className="container-x pointer-events-none absolute inset-x-0 top-[18%] z-10 flex justify-center">
+        <h1 className="font-logo animate-fade-up text-center text-[4.8rem] font-black uppercase leading-[0.78] text-[#3a3a3d] sm:text-[7rem] md:text-[9.5rem] lg:text-[11rem]">
+          Cortvex
+        </h1>
+      </div>
+      <div className="container-x relative z-30 min-h-[700px] py-16 lg:min-h-screen lg:py-20 w-full flex items-center">
+        <div className="pointer-events-none absolute inset-x-4 bottom-16 mx-auto max-w-3xl animate-fade-up text-center">
+          <p className="font-logo text-[0.62rem] font-bold uppercase leading-[1.25] text-[#999999] sm:text-[0.72rem] md:text-[0.82rem]">
+            Turn browsers into buyers. Cortvex integrates enterprise-grade artificial intelligence
+            into custom web environments to transform your digital presence into an automated
+            revenue system
+          </p>
+        </div>
+        <div className="absolute left-4 top-1/2 flex -translate-y-1/2 animate-fade-up flex-col items-start gap-6 sm:left-8">
+          <Link
+            to="/signin"
+            search={{ mode: "signup" }}
+            className="inline-flex items-center gap-3 font-logo text-[1rem] uppercase tracking-[0.02em] text-[color:var(--brand)] transition-colors hover:text-[color:var(--brand-accent)] md:text-[1.12rem]"
+          >
+            <Calendar className="h-5 w-5" />{" "}
+            <span className="italic underline underline-offset-4">Book a Meeting</span>
+          </Link>
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-3 font-logo text-[1rem] uppercase tracking-[0.02em] text-[color:var(--brand)] transition-colors hover:text-[color:var(--brand-accent)] md:text-[1.12rem]"
+          >
+            <span className="italic underline underline-offset-4">Explore Services</span>{" "}
+            <ArrowUpRight className="h-5 w-5" />
+          </Link>
+          <div className="mt-2 flex flex-wrap items-center gap-6 font-logo text-[0.62rem] uppercase tracking-[0.02em] text-[#7a7f82]">
+            <div className="flex items-center gap-1.5">
+              <div className="flex">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-3.5 w-3.5 fill-[#1800AD] text-[#1800AD]" />
+                ))}
+              </div>
+              <span>Rated 4.9 by 80+ clients</span>
+            </div>
+            <div className="hidden items-center gap-1.5 md:flex">
+              <ShieldCheck className="h-4 w-4 text-[color:var(--brand)]" /> ISO-aligned delivery
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ServicesPreview() {
+  const servicesHeading = "Everything you need to grow online, under one roof.";
+  const [typedServicesHeading, setTypedServicesHeading] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+    const timer = window.setInterval(() => {
+      index += 1;
+      setTypedServicesHeading(servicesHeading.slice(0, index));
+      if (index >= servicesHeading.length) {
+        window.clearInterval(timer);
+      }
+    }, 28);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <section id="home-services-section" className="section">
+      <div className="container-x">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Services</p>
+            <h2 className="h-display mt-3 text-4xl md:text-5xl">
+              {typedServicesHeading}
+              <span className="ml-1 inline-block h-[0.9em] w-[2px] animate-pulse align-[-0.1em] bg-[color:var(--brand)]" />
+            </h2>
+          </div>
+          <Link to="/services" className="btn btn-ghost">
+            All services <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map(({ logo, logoAlt, title, desc }) => (
+            <div key={title} className="service-card-glass">
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/70 shadow-[0_8px_22px_-16px_rgba(24,0,173,0.55)]">
+                <img src={logo} alt={logoAlt} className="h-5 w-5 object-contain" loading="lazy" />
+              </span>
+              <h3 className="mt-5 text-lg font-semibold">{title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
+              <Link
+                to="/services"
+                className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[color:var(--brand)]"
+              >
+                Learn more <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhyChoose() {
+  const whyChooseText = "A partner that treats your product like our own.";
+  const [typedWhyChoose, setTypedWhyChoose] = useState("");
+  const [startTyping, setStartTyping] = useState(false);
+
+  useEffect(() => {
+    const el = document.getElementById("why-choose-section");
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStartTyping(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!startTyping) return;
+
+    let index = 0;
+    const timer = window.setInterval(() => {
+      index += 1;
+      setTypedWhyChoose(whyChooseText.slice(0, index));
+      if (index >= whyChooseText.length) {
+        window.clearInterval(timer);
+      }
+    }, 42);
+
+    return () => window.clearInterval(timer);
+  }, [startTyping]);
+
+  const items = [
+    {
+      logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/notion.svg",
+      logoAlt: "Notion logo",
+      title: "Senior craft, end-to-end",
+      desc: "A small, senior team handles strategy, design, engineering and growth.",
+    },
+    {
+      logo: "https://cdn.simpleicons.org/lightning",
+      logoAlt: "Lightning logo",
+      title: "Ship in weeks, not quarters",
+      desc: "Tight sprints, weekly demos, real product in your hands fast.",
+    },
+    {
+      logo: "https://cdn.simpleicons.org/cloudflare",
+      logoAlt: "Cloudflare logo",
+      title: "Built to scale safely",
+      desc: "Modern stacks, type-safe code, security and performance baked in.",
+    },
+    {
+      logo: "https://cdn.simpleicons.org/chartdotjs",
+      logoAlt: "Chart.js logo",
+      title: "Measurable outcomes",
+      desc: "Every engagement ties back to revenue, retention or efficiency.",
+    },
+  ];
+  return (
+    <section id="why-choose-section" className="section bg-[color:var(--color-surface)]">
+      <div className="container-x">
+        <div className="grid items-start gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <p className="eyebrow">Why Cortvex</p>
+            <h2 className="h-display mt-3 text-4xl md:text-5xl">
+              {typedWhyChoose}
+              <span className="ml-1 inline-block h-[0.9em] w-[2px] animate-pulse align-[-0.1em] bg-[color:var(--brand)]" />
+            </h2>
+            <p className="mt-5 text-muted-foreground">
+              We're not a content shop or a freelance marketplace. We're a focused team that ships
+              premium digital products and measurable growth systems.
+            </p>
+            <Link to="/about" className="btn btn-dark mt-7">
+              About Cortvex <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:col-span-7">
+            {items.map(({ logo, logoAlt, title, desc }) => (
+              <div key={title} className="service-card-glass">
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/70 shadow-[0_8px_22px_-16px_rgba(24,0,173,0.55)]">
+                  <img src={logo} alt={logoAlt} className="h-5 w-5 object-contain" loading="lazy" />
+                </span>
+                <h3 className="mt-4 text-base font-semibold">{title}</h3>
+                <p className="mt-1.5 text-sm text-muted-foreground">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AIHighlight() {
+  const toolLogos = [
+    { src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/n8n.svg", alt: "n8n logo" },
+    { src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/make.svg", alt: "Make logo" },
+    { src: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/zapier.svg", alt: "Zapier logo" },
+    {
+      src: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+      alt: "JavaScript logo",
+    },
+    {
+      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+      alt: "Python logo",
+    },
+    {
+      src: "https://cdn.jsdelivr.gh/devicons/devicon/icons/css3/css3-original.svg",
+      alt: "CSS3 logo",
+    },
+    {
+      src: "https://cdn.jsdelivr.gh/devicons/devicon/icons/html5/html5-original.svg",
+      alt: "HTML5 logo",
+    },
+    {
+      src: "https://cdn.jsdelivr.gh/devicons/devicon/icons/react/react-original.svg",
+      alt: "React logo",
+    },
+    {
+      src: "https://cdn.jsdelivr.gh/devicons/devicon/icons/typescript/typescript-original.svg",
+      alt: "TypeScript logo",
+    },
+    {
+      src: "https://cdn.jsdelivr.gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg",
+      alt: "Google Cloud logo",
+    },
+    {
+      src: "https://cdn.jsdelivr.gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+      alt: "AWS logo",
+    },
+  ];
+
+  const rowOne = [...toolLogos, ...toolLogos];
+  const rowTwo = [
+    ...toolLogos.slice(5),
+    ...toolLogos.slice(0, 5),
+    ...toolLogos.slice(5),
+    ...toolLogos.slice(0, 5),
+  ];
+
+  return (
+    <section className="section">
+      <div className="container-x">
+        <div className="relative overflow-hidden py-2">
+          <div className="logo-marquee-fade relative">
+            <div className="logo-marquee-track logo-marquee-track-rtl">
+              {rowOne.map((logo, index) => (
+                <span key={`${logo.alt}-${index}`} className="logo-pill">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="h-16 w-16 object-contain"
+                    loading="lazy"
+                  />
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="logo-marquee-fade relative mt-5">
+            <div className="logo-marquee-track logo-marquee-track-ltr logo-marquee-track-slow">
+              {rowTwo.map((logo, index) => (
+                <span key={`${logo.alt}-rev-${index}`} className="logo-pill">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="h-16 w-16 object-contain"
+                    loading="lazy"
+                  />
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const faqs = [
+  {
+    q: "How fast can we start?",
+    a: "Most engagements kick off within 7 days of the discovery call.",
+  },
+  {
+    q: "Do you work with non-technical founders?",
+    a: "Yes - most of our clients are founders or marketing leads. We translate complexity into clear actions.",
+  },
+  {
+    q: "What stacks do you use?",
+    a: "React, Next/TanStack, Node, Python, modern AI stacks. We choose what fits.",
+  },
+  {
+    q: "Do you offer ongoing support?",
+    a: "Yes. Retainers cover maintenance, growth experiments and AI iteration.",
+  },
+  {
+    q: "Can you improve an existing site instead of rebuilding?",
+    a: "Absolutely. We can optimize UX, performance, SEO, and conversion paths without a full rebuild.",
+  },
+  {
+    q: "How do you handle revisions and feedback?",
+    a: "We work in weekly review cycles with clear checkpoints, so feedback gets integrated continuously.",
+  },
+  {
+    q: "Do you integrate with CRMs and third-party tools?",
+    a: "Yes. We regularly integrate HubSpot, Salesforce, Stripe, Make, Zapier, n8n, and custom APIs.",
+  },
+];
+
+function FAQ() {
+  const [showMoreFaqs, setShowMoreFaqs] = useState(false);
+  const visibleFaqs = showMoreFaqs ? faqs.slice(0, 7) : faqs.slice(0, 4);
+
+  return (
+    <section id="home-faq-section" className="section">
+      <div className="container-x">
+        <div className="grid items-start gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <p className="eyebrow">FAQ</p>
+            <h2 className="h-display mt-3 text-4xl md:text-5xl">Answers, fast.</h2>
+            <p className="mt-4 text-muted-foreground">
+              Can't find what you need? Reach out and we'll respond within one business day.
+            </p>
+            <div className="mt-6 rounded-2xl border bg-white/70 p-5 shadow-[0_14px_40px_-28px_rgba(18,35,92,0.35)] backdrop-blur-sm">
+              <p className="text-sm text-muted-foreground">
+                Have a specific question about your project, budget, or timeline?
+              </p>
+              <Link to="/contact" hash="question-form" className="btn btn-primary mt-4">
+                Ask a question <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+          <div className="lg:col-span-7">
+            <div className="divide-y rounded-2xl border bg-white shadow-[0_18px_50px_-30px_rgba(18,35,92,0.35)]">
+              {visibleFaqs.map((f) => (
+                <details key={f.q} className="group p-6">
+                  <summary className="flex cursor-pointer list-none items-center justify-between text-base font-semibold">
+                    {f.q}
+                    <span className="grid h-7 w-7 place-items-center rounded-full border text-[color:var(--brand)] transition-transform group-open:rotate-45">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm text-muted-foreground">{f.a}</p>
+                </details>
+              ))}
+            </div>
+            {!showMoreFaqs && (
+              <button
+                type="button"
+                onClick={() => setShowMoreFaqs(true)}
+                className="btn btn-ghost mt-5"
+              >
+                Show more questions <ArrowUpRight className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const vertexShaderCode = `
+  // Classic value noise
+  float hash(vec3 p) {
+    p = fract(p * vec3(443.8975, 397.2973, 491.1871));
+    p += dot(p.xyz, p.yzx + 19.19);
+    return fract(p.x * p.y * p.z);
+  }
+
+  float noise(vec3 p) {
+    vec3 i = floor(p);
+    vec3 f = fract(p);
+    vec3 u = f * f * (3.0 - 2.0 * f);
+    return mix(
+      mix(mix(hash(i + vec3(0.0,0.0,0.0)), hash(i + vec3(1.0,0.0,0.0)), u.x),
+          mix(hash(i + vec3(0.0,1.0,0.0)), hash(i + vec3(1.0,1.0,0.0)), u.x), u.y),
+      mix(mix(hash(i + vec3(0.0,0.0,1.0)), hash(i + vec3(1.0,0.0,1.0)), u.x),
+          mix(hash(i + vec3(0.0,1.0,1.0)), hash(i + vec3(1.0,1.0,1.0)), u.x), u.y), u.z
+    );
+  }
+
+  varying float vHue;
+  varying float vDistToMouse;
+  uniform float uTime;
+  uniform vec2 uMouse;
+  uniform float uMouseStrength;
+  uniform vec2 uParallaxOffset;
+  attribute float aSize;
+  attribute float aHue;
+
+  void main() {
+    vHue = aHue;
+    vec3 pos = position;
+    
+    // Wave motion using noise
+    float wave = noise(vec3(pos.xy * 0.003, uTime * 0.5)) * 60.0;
+    float wave2 = noise(vec3(pos.xy * 0.012, uTime * 1.2)) * 15.0;
+    pos.z += wave + wave2;
+
+    // Mouse attraction/repulsion & ripple distortion
+    vec2 toMouse = pos.xy - uMouse;
+    float dist = length(toMouse);
+    vDistToMouse = dist;
+    
+    if (dist < 320.0 && uMouseStrength > 0.01) {
+      float force = (320.0 - dist) / 320.0;
+      
+      // Repulsion force
+      vec2 repel = normalize(toMouse) * force * 55.0 * uMouseStrength;
+      pos.xy += repel;
+      
+      // Wavy ripple
+      float ripple = sin(dist * 0.06 - uTime * 7.5) * 20.0 * force * uMouseStrength;
+      pos.z += ripple;
+    }
+
+    // Parallax effect based on mouse location and Z-depth
+    pos.xy += uParallaxOffset * 0.14 * (pos.z * 0.01 + 0.5);
+
+    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+    gl_Position = projectionMatrix * mvPosition;
+
+    // Size attenuation
+    gl_PointSize = aSize * (350.0 / -mvPosition.z);
+  }
+`;
+
+const fragmentShaderCode = `
+  uniform float uTime;
+  uniform float uOpacity;
+  varying float vHue;
+  varying float vDistToMouse;
+
+  vec3 hsl2rgb(in vec3 c) {
+    vec3 rgb = clamp(abs(mod(c.x*6.0+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0, 0.0, 1.0);
+    return c.z + c.y * (rgb - 0.5) * (1.0 - abs(2.0 * c.z - 1.0));
+  }
+
+  void main() {
+    float distToCenter = length(gl_PointCoord - vec2(0.5));
+    if (distToCenter > 0.5) discard;
+
+    // Soft glow bloom
+    float glow = smoothstep(0.5, 0.1, distToCenter);
+    float center = (1.0 - smoothstep(0.0, 0.22, distToCenter)) * 0.7;
+    float alpha = (glow + center) * uOpacity;
+
+    // Cycle colors dynamically
+    float reactiveShift = 0.0;
+    if (vDistToMouse < 320.0) {
+      reactiveShift = (320.0 - vDistToMouse) / 320.0 * 0.12;
+    }
+    float hue = fract(vHue / 360.0 + uTime * 0.02 + reactiveShift);
+    vec3 color = hsl2rgb(vec3(hue, 0.88, 0.60));
+
+    gl_FragColor = vec4(color, alpha);
+  }
+`;
+
+function InteractiveParticles() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseRef = useRef<{
+    x: number;
+    y: number;
+    rx: number;
+    ry: number;
+    nx: number;
+    ny: number;
+    rnx: number;
+    rny: number;
+    active: boolean;
+  }>({
+    x: 0,
+    y: 0,
+    rx: 0,
+    ry: 0,
+    nx: 0,
+    ny: 0,
+    rnx: 0,
+    rny: 0,
+    active: false,
+  });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0xffffff, 1);
+
+    const scene = new THREE.Scene();
+    
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.set(0, 0, 420);
+
+    const cols = 100;
+    const rows = 70;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(cols * rows * 3);
+    const aSize = new Float32Array(cols * rows);
+    const aHue = new Float32Array(cols * rows);
+
+    let i = 0;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = (c - cols / 2) * 12;
+        const y = (r - rows / 2) * 12;
+        positions[i * 3] = x;
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = 0;
+
+        aSize[i] = Math.random() * 4.0 + 2.5;
+        const baseHue = ((c / cols) * 180 + (r / rows) * 180 + Math.random() * 10) % 360;
+        aHue[i] = baseHue;
+        i++;
+      }
+    }
+
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("aSize", new THREE.BufferAttribute(aSize, 1));
+    geometry.setAttribute("aHue", new THREE.BufferAttribute(aHue, 1));
+
+    const uniforms = {
+      uTime: { value: 0 },
+      uMouse: { value: new THREE.Vector2(9999, 9999) },
+      uMouseStrength: { value: 0 },
+      uOpacity: { value: 0 },
+      uParallaxOffset: { value: new THREE.Vector2(0, 0) },
+    };
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: vertexShaderCode,
+      fragmentShader: fragmentShaderCode,
+      uniforms: uniforms,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.NormalBlending,
+    });
+
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    const resize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current.active = true;
+      mouseRef.current.nx = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.ny = -(e.clientY / window.innerHeight) * 2 + 1;
+
+      const vector = new THREE.Vector3(
+        mouseRef.current.nx,
+        mouseRef.current.ny,
+        0.5
+      );
+      vector.unproject(camera);
+      const dir = vector.sub(camera.position).normalize();
+      const distance = -camera.position.z / dir.z;
+      const worldPos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+      mouseRef.current.x = worldPos.x;
+      mouseRef.current.y = worldPos.y;
+    };
+
+    const handleMouseLeave = () => {
+      mouseRef.current.active = false;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("resize", resize);
+
+    resize();
+
+    let animationFrameId: number;
+    let tick = 0;
+    let globalAlpha = 0;
+
+    const draw = () => {
+      tick += 0.016;
+      uniforms.uTime.value = tick;
+
+      if (mouseRef.current.active) {
+        mouseRef.current.rx += (mouseRef.current.x - mouseRef.current.rx) * 0.08;
+        mouseRef.current.ry += (mouseRef.current.y - mouseRef.current.ry) * 0.08;
+        
+        mouseRef.current.rnx += (mouseRef.current.nx - mouseRef.current.rnx) * 0.06;
+        mouseRef.current.rny += (mouseRef.current.ny - mouseRef.current.rny) * 0.06;
+
+        uniforms.uMouse.value.set(mouseRef.current.rx, mouseRef.current.ry);
+        uniforms.uParallaxOffset.value.set(mouseRef.current.rnx * 40.0, mouseRef.current.rny * 40.0);
+      }
+
+      const targetAlpha = mouseRef.current.active ? 1 : 0;
+      globalAlpha += (targetAlpha - globalAlpha) * 0.08;
+
+      uniforms.uOpacity.value = globalAlpha;
+      uniforms.uMouseStrength.value = globalAlpha;
+
+      renderer.render(scene, camera);
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    const drawLoop = draw;
+    drawLoop();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("resize", resize);
+      geometry.dispose();
+      material.dispose();
+      renderer.dispose();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none fixed inset-0 z-0 bg-white"
+    />
+  );
+}
+
+function Home() {
+  return (
+    <SiteLayout>
+      <InteractiveParticles />
+      <div className="relative z-10 bg-transparent">
+        <Hero />
+        <ServicesPreview />
+        <WhyChoose />
+        <AIHighlight />
+        <FAQ />
+        <CTASection />
+      </div>
+    </SiteLayout>
+  );
+}
