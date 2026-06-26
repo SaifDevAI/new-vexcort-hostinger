@@ -1,8 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, useRef } from "react";
-import { Rocket, Sparkles, ShieldCheck, Linkedin, ArrowUpRight, Check, X } from "lucide-react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { ArrowUpRight, Linkedin, Calendar } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { CTASection } from "@/components/CTASection";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -17,6 +16,7 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
+// ─── Team Data ───────────────────────────────────────────────────────────────
 const team = [
   {
     name: "Saif",
@@ -25,7 +25,7 @@ const team = [
     linkedin: "https://www.linkedin.com/in/msaifurrehman1",
     image: "/saif.png",
     philosophy: "We build products that outlive trends.",
-    sizeClass: "col-span-1 md:row-span-2 md:h-[480px]", // Large featured card
+    featured: true,
   },
   {
     name: "Hassan",
@@ -34,7 +34,7 @@ const team = [
     linkedin: "https://www.linkedin.com/in/hassanxabbasi",
     image: "/hassan.jpeg",
     philosophy: "Make code simple and intelligence accessible.",
-    sizeClass: "col-span-1 md:h-[280px]",
+    featured: false,
   },
   {
     name: "Umer",
@@ -43,7 +43,7 @@ const team = [
     linkedin: "https://www.linkedin.com/in/umer-ahmed-87ba72361",
     image: "/umer.jpeg",
     philosophy: "Volumetric models should be built to perform.",
-    sizeClass: "col-span-1 md:h-[280px]",
+    featured: false,
   },
   {
     name: "Husnain",
@@ -52,38 +52,135 @@ const team = [
     linkedin: "https://www.linkedin.com/in/husnain-fazal-b0377b329",
     image: "/husnain.jpeg",
     philosophy: "Details matter. Craft clean user interfaces.",
-    sizeClass: "col-span-1 md:h-[280px]",
+    featured: false,
   },
   {
     name: "Fariz",
-    role: "Business Development Manager",
+    role: "Business Development",
     location: "Lahore",
     linkedin: "https://www.linkedin.com/in/muhammad-fariz-04512234b",
     image: "/fariz.jpeg",
     philosophy: "True partnership is based on alignment.",
-    sizeClass: "col-span-1 md:h-[280px]",
+    featured: false,
   },
   {
     name: "Areeba",
-    role: "UI UX Designer & SEO Expert",
+    role: "UI/UX & SEO Expert",
     location: "Islamabad",
     linkedin: "#",
     image: "/areeba.jpeg",
     philosophy: "Design systems must be functional and gorgeous.",
-    sizeClass: "col-span-1 md:h-[280px]",
+    featured: false,
   },
 ];
 
-const highlights = [
-  { value: "20+", label: "businesses automated" },
-  { value: "80+", label: "projects delivered" },
-  { value: "4.9/5", label: "avg client rating" },
-  { value: "7 days", label: "average kickoff time" },
-];
-
-function useScrollReveal() {
+// ─── Hooks ────────────────────────────────────────────────────────────────────
+function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setInView(true); obs.disconnect(); }
+    }, { threshold, rootMargin: "0px 0px -8% 0px" });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, inView };
+}
+
+function useCounter(target: number, duration = 2000, decimals = 0) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const start = useCallback(() => setStarted(true), []);
+  useEffect(() => {
+    if (!started) return;
+    const startTime = performance.now();
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = eased * target;
+      setCount(parseFloat(value.toFixed(decimals)));
+      if (progress < 1) requestAnimationFrame(animate);
+      else setCount(target);
+    };
+    requestAnimationFrame(animate);
+  }, [started, target, duration, decimals]);
+  return { count, start };
+}
+
+// ─── Sub-Components ───────────────────────────────────────────────────────────
+
+function FloatingParticles() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {Array.from({ length: 18 }).map((_, i) => (
+        <div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: `${2 + (i % 4)}px`,
+            height: `${2 + (i % 4)}px`,
+            background: i % 3 === 0
+              ? "rgba(14,165,164,0.4)"
+              : i % 3 === 1
+              ? "rgba(24,0,173,0.3)"
+              : "rgba(24,0,173,0.15)",
+            left: `${5 + (i * 5.3) % 90}%`,
+            top: `${10 + (i * 7.1) % 80}%`,
+            animation: `particle-float ${4 + (i % 5)}s ease-in-out ${(i * 0.4) % 3}s infinite`,
+            filter: "blur(0.5px)",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function AnimatedWord({ word, delay, className = "" }: { word: string; delay: number; className?: string }) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), delay);
+    return () => clearTimeout(t);
+  }, [delay]);
+  return (
+    <span
+      className={`inline-block transition-all duration-700 ${className}`}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(28px)",
+        transitionTimingFunction: "cubic-bezier(0.16,1,0.3,1)",
+      }}
+    >
+      {word}
+    </span>
+  );
+}
+
+function SentenceReveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const { ref, inView } = useInView(0.3);
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-900 ${className}`}
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0)" : "translateY(40px)",
+        transitionDelay: `${delay}ms`,
+        transitionTimingFunction: "cubic-bezier(0.16,1,0.3,1)",
+        transitionDuration: "900ms",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function ScrollRevealSentence({ text }: { text: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -91,598 +188,1107 @@ function useScrollReveal() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
+        setIsActive(entry.isIntersecting);
       },
-      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+      {
+        rootMargin: "-42% 0px -42% 0px", // Trigger when the line is in the middle part of the screen
+        threshold: 0,
+      }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
-  return { ref, isVisible };
+  return (
+    <p
+      ref={ref}
+      className="font-display font-black leading-[1] tracking-tight transition-all duration-500"
+      style={{
+        fontSize: "clamp(36px, 6vw, 88px)",
+        color: isActive ? "#1800AD" : "rgba(15,23,42,0.15)",
+        opacity: isActive ? 1 : 0.45,
+        transform: isActive ? "scale(1.02)" : "scale(1)",
+        transformOrigin: "left center",
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.color = "#1800AD";
+        (e.currentTarget as HTMLElement).style.opacity = "1";
+      }}
+      onMouseLeave={e => {
+        if (!isActive) {
+          (e.currentTarget as HTMLElement).style.color = "rgba(15,23,42,0.15)";
+          (e.currentTarget as HTMLElement).style.opacity = "0.45";
+        }
+      }}
+    >
+      {text}
+    </p>
+  );
 }
 
+function NeuralNetwork() {
+  return (
+    <svg viewBox="0 0 400 300" className="w-full h-full" aria-hidden>
+      <defs>
+        <radialGradient id="nodeGrad1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#0EA5A4" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#1800AD" stopOpacity="0.4" />
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      {/* Connections */}
+      {[
+        [60,80,160,60],[60,80,160,140],[60,80,160,220],
+        [160,60,260,80],[160,60,260,180],
+        [160,140,260,80],[160,140,260,180],[160,140,260,240],
+        [160,220,260,180],[160,220,260,240],
+        [260,80,340,150],[260,180,340,150],[260,240,340,150],
+      ].map(([x1,y1,x2,y2],i) => (
+        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+          stroke="url(#nodeGrad1)" strokeWidth="1"
+          strokeOpacity="0.5"
+          style={{ animation: `line-pulse ${2+i*0.3}s ease-in-out ${i*0.15}s infinite` }}
+        />
+      ))}
+      {/* Nodes */}
+      {[
+        [60,80],[160,60],[160,140],[160,220],
+        [260,80],[260,180],[260,240],[340,150],
+      ].map(([cx,cy],i) => (
+        <g key={i}>
+          <circle cx={cx} cy={cy} r="10" fill="url(#nodeGrad1)" filter="url(#glow)"
+            style={{ animation: `node-pulse ${2.5+i*0.2}s ease-in-out ${i*0.25}s infinite` }}
+          />
+          <circle cx={cx} cy={cy} r="4" fill="#1800AD" fillOpacity="0.9" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ─── Main Component ────────────────────────────────────────────────────────────
 function AboutPage() {
-  const aboutHeading = "We don't build websites. We build digital companies that grow.";
-  const [typedAboutHeading, setTypedAboutHeading] = useState("");
-  const heroReveal = useScrollReveal();
-  const problemReveal = useScrollReveal();
-  const missionReveal = useScrollReveal();
-  const build1Reveal = useScrollReveal();
-  const build2Reveal = useScrollReveal();
-  const build3Reveal = useScrollReveal();
-  const build4Reveal = useScrollReveal();
-  const processReveal = useScrollReveal();
-  const impactReveal = useScrollReveal();
-  const teamReveal = useScrollReveal();
-  const whyReveal = useScrollReveal();
-  const closeReveal = useScrollReveal();
-  const [isHovered, setIsHovered] = useState<number | null>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const mousePos = useRef({ x: 0, y: 0 });
+  const blob1Ref = useRef<HTMLDivElement>(null);
+  const blob2Ref = useRef<HTMLDivElement>(null);
 
+  // Hero word animation timings
+  const [heroPhase, setHeroPhase] = useState(0);
   useEffect(() => {
-    if (!heroReveal.isVisible) return;
-    let index = 0;
-    const timer = window.setInterval(() => {
-      index += 1;
-      setTypedAboutHeading(aboutHeading.slice(0, index));
-      if (index >= aboutHeading.length) {
-        window.clearInterval(timer);
+    const timers = [
+      setTimeout(() => setHeroPhase(1), 100),
+      setTimeout(() => setHeroPhase(2), 600),
+      setTimeout(() => setHeroPhase(3), 1100),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  // Mouse parallax on hero
+  useEffect(() => {
+    const handleMouse = (e: MouseEvent) => {
+      mousePos.current = {
+        x: (e.clientX / window.innerWidth - 0.5) * 2,
+        y: (e.clientY / window.innerHeight - 0.5) * 2,
+      };
+      if (blob1Ref.current) {
+        blob1Ref.current.style.transform = `translate(${mousePos.current.x * 30}px, ${mousePos.current.y * 20}px)`;
       }
-    }, 25);
+      if (blob2Ref.current) {
+        blob2Ref.current.style.transform = `translate(${mousePos.current.x * -20}px, ${mousePos.current.y * -15}px)`;
+      }
+    };
+    window.addEventListener("mousemove", handleMouse, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouse);
+  }, []);
 
-    return () => window.clearInterval(timer);
-  }, [heroReveal.isVisible]);
+  // Intersection reveals
+  const problemReveal = useInView(0.05);
+  const missionReveal = useInView(0.1);
+  const servicesReveal = useInView(0.1);
+  const processReveal = useInView(0.1);
+  const statsReveal = useInView(0.2);
+  const teamReveal = useInView(0.1);
+  const comparisonReveal = useInView(0.1);
+  const futureReveal = useInView(0.2);
 
-  // Animated counters for metrics
-  const [businessesCount, setBusinessesCount] = useState(1);
-  const [projectsCount, setProjectsCount] = useState(1);
-  const [ratingCount, setRatingCount] = useState(1.0);
-  const [kickoffCount, setKickoffCount] = useState(1);
+  // Counters
+  const c1 = useCounter(20, 1800);
+  const c2 = useCounter(80, 1600);
+  const c3 = useCounter(4.9, 1400, 1);
+  const c4 = useCounter(7, 1200);
 
   useEffect(() => {
-    if (!impactReveal.isVisible) return;
+    if (statsReveal.inView) { c1.start(); c2.start(); c3.start(); c4.start(); }
+  }, [statsReveal.inView]);
 
-    const businessesTarget = 20;
-    const projectsTarget = 80;
-    const ratingTarget = 4.9;
-    const kickoffTarget = 7;
+  // Team hover
+  const [hoveredMember, setHoveredMember] = useState<number | null>(null);
 
-    const businessesTimer = window.setInterval(() => {
-      setBusinessesCount((prev) => {
-        if (prev >= businessesTarget) {
-          window.clearInterval(businessesTimer);
-          return businessesTarget;
-        }
-        return prev + 1;
-      });
-    }, 45);
+  // Process step active tracking
+  const processStepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeStep, setActiveStep] = useState(-1);
+  useEffect(() => {
+    if (!processReveal.inView) return;
+    const observers = processStepRefs.current.map((el, idx) => {
+      if (!el) return null;
+      const obs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) setActiveStep(idx);
+      }, { threshold: 0.6, rootMargin: "-30% 0px -30% 0px" });
+      obs.observe(el);
+      return obs;
+    });
+    return () => observers.forEach(o => o?.disconnect());
+  }, [processReveal.inView]);
 
-    const projectsTimer = window.setInterval(() => {
-      setProjectsCount((prev) => {
-        if (prev >= projectsTarget) {
-          window.clearInterval(projectsTimer);
-          return projectsTarget;
-        }
-        return prev + 1;
-      });
-    }, 15);
-
-    const ratingTimer = window.setInterval(() => {
-      setRatingCount((prev) => {
-        if (prev >= ratingTarget) {
-          window.clearInterval(ratingTimer);
-          return ratingTarget;
-        }
-        return Math.min(Number((prev + 0.1).toFixed(1)), ratingTarget);
-      });
-    }, 60);
-
-    const kickoffTimer = window.setInterval(() => {
-      setKickoffCount((prev) => {
-        if (prev >= kickoffTarget) {
-          window.clearInterval(kickoffTimer);
-          return kickoffTarget;
-        }
-        return prev + 1;
-      });
-    }, 100);
-
-    return () => {
-      window.clearInterval(businessesTimer);
-      window.clearInterval(projectsTimer);
-      window.clearInterval(ratingTimer);
-      window.clearInterval(kickoffTimer);
-    };
-  }, [impactReveal.isVisible]);
+  const processSteps = [
+    { num: "01", title: "Discover", desc: "We map your goals, tech stack, and growth vision in a focused strategy session. Zero jargon." },
+    { num: "02", title: "Design", desc: "High-fidelity UI prototypes with conversion-centric UX, built for real human behavior." },
+    { num: "03", title: "Build", desc: "Lean sprints. Type-safe code. Weekly visual builds. You see progress every single week." },
+    { num: "04", title: "Launch", desc: "Performance audits, production-grade infrastructure, and a pre-launch checklist perfected." },
+    { num: "05", title: "Scale", desc: "AI workflows, technical SEO, and analytics pipelines continuously compounding your growth." },
+  ];
 
   return (
     <SiteLayout>
-      {/* Decorative Gradient Background Blobs */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute top-[20%] right-[-10%] h-[500px] w-[500px] rounded-full bg-indigo-500/5 blur-[120px]" />
-        <div className="absolute bottom-[30%] left-[-10%] h-[600px] w-[600px] rounded-full bg-violet-500/5 blur-[140px]" />
-      </div>
+      <style>{`
+        /* ── Particles ── */
+        @keyframes particle-float {
+          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+          33% { transform: translateY(-18px) translateX(6px); opacity: 1; }
+          66% { transform: translateY(-8px) translateX(-8px); opacity: 0.8; }
+        }
+        /* ── Neural ── */
+        @keyframes node-pulse {
+          0%, 100% { r: 10; opacity: 0.8; }
+          50% { r: 13; opacity: 1; }
+        }
+        @keyframes line-pulse {
+          0%, 100% { stroke-opacity: 0.2; }
+          50% { stroke-opacity: 0.6; }
+        }
+        /* ── Gradient border ── */
+        @keyframes gradient-rotate {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        /* ── Glow pulse ── */
+        @keyframes glow-pulse {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 0.8; }
+        }
+        /* ── Float ── */
+        @keyframes float-gentle {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+        }
+        /* ── Shimmer ── */
+        @keyframes shimmer-slide {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        /* ── Line draw ── */
+        @keyframes line-draw {
+          from { height: 0; }
+          to { height: 100%; }
+        }
+        /* ── Scale in ── */
+        @keyframes scale-in {
+          from { transform: scale(0.85); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        /* ── Blob slow move ── */
+        @keyframes blob-move-1 {
+          0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+          50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+        @keyframes blob-move-2 {
+          0%, 100% { border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%; }
+          50% { border-radius: 60% 40% 30% 70% / 40% 60% 30% 70%; }
+        }
+        /* ── Hero text ── */
+        .hero-line {
+          display: block;
+          overflow: hidden;
+        }
+        /* ── Service image float ── */
+        .service-img-float { animation: float-gentle 5s ease-in-out infinite; }
+        /* ── Process line ── */
+        .process-line-fill {
+          animation: line-draw 1.5s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        /* ── Gradient border CTA ── */
+        .cta-gradient-border {
+          background: linear-gradient(135deg, #1E3A8A, #1800AD, #0EA5A4, #1800AD, #1E3A8A);
+          background-size: 300% 300%;
+          animation: gradient-rotate 4s ease infinite;
+        }
+        /* ── Stat glow ── */
+        .stat-glow { animation: glow-pulse 3s ease-in-out infinite; }
+        /* ── Hover shimmer ── */
+        .portrait-shimmer::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+          transform: translateX(-100%);
+          transition: none;
+        }
+        .portrait-shimmer:hover::after {
+          animation: shimmer-slide 0.6s ease forwards;
+        }
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(24,0,173,0.3); border-radius: 2px; }
 
-      <div className="relative z-10 select-none">
-        
-        {/* Section 1 — Hero Story */}
-        <section ref={heroReveal.ref} className="container-x min-h-[90vh] pt-32 pb-16 flex flex-col justify-center">
-          <div className={`grid gap-12 lg:grid-cols-12 items-center transition-all duration-1000 transform ${heroReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-            <div className="lg:col-span-7">
-              <p className="eyebrow">Our Story</p>
-              <h1 className="h-display mt-3 text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.08] text-slate-900">
-                {typedAboutHeading}
-                <span className="ml-1 inline-block h-[0.9em] w-[2px] animate-pulse align-[-0.1em] bg-[color:var(--brand)]" />
-              </h1>
-              <p className="mt-6 max-w-xl text-lg text-slate-500 leading-relaxed">
-                Cortvex is a premium digital studio that replaces bloated agency teams with a focused, senior-first roster. We combine design, deep engineering, and AI automation to help companies scale faster and capture sustainable growth.
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+          }
+        }
+      `}</style>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CHAPTER 1 — CINEMATIC HERO
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section
+        ref={heroRef}
+        className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-28 pb-12"
+        style={{
+          background: "linear-gradient(160deg, #FFFFFF 0%, #F5F7FF 40%, #EBF0FF 100%)",
+        }}
+        aria-label="Hero section"
+      >
+        {/* Background blobs with parallax */}
+        <div
+          ref={blob1Ref}
+          className="pointer-events-none absolute"
+          style={{
+            width: "700px",
+            height: "700px",
+            top: "-10%",
+            right: "-5%",
+            background: "radial-gradient(circle, rgba(14,165,164,0.18) 0%, rgba(24,0,173,0.12) 50%, transparent 70%)",
+            borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+            animation: "blob-move-1 12s ease-in-out infinite",
+            transition: "transform 0.1s ease-out, opacity 1.8s ease-out, scale 1.8s cubic-bezier(0.16, 1, 0.3, 1)",
+            filter: "blur(40px)",
+            opacity: heroPhase >= 1 ? 1 : 0,
+            scale: heroPhase >= 1 ? 1 : 0.4,
+          }}
+          aria-hidden
+        />
+        <div
+          ref={blob2Ref}
+          className="pointer-events-none absolute"
+          style={{
+            width: "600px",
+            height: "600px",
+            bottom: "-10%",
+            left: "-5%",
+            background: "radial-gradient(circle, rgba(99,102,241,0.15) 0%, rgba(14,165,164,0.08) 50%, transparent 70%)",
+            borderRadius: "40% 60% 60% 40% / 60% 30% 70% 40%",
+            animation: "blob-move-2 15s ease-in-out infinite",
+            transition: "transform 0.1s ease-out, opacity 1.8s ease-out, scale 1.8s cubic-bezier(0.16, 1, 0.3, 1)",
+            filter: "blur(50px)",
+            opacity: heroPhase >= 1 ? 1 : 0,
+            scale: heroPhase >= 1 ? 1 : 0.4,
+          }}
+          aria-hidden
+        />
+
+        <FloatingParticles />
+
+        {/* Grid overlay */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage: "linear-gradient(rgba(24,0,173,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(24,0,173,0.04) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+            maskImage: "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          }}
+          aria-hidden
+        />
+
+        {/* Hero content */}
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+          <h1 className="font-display font-black text-slate-900 leading-[0.95] tracking-[-0.04em]" aria-label="We don't build websites. We build companies. Powered by AI.">
+            <span
+              className="block"
+              style={{
+                fontSize: "clamp(48px, 9vw, 130px)",
+                opacity: heroPhase >= 1 ? 1 : 0,
+                transform: heroPhase >= 1 ? "translateY(0)" : "translateY(40px)",
+                transition: "all 1s cubic-bezier(0.16,1,0.3,1)",
+              }}
+            >
+              we don't build
+            </span>
+            <span
+              className="block"
+              style={{
+                fontSize: "clamp(90px, 18vw, 240px)",
+                fontFamily: '"Wistania", sans-serif',
+                background: "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                opacity: heroPhase >= 2 ? 1 : 0,
+                transform: heroPhase >= 2 ? "translateY(0)" : "translateY(40px)",
+                transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.1s",
+                fontWeight: "normal",
+                lineHeight: "0.9",
+                marginTop: "-25px",
+                marginBottom: "-25px",
+              }}
+            >
+              websites.
+            </span>
+            <span
+              className="block"
+              style={{
+                fontSize: "clamp(40px, 7.5vw, 110px)",
+                color: "#0A0E22",
+                opacity: heroPhase >= 3 ? 1 : 0,
+                transform: heroPhase >= 3 ? "translateY(0)" : "translateY(40px)",
+                transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.1s",
+              }}
+            >
+              we build <span className="relative inline-block" style={{ color: "#0EA5A4", fontFamily: '"Wistania", sans-serif', fontSize: "clamp(64px, 12vw, 160px)", fontWeight: "bold", transform: "translateY(12px)" }}>
+                companies.
+                <svg
+                  className="absolute left-0 bottom-[-4px] w-full h-[12px]"
+                  viewBox="0 0 100 10"
+                  preserveAspectRatio="none"
+                  style={{ overflow: "visible" }}
+                >
+                  <path
+                    d="M0,5 Q50,9 100,5"
+                    fill="none"
+                    stroke="#0EA5A4"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    style={{
+                      strokeDasharray: 100,
+                      strokeDashoffset: heroPhase >= 3 ? 0 : 100,
+                      transition: "stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.5s",
+                    }}
+                  />
+                </svg>
+              </span>
+            </span>
+          </h1>
+
+
+
+
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CHAPTER 2 — THE PROBLEM
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section
+        ref={problemReveal.ref}
+        className="relative py-32 md:py-48 overflow-hidden"
+        style={{ background: "linear-gradient(180deg, #FFFFFF 0%, #F5F7FF 100%)" }}
+        aria-label="The problem"
+      >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage: "radial-gradient(circle at 80% 20%, rgba(14,165,164,0.06) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(24,0,173,0.08) 0%, transparent 50%)",
+          }}
+          aria-hidden
+        />
+
+        <div className="container-x relative z-10">
+          <SentenceReveal className="mb-4">
+            <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#0EA5A4" }}>The Challenge</span>
+          </SentenceReveal>
+
+          <div className="space-y-6 md:space-y-8">
+            {[
+              { text: "Agencies move slowly.", highlight: false },
+              { text: "Freelancers disappear.", highlight: false },
+              { text: "Junior devs ship broken code.", highlight: false },
+              { text: "Projects become expensive.", highlight: false },
+              { text: "Growth stalls.", highlight: false },
+            ].map((item, i) => (
+              <SentenceReveal key={i} delay={i * 120}>
+                <ScrollRevealSentence text={item.text} />
+              </SentenceReveal>
+            ))}
+          </div>
+
+          <SentenceReveal delay={700} className="mt-16 md:mt-24">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-px flex-1 max-w-12" style={{ background: "rgba(14,165,164,0.4)" }} />
+              <span className="text-xs uppercase tracking-widest" style={{ color: "#0EA5A4" }}>Until now</span>
+            </div>
+            <p
+              className="font-display font-black leading-[1.02] tracking-tight"
+              style={{
+                fontSize: "clamp(42px, 7vw, 100px)",
+                background: "linear-gradient(135deg, #1800AD 0%, #6366f1 40%, #0EA5A4 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              Cortvex changes that.
+            </p>
+          </SentenceReveal>
+        </div>
+      </section>
+
+
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CHAPTER 4 — WHAT WE BUILD (BENTO GRID)
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section
+        ref={servicesReveal.ref}
+        className="relative overflow-hidden bg-slate-50/50 py-24 md:py-36 border-y border-slate-100"
+        aria-label="What we build"
+      >
+        <div className="container-x">
+          {/* Header grid */}
+          <div className="grid lg:grid-cols-12 gap-8 items-start mb-16">
+            <div className="lg:col-span-9">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#1800AD]">Capabilities</span>
+              <h2 className="font-display font-black text-slate-900 mt-4 leading-[1.05] tracking-tight text-[clamp(32px,5.2vw,76px)]">
+                Bespoke Studio & <span className="font-light text-slate-400 font-sans italic">Engineering</span> Essentials.
+              </h2>
+              <p className="text-slate-500 text-sm sm:text-base max-w-2xl mt-5 leading-relaxed">
+                We engineer production-grade custom web interfaces, coordinate multi-agent AI ecosystems, and run intent-driven search growth pipelines designed to convert clicks into clients.
               </p>
             </div>
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-sm rounded-3xl border border-white/60 bg-white/45 p-8 shadow-[0_24px_60px_-30px_rgba(24,0,173,0.22)] backdrop-blur-xl">
-                <p className="eyebrow mb-5 text-[10px]">The Philosophy</p>
-                <div className="space-y-6">
-                  {[
-                    { title: "Build Faster.", color: "text-slate-900", delay: "delay-100" },
-                    { title: "Automate Smarter.", color: "text-[color:var(--brand)]", delay: "delay-200" },
-                    { title: "Grow Bigger.", color: "text-slate-900", delay: "delay-300" }
-                  ].map((line) => (
-                    <div key={line.title} className={`transform transition-all duration-700 ${heroReveal.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"} ${line.delay}`}>
-                      <h3 className={`text-3xl font-black ${line.color}`}>{line.title}</h3>
-                    </div>
-                  ))}
+            <div className="lg:col-span-3 lg:text-right pt-6 lg:pt-12">
+              <Link
+                to="/signin"
+                search={{ mode: "signup" }}
+                className="inline-flex items-center gap-2.5 rounded-full bg-slate-950 text-white px-6 py-3.5 text-sm font-semibold transition-all hover:bg-slate-800 hover:shadow-lg"
+              >
+                Book Discovery <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Bento grid */}
+          <div className="grid md:grid-cols-12 gap-6 items-stretch">
+            {/* Left large card */}
+            <div
+              className="md:col-span-4 relative rounded-[2rem] overflow-hidden bg-white border border-slate-200/50 flex flex-col justify-end p-8 min-h-[460px] group shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <img
+                src="/web_dev_showcase.png"
+                alt="Web Dev Showcase"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+              <div className="relative z-10 text-white">
+                <Link
+                  to="/services"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold hover:bg-white hover:text-slate-900 transition-all"
+                >
+                  See Details <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
+                <h3 className="text-xl sm:text-2xl font-black mt-4 leading-snug">
+                  Next-Gen Web Apps: Production-grade platforms engineered for velocity.
+                </h3>
+              </div>
+            </div>
+
+            {/* Center column */}
+            <div className="md:col-span-5 flex flex-col gap-6">
+              {/* Product spotlight center card */}
+              <div
+                className="relative rounded-[2rem] overflow-hidden bg-white border border-slate-200/50 p-8 flex-1 flex flex-col justify-end min-h-[220px] group shadow-sm hover:shadow-xl transition-all duration-500"
+              >
+                <img
+                  src="/ai_auto_showcase.png"
+                  alt="AI Automation"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-slate-950/25 group-hover:bg-slate-950/40 transition-colors duration-500" />
+                <div className="relative z-10 text-center flex flex-col items-center">
+                  <Link
+                    to="/services"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-slate-950 text-white border border-slate-800 px-4 py-2 text-xs font-semibold hover:scale-105 transition-all"
+                  >
+                    See AI Workflows <ArrowUpRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Right column */}
+            <div className="md:col-span-3 flex flex-col gap-6">
+              {/* Right small card 1 */}
+              <div
+                className="relative rounded-[2rem] overflow-hidden bg-white border border-slate-200/50 p-6 min-h-[160px] flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all duration-500"
+              >
+                <img
+                  src="/app_dev_showcase.png"
+                  alt="App Dev"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-20"
+                />
+                <div className="relative z-10 flex flex-col justify-between h-full">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#1800AD]">App Dev</span>
+                  <Link
+                    to="/services"
+                    className="self-start inline-flex items-center gap-1 rounded-full bg-slate-100 hover:bg-slate-900 hover:text-white px-3 py-1.5 text-xs font-semibold transition-all mt-8"
+                  >
+                    See Details <ArrowUpRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Stats bento block */}
+              <div
+                className="rounded-[2rem] border border-slate-200/50 bg-slate-50/50 p-6 flex flex-col justify-center min-h-[160px] shadow-sm"
+              >
+                <span className="text-3xl font-black text-slate-900 leading-none">99/100</span>
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1.5">Lighthouse Score</span>
+                <p className="text-xs text-slate-500 mt-3 leading-relaxed">
+                  We build with strict performance budgets so your platform loads in sub-second speeds.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom row: Heading text & twin product grids */}
+          <div className="grid lg:grid-cols-12 gap-8 items-stretch mt-16 pt-16 border-t border-slate-200/60">
+            {/* Left title card */}
+            <div className="lg:col-span-4 flex flex-col justify-center gap-4">
+              <h2 className="font-display font-black text-slate-900 leading-[1.05] tracking-tight text-[clamp(28px,4.5vw,52px)]">
+                Conversions Start With Speed & SEO.
+              </h2>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Unlock compounding organic traffic and capture high-intent leads with clean UI.
+              </p>
+              <Link
+                to="/services"
+                className="self-start inline-flex items-center gap-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white px-6 py-3.5 text-sm font-semibold transition-all"
+              >
+                Explore Services <span className="translate-x-0.5">&rarr;</span>
+              </Link>
+            </div>
+
+            {/* Middle product grid card */}
+            <div
+              className="lg:col-span-4 relative rounded-[2rem] overflow-hidden bg-white border border-slate-200/50 flex flex-col justify-end p-8 min-h-[380px] group shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <img
+                src="/growth_sys_showcase.png"
+                alt="Growth Systems"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+              <div className="relative z-10 flex flex-col gap-3">
+                <Link
+                  to="/services"
+                  className="self-start inline-flex items-center gap-1.5 rounded-full bg-white/20 border border-white/30 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-white hover:text-slate-900 transition-all"
+                >
+                  See Details <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
+                <div className="flex gap-2 mt-4 text-[10px] font-bold text-white/70 uppercase">
+                  <span>#SEOsystems</span>
+                  <span>#Acquisition</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right product grid card */}
+            <div
+              className="lg:col-span-4 relative rounded-[2rem] overflow-hidden bg-white border border-slate-200/50 flex flex-col justify-end p-8 min-h-[380px] group shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <img
+                src="/web_dev_showcase.png"
+                alt="Web Dev"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+              <div className="relative z-10 flex flex-col gap-3">
+                <Link
+                  to="/services"
+                  className="self-start inline-flex items-center gap-1.5 rounded-full bg-white/20 border border-white/30 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-white hover:text-slate-900 transition-all"
+                >
+                  See Details <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
+                <div className="flex gap-2 mt-4 text-[10px] font-bold text-white/70 uppercase">
+                  <span>#WebPerformance</span>
+                  <span>#CleanUI</span>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Section 2 — The Problem */}
-        <section ref={problemReveal.ref} className="container-x py-24 border-t border-slate-100">
-          <div className={`transition-all duration-1000 transform ${problemReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-            <p className="eyebrow text-center">The Challenge</p>
-            <h2 className="h-display mt-3 text-3xl sm:text-4xl md:text-5xl text-center max-w-3xl mx-auto">
-              Most agencies sell hours. <span className="text-[color:var(--brand)]">We deliver outcomes.</span>
-            </h2>
-            <div className="mt-16 grid gap-12 lg:grid-cols-2 items-center">
-              <div className="space-y-6">
-                <p className="text-lg text-slate-500 leading-relaxed">
-                  Traditional digital partners are incentivized to move slowly, padding timelines with bloated project management layers, endless revision loops, and delegating your build to junior developers.
-                </p>
-                <p className="text-lg text-slate-500 leading-relaxed">
-                  Cortvex was founded to disrupt this model. We focus on lean timelines, high ownership, and direct communication with specialists who translate your commercial goals into shipping code.
-                </p>
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CHAPTER 5 — OUR PROCESS
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section
+        ref={processReveal.ref}
+        className="relative py-32 md:py-48 overflow-hidden"
+        style={{ background: "linear-gradient(180deg, #FFFFFF 0%, #F5F7FF 100%)" }}
+        aria-label="Our process"
+      >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(circle at 50% 50%, rgba(24,0,173,0.08) 0%, transparent 60%)" }}
+          aria-hidden
+        />
+
+        <div className="container-x relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <SentenceReveal>
+              <div className="text-center mb-20">
+                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#0EA5A4" }}>How We Work</span>
+                <h2
+                  className="font-display font-black text-white mt-3 leading-[1.02] tracking-tight"
+                  style={{ fontSize: "clamp(36px, 5vw, 70px)" }}
+                >
+                  Zero to scale.
+                </h2>
               </div>
-              <div className="relative p-6 rounded-3xl border border-rose-500/10 bg-rose-500/[0.02] shadow-[0_20px_48px_-28px_rgba(239,68,68,0.15)] backdrop-blur-sm">
-                <p className="eyebrow text-rose-500 mb-6 font-semibold">The Friction Checklist</p>
-                <ul className="space-y-4">
-                  {[
-                    "Layers of account management (context lost)",
-                    "Vague timelines that continuously slip",
-                    "Unoptimized code and poor technical performance",
-                    "Delegation of work to junior resources",
-                    "Lack of proactive strategic guidance"
-                  ].map((f, fi) => (
-                    <li
-                      key={f}
-                      className={`flex items-center gap-3.5 text-slate-600 transition-all duration-500`}
+            </SentenceReveal>
+
+            <div className="relative">
+              {/* Vertical line */}
+              <div
+                className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px"
+                style={{
+                  background: "rgba(24,0,173,0.08)",
+                  transform: "md:translateX(-50%)",
+                }}
+                aria-hidden
+              >
+                {processReveal.inView && (
+                  <div
+                    className="w-full process-line-fill"
+                    style={{
+                      background: "linear-gradient(180deg, #1800AD 0%, #0EA5A4 100%)",
+                      boxShadow: "0 0 12px rgba(14,165,164,0.4)",
+                    }}
+                  />
+                )}
+              </div>
+
+              <div className="space-y-0">
+                {processSteps.map((step, i) => (
+                  <div
+                    key={step.num}
+                    ref={el => { processStepRefs.current[i] = el; }}
+                    className="relative grid md:grid-cols-2 gap-8 md:gap-16 py-12 md:py-16"
+                  >
+                    {/* Step number dot */}
+                    <div
+                      className="absolute left-6 md:left-1/2 top-1/2 -translate-y-1/2 md:-translate-x-1/2 w-3 h-3 rounded-full transition-all duration-500"
                       style={{
-                        opacity: problemReveal.isVisible ? 1 : 0,
-                        transform: problemReveal.isVisible ? "translateX(0)" : "translateX(-15px)",
-                        transitionDelay: `${fi * 100}ms`
+                        background: activeStep >= i ? "linear-gradient(135deg, #1800AD, #0EA5A4)" : "rgba(24,0,173,0.2)",
+                        boxShadow: activeStep === i ? "0 0 20px rgba(14,165,164,0.6)" : "none",
+                        transform: "md:-translate-x-1/2 -translate-y-1/2",
+                      }}
+                      aria-hidden
+                    />
+
+                    {/* Left — number (desktop only) */}
+                    <div className={`hidden md:flex items-center ${i % 2 === 0 ? "justify-end" : "justify-start md:order-2"}`}>
+                      <div
+                        className="transition-all duration-700"
+                        style={{
+                          opacity: activeStep >= i ? 1 : 0.25,
+                          transform: activeStep >= i ? "translateX(0)" : i % 2 === 0 ? "translateX(20px)" : "translateX(-20px)",
+                        }}
+                      >
+                        <span
+                          className="font-display font-black"
+                          style={{
+                            fontSize: "clamp(60px, 8vw, 120px)",
+                            color: activeStep === i ? "transparent" : "rgba(24,0,173,0.08)",
+                            background: activeStep === i ? "linear-gradient(135deg, #1800AD, #0EA5A4)" : "none",
+                            WebkitBackgroundClip: activeStep === i ? "text" : "unset",
+                            backgroundClip: activeStep === i ? "text" : "unset",
+                            lineHeight: 1,
+                          }}
+                        >
+                          {step.num}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Right — content */}
+                    <div
+                      className={`pl-16 md:pl-0 transition-all duration-700 ${i % 2 === 0 ? "" : "md:order-1"}`}
+                      style={{
+                        opacity: activeStep >= i ? 1 : 0.3,
+                        transform: activeStep >= i ? "translateY(0)" : "translateY(16px)",
                       }}
                     >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-rose-500">
-                        <X className="h-3 w-3" />
-                      </span>
-                      <span className="text-sm font-medium">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 3 — Our Mission */}
-        <section ref={missionReveal.ref} className="container-x py-24 border-t border-slate-100 bg-slate-50/[0.3]">
-          <div className={`transition-all duration-1000 transform ${missionReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-            <p className="eyebrow">Our Vision</p>
-            <h2 className="h-display mt-3 text-3xl sm:text-4xl md:text-5xl max-w-3xl">
-              We built the studio we always wished existed.
-            </h2>
-            <p className="mt-5 max-w-xl text-slate-500">
-              We focus on the core disciplines required to design, ship, and scale products for high-growth brands.
-            </p>
-
-            {/* Horizontal Staggered Timeline */}
-            <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 relative">
-              {[
-                { step: "01", title: "Design", desc: "Conversion-centric UI UX built around consumer intent.", color: "from-indigo-500 to-purple-500" },
-                { step: "02", title: "Engineering", desc: "Clean, type-safe development optimized for speed.", color: "from-blue-500 to-indigo-500" },
-                { step: "03", title: "Automation", desc: "AI workflows and custom bots that remove overhead.", color: "from-teal-500 to-emerald-500" },
-                { step: "04", title: "Growth", desc: "Technical SEO and performance systems built for traffic.", color: "from-amber-500 to-orange-500" }
-              ].map((item, idx) => (
-                <div
-                  key={item.title}
-                  className="relative p-6 rounded-2xl border border-slate-100 bg-white shadow-sm flex flex-col justify-between"
-                  style={{
-                    opacity: missionReveal.isVisible ? 1 : 0,
-                    transform: missionReveal.isVisible ? "translateY(0)" : "translateY(30px)",
-                    transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-                    transitionDelay: `${idx * 150}ms`
-                  }}
-                >
-                  <div>
-                    <span className={`inline-flex items-center justify-center rounded-lg bg-gradient-to-br ${item.color} px-2.5 py-1 text-[10px] font-mono font-bold text-white uppercase`}>
-                      Step {item.step}
-                    </span>
-                    <h3 className="mt-4 text-xl font-bold text-slate-900">{item.title}</h3>
-                    <p className="mt-2 text-sm text-slate-500 leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Section 4 — What We Build */}
-        <section className="py-24 border-t border-slate-100">
-          <div className="container-x">
-            <p className="eyebrow text-center mb-16">The Core Capabilities</p>
-            
-            <div className="space-y-32">
-              
-              {/* Row 1 — Web Development */}
-              <div ref={build1Reveal.ref} className={`grid gap-12 lg:grid-cols-2 items-center transition-all duration-1000 transform ${build1Reveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-                <div>
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[color:var(--brand-soft)] text-[color:var(--brand)]">
-                    <Sparkles className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-4 text-3xl font-extrabold text-slate-900">Web Development</h3>
-                  <p className="mt-4 text-slate-500 leading-relaxed">
-                    We engineer production-grade websites using modern, type-safe frameworks like Next.js and TanStack. Built for peak lighthouse scores, robust CMS management, and seamless performance.
-                  </p>
-                </div>
-                <div className="relative group overflow-hidden rounded-3xl border border-slate-100 shadow-md">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[color:var(--brand)]/10 to-transparent z-10 pointer-events-none" />
-                  <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200" alt="Code mockup screen" className="w-full h-[280px] object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                </div>
-              </div>
-
-              {/* Row 2 — Mobile Apps */}
-              <div ref={build2Reveal.ref} className={`grid gap-12 lg:grid-cols-2 items-center transition-all duration-1000 transform ${build2Reveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-                <div className="lg:order-2">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-500">
-                    <Rocket className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-4 text-3xl font-extrabold text-slate-900">App Development</h3>
-                  <p className="mt-4 text-slate-500 leading-relaxed">
-                    High-fidelity native and cross-platform apps built on React Native and Flutter. Designed with responsive, tactile interfaces that scale beautifully on iOS and Android platforms.
-                  </p>
-                </div>
-                <div className="lg:order-1 relative group overflow-hidden rounded-3xl border border-slate-100 shadow-md">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-violet-500/10 to-transparent z-10 pointer-events-none" />
-                  <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200" alt="Mobile app screens" className="w-full h-[280px] object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                </div>
-              </div>
-
-              {/* Row 3 — AI Automation */}
-              <div ref={build3Reveal.ref} className={`grid gap-12 lg:grid-cols-2 items-center transition-all duration-1000 transform ${build3Reveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-                <div>
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
-                    <ShieldCheck className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-4 text-3xl font-extrabold text-slate-900">AI Automation</h3>
-                  <p className="mt-4 text-slate-500 leading-relaxed">
-                    Custom large language model (LLM) integrations, workflow automation, and voice agents. We map your operations and automate manual pipelines to scale output without increasing headcount.
-                  </p>
-                </div>
-                <div className="relative group overflow-hidden rounded-3xl border border-slate-100 shadow-md">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/10 to-transparent z-10 pointer-events-none" />
-                  <img src="https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=1200" alt="AI nodes illustration" className="w-full h-[280px] object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                </div>
-              </div>
-
-              {/* Row 4 — Growth Systems */}
-              <div ref={build4Reveal.ref} className={`grid gap-12 lg:grid-cols-2 items-center transition-all duration-1000 transform ${build4Reveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-                <div className="lg:order-2">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-500">
-                    <Sparkles className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-4 text-3xl font-extrabold text-slate-900">Growth & Analytics</h3>
-                  <p className="mt-4 text-slate-500 leading-relaxed">
-                    Built-in performance marketing tracking, programmatic SEO setups, and client portals. We build systems that directly align with your business growth and customer analytics dashboard.
-                  </p>
-                </div>
-                <div className="lg:order-1 relative group overflow-hidden rounded-3xl border border-slate-100 shadow-md">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-transparent z-10 pointer-events-none" />
-                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200" alt="Analytics metrics dashboard" className="w-full h-[280px] object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* Section 5 — Our Process */}
-        <section ref={processReveal.ref} className="container-x py-24 border-t border-slate-100 bg-slate-50/[0.2]">
-          <div className={`transition-all duration-1000 transform ${processReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-            <p className="eyebrow text-center">Our Process</p>
-            <h2 className="h-display mt-3 text-3xl sm:text-4xl md:text-5xl text-center max-w-2xl mx-auto">
-              How we take projects from zero to scale.
-            </h2>
-            
-            {/* Vertical storytelling timeline */}
-            <div className="mt-20 relative max-w-xl mx-auto">
-              {/* Glowing vertical line connector */}
-              <div className="absolute left-[23px] top-4 bottom-4 w-[2px] bg-slate-100 overflow-hidden">
-                <div className="w-full h-[60%] bg-[color:var(--brand)] shadow-[0_0_8px_rgba(24,0,173,0.5)] transition-all duration-1000" />
-              </div>
-
-              <div className="space-y-16">
-                {[
-                  { step: "01", title: "Discover", desc: "Collaborative strategy session mapping your goals and technical roadmap." },
-                  { step: "02", title: "Design", desc: "High-fidelity UX interactive prototyping and brand ui layouts." },
-                  { step: "03", title: "Build", desc: "Lean development sprints, type-safe systems, and weekly visual builds." },
-                  { step: "04", title: "Launch", desc: "Performance audits, production-grade scaling deployment, and launch checklist." },
-                  { step: "05", title: "Scale", desc: "Continuous strategic automation updates, technical SEO expansion, and analytics." }
-                ].map((item, idx) => (
-                  <div key={item.step} className="flex gap-8 relative z-10 items-start">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-100 bg-white font-mono text-sm font-black text-slate-800 shadow-sm">
-                      {item.step}
-                    </span>
-                    <div className="pt-2">
-                      <h4 className="text-xl font-bold text-slate-900">{item.title}</h4>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-500">{item.desc}</p>
+                      <div className="md:hidden font-mono font-black text-lg mb-2" style={{ color: "rgba(14,165,164,0.6)" }}>{step.num}</div>
+                      <h3
+                        className="font-display font-black text-slate-900 leading-tight transition-all duration-500"
+                        style={{ fontSize: activeStep === i ? "clamp(28px, 3.5vw, 48px)" : "clamp(22px, 2.5vw, 36px)" }}
+                      >
+                        {step.title}
+                      </h3>
+                      <p
+                        className="text-slate-500 leading-relaxed mt-3"
+                        style={{ fontSize: "clamp(14px, 1.5vw, 17px)" }}
+                      >
+                        {step.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Section 6 — Impact Numbers */}
-        <section ref={impactReveal.ref} className="py-24 border-t border-slate-100 overflow-hidden relative">
-          <div className="absolute inset-0 z-0 bg-gradient-to-br from-indigo-500/[0.02] to-violet-500/[0.01] pointer-events-none" />
-          <div className={`container-x relative z-10 transition-all duration-1000 transform ${impactReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-            <p className="eyebrow text-center mb-16">Impact Numbers</p>
-            
-            <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 text-center">
-              {[
-                { val: `${businessesCount}+`, label: "Businesses Automated" },
-                { val: `${projectsCount}+`, label: "Projects Delivered" },
-                { val: `${ratingCount.toFixed(1)}★`, label: "Client Rating" },
-                { val: `${kickoffCount} Days`, label: "Average Kickoff" }
-              ].map((h, hi) => (
-                <div key={h.label} className="flex flex-col items-center">
-                  <p className="text-6xl md:text-7xl font-black text-gradient leading-none tracking-tight">
-                    {h.val}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CHAPTER 6 — RESULTS
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section
+        ref={statsReveal.ref}
+        className="relative py-32 md:py-48 overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #F5F7FF 50%, #EBF0FF 100%)" }}
+        aria-label="Impact results"
+      >
+        {/* Glow blobs */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <div
+            className="stat-glow absolute rounded-full"
+            style={{
+              width: "600px", height: "600px",
+              top: "50%", left: "50%",
+              transform: "translate(-50%, -50%)",
+              background: "radial-gradient(circle, rgba(14,165,164,0.07) 0%, transparent 70%)",
+              filter: "blur(40px)",
+            }}
+          />
+          <div
+            className="stat-glow absolute rounded-full"
+            style={{
+              width: "400px", height: "400px",
+              top: "20%", left: "20%",
+              background: "radial-gradient(circle, rgba(24,0,173,0.06) 0%, transparent 70%)",
+              filter: "blur(60px)",
+              animationDelay: "1.5s",
+            }}
+          />
+        </div>
+
+        <div className="container-x relative z-10">
+          <SentenceReveal>
+            <p className="text-center text-xs font-semibold uppercase tracking-widest mb-20" style={{ color: "#0EA5A4" }}>Impact</p>
+          </SentenceReveal>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 md:gap-y-20">
+            {[
+              { count: c1.count, suffix: "+", label: "Businesses Automated", decimals: 0 },
+              { count: c2.count, suffix: "+", label: "Projects Delivered", decimals: 0 },
+              { count: c3.count, suffix: "★", label: "Client Rating", decimals: 1 },
+              { count: c4.count, suffix: " Days", label: "Average Kickoff", decimals: 0 },
+            ].map((stat, i) => (
+              <SentenceReveal key={i} delay={i * 120}>
+                <div className="text-center">
+                  <p
+                    className="font-display font-black leading-none tracking-tight"
+                    style={{
+                      fontSize: "clamp(56px, 8vw, 110px)",
+                      background: "linear-gradient(135deg, #1800AD 0%, rgba(14,165,164,0.8) 100%)",
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      color: "transparent",
+                    }}
+                  >
+                    {stat.decimals > 0 ? stat.count.toFixed(stat.decimals) : Math.floor(stat.count)}{stat.suffix}
                   </p>
-                  <p className="mt-4 text-sm font-semibold uppercase tracking-wider text-slate-400">
-                    {h.label}
-                  </p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-[#1800AD]">{stat.label}</p>
                 </div>
-              ))}
-            </div>
+              </SentenceReveal>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Section 7 — Meet the Team */}
-        <section ref={teamReveal.ref} className="bg-slate-50/[0.1] py-32 border-t border-slate-100 overflow-hidden">
-          <div className={`container-x relative flex flex-col items-center transition-all duration-1000 transform ${teamReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-            <p className="eyebrow text-center">Team</p>
-            <h2 className="h-display mt-3 text-3xl sm:text-4xl md:text-5xl text-center max-w-2xl mx-auto">
-              A focused team you will actually meet.
-            </h2>
-            <p className="mt-4 text-slate-500 text-center max-w-lg mx-auto">
-              Behind every successful launch is a small team obsessed with quality.
-            </p>
-
-            {/* Orbit Showcase Container */}
-            <div className="relative mt-24 w-[340px] h-[340px] md:w-[480px] md:h-[480px] flex items-center justify-center">
-              
-              {/* Center "V" Logo */}
-              <div className="relative z-20 h-16 w-16 md:h-20 md:w-20 rounded-full border border-[color:var(--brand)]/20 bg-white/90 shadow-[0_12px_36px_-12px_rgba(24,0,173,0.35)] flex items-center justify-center">
-                <img src="/logo.png" alt="Cortvex V Logo" className="h-8 w-8 object-contain" />
-              </div>
-
-              {/* Orbit paths (decorative rings) */}
-              <div className="absolute inset-4 rounded-full border border-dashed border-slate-200 pointer-events-none" />
-              <div className="absolute inset-16 rounded-full border border-slate-100 pointer-events-none" />
-
-              {/* Orbiting Members Container */}
-              <div 
-                className="absolute inset-0 transition-transform"
-                style={{
-                  animation: "orbit 35s linear infinite",
-                  animationPlayState: isHovered !== null ? "paused" : "running"
-                }}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CHAPTER 7 — MEET THE TEAM
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section
+        ref={teamReveal.ref}
+        className="relative py-32 md:py-48 overflow-hidden bg-white"
+        aria-label="Meet the team"
+      >
+        <div className="container-x relative z-10">
+          <SentenceReveal>
+            <div className="mb-16 md:mb-24">
+              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#1800AD" }}>The Team</span>
+              <h2
+                className="font-display font-black text-slate-900 mt-3 leading-[1.02] tracking-tight"
+                style={{ fontSize: "clamp(36px, 5vw, 70px)" }}
               >
-                {team.map((m, idx) => {
-                  const angle = idx * 60; // 6 members = 60 deg spacing
-                  const isCurrentHovered = isHovered === idx;
+                People you'll actually
+                <br />
+                <span style={{ color: "#1800AD" }}>work with.</span>
+              </h2>
+              <p className="mt-4 text-slate-500 text-lg max-w-lg">
+                No account managers. No delegation. Direct access to the specialists building your product.
+              </p>
+            </div>
+          </SentenceReveal>
 
-                  return (
-                    <div
-                      key={m.name}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          {/* Editorial portrait grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {team.map((member, i) => {
+              const isHovered = hoveredMember === i;
+
+              return (
+                <SentenceReveal key={member.name} delay={i * 80}>
+                  <div
+                    className="portrait-shimmer relative overflow-hidden rounded-2xl md:rounded-3xl cursor-pointer aspect-[3/4] w-full"
+                    onMouseEnter={() => setHoveredMember(i)}
+                    onMouseLeave={() => setHoveredMember(null)}
+                    style={{
+                      transform: isHovered ? "scale(1.02)" : "scale(1)",
+                      transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)",
+                      boxShadow: isHovered
+                        ? "0 32px 64px -16px rgba(24,0,173,0.3)"
+                        : "0 8px 24px -8px rgba(0,0,0,0.12)",
+                    }}
+                  >
+                    {/* Portrait image */}
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover object-center"
                       style={{
-                        transform: `rotate(${angle}deg) translate(min(185px, 35vw)) rotate(${-angle}deg)`,
+                        filter: isHovered ? "grayscale(0%)" : "grayscale(100%)",
+                        transform: isHovered ? "scale(1.05)" : "scale(1)",
+                        transition: "filter 0.6s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1)",
+                      }}
+                      loading="lazy"
+                    />
+
+                    {/* Gradient overlay always */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: isHovered
+                          ? "linear-gradient(180deg, transparent 30%, rgba(4,6,26,0.92) 100%)"
+                          : "linear-gradient(180deg, transparent 40%, rgba(4,6,26,0.7) 100%)",
+                        transition: "background 0.5s ease",
+                      }}
+                      aria-hidden
+                    />
+
+                    {/* Name always visible */}
+                    <div
+                      className="absolute bottom-0 left-0 right-0 p-4 md:p-5"
+                      style={{
+                        transform: isHovered ? "translateY(0)" : "translateY(0)",
                       }}
                     >
-                      {/* Reverse rotation wrapper to keep content upright */}
-                      <div
-                        style={{
-                          animation: "counter-orbit 35s linear infinite",
-                          animationPlayState: isHovered !== null ? "paused" : "running"
-                        }}
+                      <p className="font-display font-black text-white text-lg md:text-xl leading-tight">{member.name}</p>
+                      <p
+                        className="text-xs font-medium mt-0.5 transition-all duration-500"
+                        style={{ color: "#0EA5A4", opacity: isHovered ? 1 : 0.7 }}
                       >
-                        <div
-                          onMouseEnter={() => setIsHovered(idx)}
-                          onMouseLeave={() => setIsHovered(null)}
-                          className={`relative rounded-full transition-all duration-500 ease-out cursor-pointer ${
-                            isCurrentHovered 
-                              ? "h-64 w-64 md:h-72 md:w-72 rounded-2xl z-30 shadow-[0_24px_60px_-16px_rgba(11,19,36,0.3)] border border-[color:var(--brand)]/35 bg-white p-5" 
-                              : "h-16 w-16 md:h-20 md:w-20 rounded-full z-10 shadow-md border-2 border-white hover:border-[color:var(--brand)] bg-slate-100 overflow-hidden"
-                          }`}
-                          style={{
-                            transform: isCurrentHovered ? "scale(1.05)" : "scale(1)",
-                          }}
-                        >
-                          {/* Normal orbiting portrait (black and white circle) */}
-                          {!isCurrentHovered ? (
-                            <img
-                              src={m.image}
-                              alt={m.name}
-                              className="h-full w-full object-cover grayscale transition-all duration-300 hover:grayscale-0"
-                              loading="lazy"
-                            />
-                          ) : (
-                            // Hovered detailed pop-up card
-                            <div className="flex flex-col h-full justify-between animate-fade-in">
-                              <div className="flex gap-3.5 items-center">
-                                <img
-                                  src={m.image}
-                                  alt={m.name}
-                                  className="h-14 w-14 md:h-16 md:w-16 rounded-full object-cover border-2 border-[color:var(--brand)]/30"
-                                />
-                                <div className="text-left">
-                                  <h4 className="text-sm md:text-base font-extrabold text-slate-900">{m.name}</h4>
-                                  <p className="text-[11px] text-[color:var(--brand)] font-semibold mt-0.5">{m.role}</p>
-                                  <p className="text-[9px] text-slate-400 font-medium">{m.location}</p>
-                                </div>
-                              </div>
+                        {member.role}
+                      </p>
 
-                              <p className="mt-3 text-[11px] italic text-slate-500 leading-relaxed text-left">
-                                "{m.philosophy}"
-                              </p>
-
-                              <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5">
-                                <a
-                                  href={m.linkedin}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="inline-flex items-center gap-1 text-[10px] font-bold text-[#0A66C2] hover:underline"
-                                >
-                                  <Linkedin className="h-3 w-3" />
-                                  LinkedIn
-                                </a>
-                              </div>
-                            </div>
+                      {/* Expanded info on hover */}
+                      <div
+                        className="overflow-hidden transition-all duration-500"
+                        style={{ maxHeight: isHovered ? "120px" : "0px", opacity: isHovered ? 1 : 0 }}
+                      >
+                        <p className="text-white/60 text-xs leading-relaxed mt-2 italic">"{member.philosophy}"</p>
+                        <div className="flex items-center justify-between mt-3">
+                          <span className="text-white/40 text-xs">{member.location}</span>
+                          {member.linkedin !== "#" && (
+                            <a
+                              href={member.linkedin}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors duration-200"
+                              style={{ color: "#5b9bd5" }}
+                              onClick={e => e.stopPropagation()}
+                            >
+                              <Linkedin className="h-3 w-3" />
+                              LinkedIn
+                            </a>
                           )}
                         </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-
-            </div>
+                  </div>
+                </SentenceReveal>
+              );
+            })}
           </div>
+        </div>
+      </section>
 
-          {/* Orbit animation keyframe declarations */}
-          <style>{`
-            @keyframes orbit {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(360deg); }
-            }
-            @keyframes counter-orbit {
-              from { transform: rotate(360deg); }
-              to { transform: rotate(0deg); }
-            }
-            .animate-fade-in {
-              animation: fadeIn 0.3s ease-out forwards;
-            }
-            @keyframes fadeIn {
-              from { opacity: 0; transform: scale(0.95); }
-              to { opacity: 1; transform: scale(1); }
-            }
-          `}</style>
-        </section>
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CHAPTER 8 — WHY CLIENTS STAY
+      ═══════════════════════════════════════════════════════════════════════ */}
 
-        {/* Section 8 — Why Clients Choose Us */}
-        <section ref={whyReveal.ref} className="container-x py-24 border-t border-slate-100 bg-slate-50/[0.2]">
-          <div className={`transition-all duration-1000 transform ${whyReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-            <p className="eyebrow text-center">Comparisons</p>
-            <h2 className="h-display mt-3 text-3xl sm:text-4xl md:text-5xl text-center max-w-3xl mx-auto">
-              How Cortvex stacks up.
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CHAPTER 9 — THE FUTURE
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section
+        ref={futureReveal.ref}
+        className="relative py-40 md:py-56 overflow-hidden bg-white"
+        aria-label="The future"
+      >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse at 50% 80%, rgba(14,165,164,0.07) 0%, transparent 60%)",
+          }}
+          aria-hidden
+        />
+
+        <div className="container-x relative z-10 text-center max-w-5xl mx-auto">
+          <SentenceReveal>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-8" style={{ color: "#1800AD" }}>The Future</p>
+            <h2
+              className="font-display font-black text-slate-900 leading-[1.02] tracking-tight"
+              style={{ fontSize: "clamp(42px, 7vw, 100px)" }}
+            >
+              The future belongs to
+              <br />
+              companies that{" "}
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}
+              >
+                build faster.
+              </span>
             </h2>
+          </SentenceReveal>
 
-            <div className="mt-16 grid gap-8 lg:grid-cols-2 max-w-4xl mx-auto">
-              
-              {/* Traditional Agency Column */}
-              <div className="p-8 rounded-3xl border border-slate-100 bg-white shadow-sm">
-                <h4 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-                  Traditional Agency
-                </h4>
-                <ul className="space-y-4">
-                  {[
-                    "Layers of management context delays",
-                    "Apathetic junior staff developers",
-                    "Unclear and bloated delivery billing",
-                    "Slower timeline execution iterations"
-                  ].map((x) => (
-                    <li key={x} className="flex items-start gap-3.5 text-slate-500">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-rose-50 text-rose-500 mt-1">
-                        <X className="h-3 w-3" />
-                      </span>
-                      <span className="text-sm font-medium">{x}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Cortvex Column */}
-              <div className="p-8 rounded-3xl border border-indigo-500/10 bg-indigo-500/[0.01] shadow-[0_20px_48px_-28px_rgba(24,0,173,0.15)] relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" />
-                <h4 className="text-xl font-bold text-[color:var(--brand)] mb-6 flex items-center gap-2">
-                  Cortvex Studio
-                </h4>
-                <ul className="space-y-4">
-                  {[
-                    "Direct communication with senior specialists",
-                    "Rapid iterative weekly visual builds",
-                    "Predictable outcome-driven transparent pricing",
-                    "AI workflow automation built natively"
-                  ].map((check) => (
-                    <li key={check} className="flex items-start gap-3.5 text-slate-700">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-500 mt-1">
-                        <Check className="h-3 w-3" />
-                      </span>
-                      <span className="text-sm font-semibold">{check}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* Section 9 — Closing Story */}
-        <section ref={closeReveal.ref} className="container-x py-24 border-t border-slate-100 text-center relative overflow-hidden">
-          <div className="absolute inset-0 z-0 bg-gradient-to-tr from-indigo-500/[0.03] to-transparent blur-3xl pointer-events-none" />
-          <div className={`relative z-10 max-w-2xl mx-auto transition-all duration-1000 transform ${closeReveal.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
-            <p className="eyebrow">The Closing Word</p>
-            <h2 className="h-display mt-3 text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
-              Every ambitious business deserves world-class digital products.
-            </h2>
-            <p className="mt-6 text-slate-500 text-lg leading-relaxed">
-              Whether you're launching your first startup or scaling your next growth milestone, we're here to help you move faster with exceptional design, engineering, and automation.
+          <SentenceReveal delay={300}>
+            <p className="mt-8 text-2xl md:text-3xl text-slate-500 max-w-2xl mx-auto leading-relaxed underline" style={{ fontFamily: "Wistania, sans-serif" }}>
+              The companies shipping in weeks rather than months will define the next decade of business.
             </p>
+          </SentenceReveal>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          FINAL CTA — THE DESTINATION
+      ═══════════════════════════════════════════════════════════════════════ */}
+      <section
+        className="relative py-24 md:py-36 overflow-hidden"
+        style={{ background: "linear-gradient(180deg, #ffffff 0%, #F8F9FF 100%)" }}
+        aria-label="Call to action"
+      >
+        <div className="container-x relative z-10">
+          <div className="relative max-w-4xl mx-auto">
+            {/* Animated gradient border */}
+            <div
+              className="absolute inset-0 rounded-3xl cta-gradient-border"
+              style={{ padding: "2px" }}
+              aria-hidden
+            >
+              <div className="absolute inset-0 rounded-3xl" style={{ background: "white" }} />
+            </div>
+
+            <div
+              className="relative rounded-3xl overflow-hidden px-8 py-14 md:px-16 md:py-20 text-center"
+              style={{
+                background: "linear-gradient(135deg, rgba(24,0,173,0.03) 0%, rgba(14,165,164,0.03) 100%)",
+                border: "2px solid transparent",
+                backgroundClip: "padding-box",
+              }}
+            >
+              {/* Glow behind */}
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{ background: "radial-gradient(ellipse at 50% 110%, rgba(14,165,164,0.12) 0%, transparent 60%)" }}
+                aria-hidden
+              />
+
+              <div className="relative z-10">
+                <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#0EA5A4" }}>Let's Build</p>
+                <h2
+                  className="font-display font-black text-slate-900 leading-[1.02] tracking-tight"
+                  style={{ fontSize: "clamp(36px, 5.5vw, 76px)" }}
+                >
+                  Let's build something
+                  <br />
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)",
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      color: "transparent",
+                    }}
+                  >
+                    incredible.
+                  </span>
+                </h2>
+                <p className="mt-6 text-slate-500 text-lg max-w-lg mx-auto leading-relaxed">
+                  Book a free 30-minute strategy call. We'll map the fastest path from where you are today to a measurably better digital product.
+                </p>
+
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                  <Link
+                    to="/book-meeting"
+                    className="group relative inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-sm font-bold text-white overflow-hidden transition-all duration-300"
+                    style={{
+                      background: "linear-gradient(135deg, #1800AD, #0EA5A4)",
+                      boxShadow: "0 12px 40px -8px rgba(24,0,173,0.45)",
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 20px 48px -8px rgba(14,165,164,0.55)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 40px -8px rgba(24,0,173,0.45)"; }}
+                  >
+                    <Calendar className="h-4 w-4" />
+                    Book Free Strategy Call
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </Link>
+
+                  <Link
+                    to="/services"
+                    className="inline-flex items-center gap-2 rounded-full border px-8 py-4 text-sm font-semibold transition-all duration-300"
+                    style={{ borderColor: "rgba(24,0,173,0.2)", color: "#1800AD", background: "rgba(24,0,173,0.03)" }}
+                    onMouseEnter={e => {
+                      (e.currentTarget as HTMLElement).style.background = "rgba(24,0,173,0.06)";
+                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(24,0,173,0.4)";
+                      (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                    }}
+                    onMouseLeave={e => {
+                      (e.currentTarget as HTMLElement).style.background = "rgba(24,0,173,0.03)";
+                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(24,0,173,0.2)";
+                      (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                    }}
+                  >
+                    Explore Services <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
-
-        {/* Final CTA Area */}
-        <CTASection />
-
-      </div>
+        </div>
+      </section>
     </SiteLayout>
   );
 }
