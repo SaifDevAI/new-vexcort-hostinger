@@ -125,15 +125,20 @@ function Hero() {
               "radial-gradient(circle, color-mix(in srgb, var(--brand) 58%, transparent) 0%, color-mix(in srgb, var(--brand-accent) 30%, transparent) 42%, transparent 72%)",
           }}
         />
-        {/* Abstract Fluid Particle Flow Background */}
-        <div
-          className="absolute inset-0 z-0 bg-cover bg-center opacity-40 mix-blend-screen pointer-events-none"
+        {/* Abstract Fluid Particle Flow Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0 opacity-40 mix-blend-screen pointer-events-none"
           style={{
-            backgroundImage: "url('/particle_bg.png')",
             maskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%)",
             WebkitMaskImage: "radial-gradient(circle at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%)",
           }}
-        />
+        >
+          <source src="/An_ultra_premium_cinematic_lo.mp4" type="video/mp4" />
+        </video>
         <img
           src="/homerobo.png"
           alt=""
