@@ -513,27 +513,6 @@ function ServicesPage() {
 
         <ServicesCarousel />
 
-        {/* Services Detail List */}
-        <section className="bg-[color:var(--color-surface)] section">
-          <div className="container-x grid gap-12 lg:grid-cols-2">
-            {services.slice(0, 4).map(({ logo, logoAlt, title, desc, features }) => (
-              <div key={title} id={title.toLowerCase().replace(/\s+/g, "-")} className="service-detail-pop">
-                <span className="grid h-12 w-12 place-items-center rounded-xl bg-white/90 shadow-[0_10px_28px_-20px_rgba(24,0,173,0.55)]">
-                  <img src={logo} alt={logoAlt} className="h-6 w-6 object-contain" loading="lazy" />
-                </span>
-                <h2 className="h-display mt-5 text-3xl">{title}</h2>
-                <p className="mt-3 text-muted-foreground">{desc}</p>
-                <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
-                  {features.map((f) => (
-                    <div key={f} className="service-pill-pop">{f}</div>
-                  ))}
-                </div>
-                <Link to="/contact" className="btn btn-dark mt-7">Book a Meeting <ArrowUpRight className="h-4 w-4" /></Link>
-              </div>
-            ))}
-          </div>
-        </section>
-
         <CTASection />
       </div>
     </SiteLayout>
