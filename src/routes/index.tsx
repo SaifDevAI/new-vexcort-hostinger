@@ -183,10 +183,34 @@ function Hero() {
 function ServicesPreview() {
   const servicesHeading = "Everything you need to grow online, under one roof.";
   const [typedServicesHeading, setTypedServicesHeading] = useState("");
-  const { ref, isVisible } = useScrollReveal();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
   useEffect(() => {
-    if (!isVisible) return;
+    const handleScroll = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const totalScrollable = rect.height - window.innerHeight;
+      if (totalScrollable <= 0) return;
+
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / totalScrollable));
+      setScrollProgress(progress);
+
+      if (rect.top < window.innerHeight * 0.8 && !hasStartedTyping) {
+        setHasStartedTyping(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasStartedTyping]);
+
+  useEffect(() => {
+    if (!hasStartedTyping) return;
 
     let index = 0;
     const timer = window.setInterval(() => {
@@ -195,49 +219,86 @@ function ServicesPreview() {
       if (index >= servicesHeading.length) {
         window.clearInterval(timer);
       }
-    }, 28);
+    }, 25);
 
     return () => window.clearInterval(timer);
-  }, [isVisible]);
+  }, [hasStartedTyping]);
 
   return (
-    <section id="home-services-section" className="section">
-      <div
-        ref={ref}
-        className={`container-x transition-all duration-1000 transform ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-        }`}
-      >
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Services</p>
-            <h2 className="h-display mt-3 text-4xl md:text-5xl">
-              {typedServicesHeading}
-              <span className="ml-1 inline-block h-[0.9em] w-[2px] animate-pulse align-[-0.1em] bg-[color:var(--brand)]" />
-            </h2>
-          </div>
-          <Link to="/services" className="btn btn-ghost">
-            All services <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map(({ logo, logoAlt, title, desc }) => (
-            <div key={title} className="service-card-glass">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/70 shadow-[0_8px_22px_-16px_rgba(24,0,173,0.55)]">
-                <img src={logo} alt={logoAlt} className="h-5 w-5 object-contain" loading="lazy" />
-              </span>
-              <h3 className="mt-5 text-lg font-semibold">{title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
-              <Link
-                to="/services"
-                className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[color:var(--brand)]"
-              >
-                Learn more <ArrowUpRight className="h-4 w-4" />
-              </Link>
+    <section ref={sectionRef} id="home-services-section" className="relative w-full" style={{ minHeight: "100vh" }}>
+      {/* Sticky container */}
+      <div className="sticky top-0 w-full h-screen flex flex-col justify-center overflow-hidden py-10">
+        <div className="container-x w-full flex flex-col h-full justify-between">
+          
+          {/* Header */}
+          <div className="flex flex-wrap items-end justify-between gap-6 pt-16">
+            <div className="max-w-2xl">
+              <p className="eyebrow">Services</p>
+              <h2 className="h-display mt-3 text-4xl md:text-5xl">
+                {typedServicesHeading}
+                <span className="ml-1 inline-block h-[0.9em] w-[2px] animate-pulse align-[-0.1em] bg-[color:var(--brand)]" />
+              </h2>
             </div>
-          ))}
+            <Link to="/services" className="btn btn-ghost">
+              All services <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          {/* Cards Area */}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-auto">
+            {services.map(({ logo, logoAlt, title, desc }, idx) => {
+              const cardStart = (idx / services.length) * 0.85;
+              const cardEnd = ((idx + 1.2) / services.length) * 0.85;
+              const cardProgress = Math.max(0, Math.min(1, (scrollProgress - cardStart) / (cardEnd - cardStart)));
+
+              const translateY = (1 - cardProgress) * 140;
+              const opacity = cardProgress;
+              const scale = 0.88 + cardProgress * 0.12;
+
+              return (
+                <div
+                  key={title}
+                  className="service-card-glass"
+                  style={{
+                    transform: `translateY(${translateY}px) scale(${scale})`,
+                    opacity,
+                    transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
+                  }}
+                >
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/70 shadow-[0_8px_22px_-16px_rgba(24,0,173,0.55)]">
+                    <img src={logo} alt={logoAlt} className="h-5 w-5 object-contain" loading="lazy" />
+                  </span>
+                  <h3 className="mt-5 text-lg font-semibold">{title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
+                  <Link
+                    to="/services"
+                    className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[color:var(--brand)]"
+                  >
+                    Learn more <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Progress Indicator */}
+          <div className="w-full flex items-center justify-center gap-2 pb-6">
+            <span className="text-[10px] font-mono tracking-widest text-[#7a7f82] uppercase">
+              Scroll to reveal
+            </span>
+            <div className="h-1 w-24 bg-slate-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[color:var(--brand)] transition-all duration-300"
+                style={{ width: `${scrollProgress * 100}%` }}
+              />
+            </div>
+          </div>
+
         </div>
       </div>
+
+      {/* Spacer for scroll volume */}
+      <div style={{ height: "180vh" }} aria-hidden="true" />
     </section>
   );
 }
