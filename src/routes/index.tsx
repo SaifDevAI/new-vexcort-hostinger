@@ -26,6 +26,31 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isVisible };
+}
+
 const services = [
   {
     logo: "https://cdn.simpleicons.org/react",
@@ -98,6 +123,10 @@ function Hero() {
           src="/homerobo.png"
           alt=""
           className="relative z-10 h-[min(92vh,860px)] w-auto max-w-none object-contain"
+          style={{
+            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)",
+          }}
           aria-hidden="true"
           loading="eager"
           fetchPriority="high"
@@ -154,8 +183,11 @@ function Hero() {
 function ServicesPreview() {
   const servicesHeading = "Everything you need to grow online, under one roof.";
   const [typedServicesHeading, setTypedServicesHeading] = useState("");
+  const { ref, isVisible } = useScrollReveal();
 
   useEffect(() => {
+    if (!isVisible) return;
+
     let index = 0;
     const timer = window.setInterval(() => {
       index += 1;
@@ -166,11 +198,16 @@ function ServicesPreview() {
     }, 28);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [isVisible]);
 
   return (
     <section id="home-services-section" className="section">
-      <div className="container-x">
+      <div
+        ref={ref}
+        className={`container-x transition-all duration-1000 transform ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        }`}
+      >
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl">
             <p className="eyebrow">Services</p>
@@ -208,28 +245,10 @@ function ServicesPreview() {
 function WhyChoose() {
   const whyChooseText = "A partner that treats your product like our own.";
   const [typedWhyChoose, setTypedWhyChoose] = useState("");
-  const [startTyping, setStartTyping] = useState(false);
+  const { ref, isVisible } = useScrollReveal();
 
   useEffect(() => {
-    const el = document.getElementById("why-choose-section");
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStartTyping(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!startTyping) return;
+    if (!isVisible) return;
 
     let index = 0;
     const timer = window.setInterval(() => {
@@ -241,7 +260,7 @@ function WhyChoose() {
     }, 42);
 
     return () => window.clearInterval(timer);
-  }, [startTyping]);
+  }, [isVisible]);
 
   const items = [
     {
@@ -271,7 +290,12 @@ function WhyChoose() {
   ];
   return (
     <section id="why-choose-section" className="section bg-[color:var(--color-surface)]">
-      <div className="container-x">
+      <div
+        ref={ref}
+        className={`container-x transition-all duration-1000 transform ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        }`}
+      >
         <div className="grid items-start gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <p className="eyebrow">Why Cortvex</p>
