@@ -111,7 +111,13 @@ const services = [
 function Hero() {
   return (
     <section className="relative overflow-hidden w-full h-full flex items-center">
-      <div className="animate-hero-bg-slide-in pointer-events-none absolute inset-0 z-20 flex items-end justify-center">
+      <div
+        className="animate-hero-bg-slide-in pointer-events-none absolute inset-0 z-20 flex items-end justify-center"
+        style={{
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 90%)",
+          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 90%)"
+        }}
+      >
         <div
           className="absolute h-[min(58vh,560px)] w-[min(58vw,620px)] rounded-full opacity-70 blur-3xl"
           style={{
@@ -124,8 +130,8 @@ function Hero() {
           alt=""
           className="relative z-10 h-[min(92vh,860px)] w-auto max-w-none object-contain"
           style={{
-            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%)",
+            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 90%)",
+            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 90%)",
           }}
           aria-hidden="true"
           loading="eager"
