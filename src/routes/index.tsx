@@ -245,37 +245,68 @@ function ServicesPreview() {
           </div>
 
           {/* Cards Area */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-auto">
-            {services.map(({ logo, logoAlt, title, desc }, idx) => {
-              const cardStart = (idx / services.length) * 0.85;
-              const cardEnd = ((idx + 1.2) / services.length) * 0.85;
-              const cardProgress = Math.max(0, Math.min(1, (scrollProgress - cardStart) / (cardEnd - cardStart)));
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 my-auto w-full">
+            {Array.from({ length: 4 }).map((_, idx) => {
+              const rowOne = services.slice(0, 4);
+              const rowTwo = services.slice(4, 8);
+              const card1 = rowOne[idx];
+              const card2 = rowTwo[idx];
 
-              const translateY = (1 - cardProgress) * 140;
-              const opacity = cardProgress;
-              const scale = 0.88 + cardProgress * 0.12;
+              // Calculate transition for this specific column/index with a slight stagger
+              const columnDelay = idx * 0.12;
+              const t = Math.max(0, Math.min(1, (scrollProgress - 0.15 - columnDelay) / 0.55));
 
               return (
-                <div
-                  key={title}
-                  className="service-card-glass"
-                  style={{
-                    transform: `translateY(${translateY}px) scale(${scale})`,
-                    opacity,
-                    transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
-                  }}
-                >
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/70 shadow-[0_8px_22px_-16px_rgba(24,0,173,0.55)]">
-                    <img src={logo} alt={logoAlt} className="h-5 w-5 object-contain" loading="lazy" />
-                  </span>
-                  <h3 className="mt-5 text-lg font-semibold">{title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
-                  <Link
-                    to="/services"
-                    className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[color:var(--brand)]"
+                <div key={idx} className="relative grid grid-cols-1 grid-rows-1">
+                  {/* Card 1 */}
+                  <div
+                    className="col-start-1 row-start-1 service-card-glass flex flex-col justify-between"
+                    style={{
+                      opacity: 1 - t,
+                      transform: `translateY(${-t * 70}px) scale(${1 - t * 0.05})`,
+                      pointerEvents: t > 0.8 ? "none" : "auto",
+                      transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
+                    }}
                   >
-                    Learn more <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+                    <div>
+                      <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/70 shadow-[0_8px_22px_-16px_rgba(24,0,173,0.55)]">
+                        <img src={card1.logo} alt={card1.logoAlt} className="h-5 w-5 object-contain" loading="lazy" />
+                      </span>
+                      <h3 className="mt-5 text-lg font-semibold">{card1.title}</h3>
+                      <p className="mt-2 text-sm text-muted-foreground">{card1.desc}</p>
+                    </div>
+                    <Link
+                      to="/services"
+                      className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[color:var(--brand)]"
+                    >
+                      Learn more <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+
+                  {/* Card 2 */}
+                  <div
+                    className="col-start-1 row-start-1 service-card-glass flex flex-col justify-between"
+                    style={{
+                      opacity: t,
+                      transform: `translateY(${(1 - t) * 70}px) scale(${0.95 + t * 0.05})`,
+                      pointerEvents: t < 0.2 ? "none" : "auto",
+                      transition: "transform 0.15s ease-out, opacity 0.15s ease-out",
+                    }}
+                  >
+                    <div>
+                      <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/70 shadow-[0_8px_22px_-16px_rgba(24,0,173,0.55)]">
+                        <img src={card2.logo} alt={card2.logoAlt} className="h-5 w-5 object-contain" loading="lazy" />
+                      </span>
+                      <h3 className="mt-5 text-lg font-semibold">{card2.title}</h3>
+                      <p className="mt-2 text-sm text-muted-foreground">{card2.desc}</p>
+                    </div>
+                    <Link
+                      to="/services"
+                      className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[color:var(--brand)]"
+                    >
+                      Learn more <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                  </div>
                 </div>
               );
             })}
