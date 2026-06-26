@@ -51,7 +51,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-[color:var(--color-border)] bg-[color:var(--color-surface)] text-foreground">
+    <footer className="relative z-10 border-t border-[color:var(--color-border)] bg-[color:var(--color-surface)] text-foreground">
       <div className="container-x py-14">
         <div>
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-7">
