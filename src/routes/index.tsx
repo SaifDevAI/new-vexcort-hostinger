@@ -295,6 +295,7 @@ function ServicesSection() {
               </div>
             </div>
           ))}
+        </div>
       </div>
     </section>
   );
