@@ -997,12 +997,11 @@ function AboutPage() {
             <p className="text-center text-xs font-semibold uppercase tracking-widest mb-20" style={{ color: "#0EA5A4" }}>Impact</p>
           </SentenceReveal>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 md:gap-y-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-16">
             {[
               { count: c1.count, suffix: "+", label: "Businesses Automated", decimals: 0 },
               { count: c2.count, suffix: "+", label: "Projects Delivered", decimals: 0 },
               { count: c3.count, suffix: "★", label: "Client Rating", decimals: 1 },
-              { count: c4.count, prefix: "< ", suffix: " Weeks", label: "Kickoff Time", decimals: 0 },
             ].map((stat, i) => (
               <SentenceReveal key={i} delay={i * 120}>
                 <div className="text-center">
@@ -1016,7 +1015,7 @@ function AboutPage() {
                       color: "transparent",
                     }}
                   >
-                    {stat.prefix || ""}{stat.decimals > 0 ? stat.count.toFixed(stat.decimals) : Math.floor(stat.count)}{stat.suffix}
+                    {stat.decimals > 0 ? stat.count.toFixed(stat.decimals) : Math.floor(stat.count)}{stat.suffix}
                   </p>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-[#1800AD]">{stat.label}</p>
                 </div>
