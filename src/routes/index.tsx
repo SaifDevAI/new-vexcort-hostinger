@@ -182,7 +182,7 @@ function ServicesSection() {
     return () => obs.disconnect();
   }, []);
 
-  // 9 Slides matching all core website services with realistic deep metrics
+  // 9 Slides matching all core website services with realistic deep metrics & specific Lucide icons
   const slides = [
     {
       category: "Web Development",
@@ -192,6 +192,7 @@ function ServicesSection() {
       highlightText: "High-performance React architectures",
       subText: "built with TanStack and Next.js to maximize conversion rates and compounding user engagement.",
       iconText: "React / Node / TS",
+      icon: Globe,
       color: "#1800AD"
     },
     {
@@ -202,6 +203,7 @@ function ServicesSection() {
       highlightText: "Bespoke user-focused interfaces",
       subText: "designed in Figma around high-intent buyer journeys and tailored brand aesthetics.",
       iconText: "UX / Prototyping",
+      icon: Palette,
       color: "#0EA5A4"
     },
     {
@@ -212,6 +214,7 @@ function ServicesSection() {
       highlightText: "Custom autonomous agent pipelines",
       subText: "engineered with n8n and Make to eliminate manual operational bottlenecks 24/7.",
       iconText: "n8n / LLM / Workflows",
+      icon: Zap,
       color: "#1800AD"
     },
     {
@@ -222,6 +225,7 @@ function ServicesSection() {
       highlightText: "Intelligent customer service agents",
       subText: "integrating custom vector databases (RAG) over your support docs for immediate solutions.",
       iconText: "OpenAI / Pinecone",
+      icon: Bot,
       color: "#0EA5A4"
     },
     {
@@ -232,6 +236,7 @@ function ServicesSection() {
       highlightText: "Natural real-time voice agents",
       subText: "qualified for inbound customer inquiries, call scheduling, and automated reminders.",
       iconText: "Vapi / Twilio",
+      icon: Bot,
       color: "#1800AD"
     },
     {
@@ -242,6 +247,7 @@ function ServicesSection() {
       highlightText: "Refined native mobile platforms",
       subText: "compiled with React Native and Flutter for lightning-fast iOS & Android performance.",
       iconText: "Flutter / Native",
+      icon: Smartphone,
       color: "#0EA5A4"
     },
     {
@@ -252,6 +258,7 @@ function ServicesSection() {
       highlightText: "Technical and content SEO systems",
       subText: "wired to acquisition pipelines and compounding organic leads that scale without paid ad spend.",
       iconText: "Audits / Backlinks",
+      icon: BarChart3,
       color: "#1800AD"
     },
     {
@@ -262,6 +269,7 @@ function ServicesSection() {
       highlightText: "Full-funnel traffic management",
       subText: "combining landing page testing and programmatic ads to acquire high-value customers.",
       iconText: "Meta / Google / Ads",
+      icon: BarChart3,
       color: "#0EA5A4"
     },
     {
@@ -272,6 +280,7 @@ function ServicesSection() {
       highlightText: "Consistency-first community growth",
       subText: "leveraging high-quality custom asset creation and full-service community handling pipelines.",
       iconText: "Creatives / Handling",
+      icon: Star,
       color: "#1800AD"
     }
   ];
@@ -285,6 +294,7 @@ function ServicesSection() {
   }, [slides.length]);
 
   const current = slides[activeSlide];
+  const CurrentIcon = current.icon;
 
   return (
     <section ref={ref} className="section w-full py-20 bg-slate-50 flex items-center justify-center">
@@ -325,10 +335,10 @@ function ServicesSection() {
           {/* Top category indicator bar */}
           <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/10">
-                <span className="h-2 w-2 rounded-full bg-[#0EA5A4] animate-pulse" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md border border-white/10">
+                <CurrentIcon className="h-4 w-4 text-[#0EA5A4]" />
               </span>
-              <span className="text-xs font-black tracking-widest uppercase text-white/90">{current.category}</span>
+              <span className="text-xs font-black tracking-widest uppercase text-white/90" style={{ fontFamily: "Wistania" }}>{current.category}</span>
             </div>
 
             <div className="flex items-center gap-2">
@@ -346,8 +356,8 @@ function ServicesSection() {
             {/* Left side: Large dynamic metrics */}
             <div className="md:col-span-5 flex flex-col justify-center">
               <div className="flex items-start gap-1">
-                <span className="text-6xl md:text-7xl font-black tracking-tighter leading-none">{current.statValue}</span>
-                <ArrowUpRight className="h-6 w-6 text-[#0EA5A4] mt-1 shrink-0" />
+                <span className="text-7xl md:text-8xl font-black tracking-tighter leading-none">{current.statValue}</span>
+                <ArrowUpRight className="h-7 w-7 text-[#0EA5A4] mt-1.5 shrink-0" />
               </div>
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0EA5A4] mt-2">{current.statSub}</p>
             </div>
@@ -355,7 +365,7 @@ function ServicesSection() {
             {/* Right side: Catchy description content block */}
             <div className="md:col-span-7 flex flex-col justify-center">
               <p className="text-lg md:text-xl font-semibold leading-relaxed">
-                <span className="font-extrabold text-white text-2xl block mb-2">{current.highlightText}</span>
+                <span className="font-extrabold text-white text-2xl block mb-2" style={{ fontFamily: "Wistania" }}>{current.highlightText}</span>
                 <span className="text-white/80 text-sm md:text-base font-normal">{current.subText}</span>
               </p>
             </div>
