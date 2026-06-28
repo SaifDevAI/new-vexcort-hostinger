@@ -256,36 +256,26 @@ export function NeuralSphere() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/5 to-[#ffffff] z-10 pointer-events-none" />
 
       {/* Catchy Transparent Text Cards on Left and Right Sides */}
-      <div className="absolute inset-x-8 top-[12%] bottom-[12%] z-20 pointer-events-none flex flex-col lg:flex-row justify-between items-center gap-8 w-[calc(100%-4rem)]">
+      <div className="absolute inset-x-8 top-[10%] bottom-[10%] z-20 pointer-events-none flex flex-col lg:flex-row justify-between items-center gap-8 w-[calc(100%-4rem)]">
         {/* Left Card: AI Automation & Logic */}
         <div 
-          className="max-w-[310px] rounded-3xl p-7 backdrop-blur-lg bg-white/40 border border-slate-200/50 shadow-[0_20px_40px_rgba(24,0,173,0.06),inset_0_1px_1px_rgba(255,255,255,0.6)] pointer-events-auto transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_60px_rgba(24,0,173,0.12)] group"
+          className="max-w-[290px] rounded-2xl p-6 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_12px_30px_rgba(24,0,173,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
         >
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#1800AD] animate-pulse" />
-            <span className="text-[9px] font-black tracking-[0.25em] text-[#1800AD] uppercase">SYSTEM AUTOMATION</span>
-          </div>
-          <h3 className="mt-3 text-lg font-black text-slate-900 leading-tight">
-            Eliminate <span className="text-[#1800AD] underline decoration-wavy decoration-[#1800AD]/30 underline-offset-4">manual work</span> entirely.
-          </h3>
-          <p className="text-[12px] text-slate-600 mt-3 leading-relaxed">
-            We map custom <strong className="text-slate-900 font-bold">AI agents</strong> & <strong className="text-slate-900 font-bold">n8n nodes</strong> into your operational workflows to process leads and compound operations <strong className="text-[#1800AD]">24/7</strong>.
+          <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
+          <h3 className="mt-2 text-base font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
+          <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+            We map custom AI agents and n8n nodes directly into your operations to process leads and data 24/7.
           </p>
         </div>
 
         {/* Right Card: High-Performance Engineering */}
         <div 
-          className="max-w-[310px] rounded-3xl p-7 backdrop-blur-lg bg-white/40 border border-slate-200/50 shadow-[0_20px_40px_rgba(14,165,164,0.06),inset_0_1px_1px_rgba(255,255,255,0.6)] pointer-events-auto transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_60px_rgba(14,165,164,0.12)] group lg:text-right"
+          className="max-w-[290px] rounded-2xl p-6 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_12px_30px_rgba(14,165,164,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
         >
-          <div className="flex items-center gap-2 lg:justify-end">
-            <span className="text-[9px] font-black tracking-[0.25em] text-[#0EA5A4] uppercase">ELITE CODE CRAFT</span>
-            <span className="h-2 w-2 rounded-full bg-[#0EA5A4] animate-pulse" />
-          </div>
-          <h3 className="mt-3 text-lg font-black text-slate-900 leading-tight">
-            Scale-ready, <span className="text-[#0EA5A4] font-black italic">sub-second</span> load times.
-          </h3>
-          <p className="text-[12px] text-slate-600 mt-3 leading-relaxed">
-            Beautiful type-safe <strong className="text-slate-900 font-bold">Next.js & Vite</strong> platforms engineered specifically to convert casual browsers into <strong className="text-[#0EA5A4]">high-paying customers</strong>.
+          <span className="text-[10px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
+          <h3 className="mt-2 text-base font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
+          <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+            Clean type-safe React/Vite platforms built for sub-second load times and high conversions.
           </p>
         </div>
       </div>
