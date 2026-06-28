@@ -173,12 +173,6 @@ function FAQPage() {
 
         <div className="container-x relative z-10">
           <div className="max-w-3xl">
-            <span
-              className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-full mb-6 transition-all duration-500"
-              style={{ background: "rgba(24,0,173,0.07)", color: "#1800AD", border: "1px solid rgba(24,0,173,0.14)", opacity: heroPhase >= 1 ? 1 : 0, transform: heroPhase >= 1 ? "translateY(0)" : "translateY(10px)" }}
-            >
-              <HelpCircle className="h-3.5 w-3.5" /> Support Center
-            </span>
             <h1
               className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight transition-all duration-700"
               style={{ letterSpacing: "-0.03em", opacity: heroPhase >= 1 ? 1 : 0, transform: heroPhase >= 1 ? "translateY(0)" : "translateY(20px)" }}
