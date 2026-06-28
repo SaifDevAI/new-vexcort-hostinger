@@ -1,4 +1,4 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { ArrowUpRight, Plus, HelpCircle, MessageCircle, Zap, Globe, Bot, BarChart3, Smartphone, ChevronDown } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -164,7 +164,7 @@ function FAQPage() {
     <SiteLayout>
       {/* Hero */}
       <div
-        className="relative overflow-hidden pt-32 pb-16"
+        className="relative overflow-hidden pt-32 pb-8"
         style={{ background: "linear-gradient(160deg, #FFFFFF 0%, #F4F6FF 50%, #EBF0FF 100%)" }}
       >
         <div className="pointer-events-none absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(24,0,173,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(24,0,173,0.03) 1px, transparent 1px)", backgroundSize: "64px 64px", maskImage: "radial-gradient(ellipse at 60% 40%, black 40%, transparent 80%)" }} />
@@ -214,7 +214,7 @@ function FAQPage() {
       </div>
 
       {/* Body */}
-      <div className="relative py-16 bg-white">
+      <div className="relative py-12 bg-white">
         <div className="container-x">
           {/* Category tabs */}
           <div className="flex flex-wrap gap-2 mb-12">
