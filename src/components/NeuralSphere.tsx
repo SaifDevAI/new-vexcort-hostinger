@@ -251,9 +251,34 @@ function ParticleSphereMesh() {
 
 export function NeuralSphere() {
   return (
-    <div className="relative w-full h-[620px] bg-white overflow-hidden flex items-center justify-center pt-12">
+    <div className="relative w-full h-[780px] bg-white overflow-hidden flex flex-col items-center justify-center pt-8">
       {/* Subtle bottom gradient shadow to fit into the white background of next section */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/10 to-[#ffffff] z-10 pointer-events-none" />
+
+      {/* Catchy Transparent Text Cards on Left and Right Sides */}
+      <div className="absolute inset-x-8 top-[10%] bottom-[10%] z-20 pointer-events-none flex flex-col lg:flex-row justify-between items-center gap-8 w-[calc(100%-4rem)]">
+        {/* Left Card: AI Automation & Logic */}
+        <div 
+          className="max-w-[290px] rounded-2xl p-6 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_12px_30px_rgba(24,0,173,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
+        >
+          <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
+          <h3 className="mt-2 text-base font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
+          <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+            We map custom AI agents and n8n nodes directly into your operations to process leads and data 24/7.
+          </p>
+        </div>
+
+        {/* Right Card: High-Performance Engineering */}
+        <div 
+          className="max-w-[290px] rounded-2xl p-6 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_12px_30px_rgba(14,165,164,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
+        >
+          <span className="text-[10px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
+          <h3 className="mt-2 text-base font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
+          <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+            Clean type-safe React/Vite platforms built for sub-second load times and high conversions.
+          </p>
+        </div>
+      </div>
 
       <Canvas
         camera={{ position: [0, 0, 5.2], fov: 45 }}
