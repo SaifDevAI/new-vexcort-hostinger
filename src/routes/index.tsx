@@ -1,4 +1,4 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { ArrowUpRight, Calendar, Check, Star, ShieldCheck, Zap, Globe, Bot, BarChart3, Smartphone, Palette } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -204,85 +204,97 @@ function ServicesSection() {
         </div>
 
         {/* Grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map(({ icon: Icon, color, title, desc, features, tag }, idx) => (
             <div
               key={title}
-              className="group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-500 hover:-translate-y-1"
+              className="group relative flex flex-col overflow-hidden rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(24,0,173,0.15)]"
               style={{
-                background: "rgba(255,255,255,0.97)",
-                border: "1px solid rgba(24,0,173,0.10)",
-                boxShadow: "0 4px 24px -8px rgba(24,0,173,0.10), inset 0 1px 0 rgba(255,255,255,1)",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(244,246,255,0.4) 100%)",
+                border: "1px solid rgba(24,0,173,0.08)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
                 opacity: inView ? 1 : 0,
                 transform: inView ? "translateY(0)" : "translateY(40px)",
-                transition: "opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease",
-                transitionDelay: `${idx * 70}ms`,
+                transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                transitionDelay: `${idx * 80}ms`,
               }}
             >
-              {/* Top accent bar */}
+              {/* Neon accent line at the top */}
               <div
-                className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ background: `linear-gradient(90deg, ${color} 0%, ${color === "#1800AD" ? "#0EA5A4" : "#1800AD"} 100%)` }}
+                className="absolute top-0 left-0 right-0 h-[3px] rounded-t-3xl transition-all duration-500 opacity-30 group-hover:opacity-100"
+                style={{ background: `linear-gradient(90deg, ${color} 0%, #0EA5A4 100%)` }}
               />
 
-              <div className="flex flex-col flex-1 p-6">
+              {/* Radial gradient hover glow */}
+              <div
+                className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                style={{
+                  background: `radial-gradient(120px circle at var(--x, 50%) var(--y, 50%), rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"}, 0.06), transparent 80%)`,
+                }}
+              />
+
+              <div className="flex flex-col flex-1 p-8">
                 <div className="flex items-center justify-between">
                   <span
-                    className="grid h-12 w-12 place-items-center rounded-2xl transition-transform duration-300 group-hover:scale-110"
+                    className="grid h-12 w-12 place-items-center rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3"
                     style={{
-                      background: `rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"},0.08)`,
-                      border: `1px solid rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"},0.15)`,
+                      background: `linear-gradient(135deg, rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"},0.08) 0%, rgba(255,255,255,0.9) 100%)`,
+                      border: `1.5px solid rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"},0.12)`,
+                      boxShadow: "0 8px 20px -6px rgba(24,0,173,0.1)",
                     }}
                   >
                     <Icon className="h-5 w-5" style={{ color }} />
                   </span>
                   <span
-                    className="text-[10px] font-bold tracking-[0.15em] uppercase rounded-full px-2.5 py-1"
-                    style={{ background: "rgba(24,0,173,0.06)", color: "rgba(24,0,173,0.5)" }}
+                    className="text-[10px] font-black tracking-[0.2em] px-3 py-1 rounded-full text-slate-400 group-hover:text-[#1800AD] transition-colors duration-300"
+                    style={{ background: "rgba(24,0,173,0.04)" }}
                   >
                     {tag}
                   </span>
                 </div>
 
-                <h3 className="mt-4 font-bold leading-snug group-hover:text-[#1800AD] transition-colors duration-300"
-                  style={{ fontSize: "1.05rem", color: "#0B1324", letterSpacing: "-0.02em" }}>
+                <h3 className="mt-6 text-xl font-bold leading-tight text-slate-900 group-hover:text-[#1800AD] transition-colors duration-300"
+                  style={{ letterSpacing: "-0.02em" }}>
                   {title}
                 </h3>
 
-                <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgba(11,19,36,0.58)" }}>
+                <p className="mt-3 text-sm leading-relaxed text-slate-500 flex-1">
                   {desc}
                 </p>
 
-                <ul className="mt-4 space-y-2">
+                <ul className="mt-6 space-y-2.5">
                   {features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-xs" style={{ color: "rgba(11,19,36,0.65)" }}>
+                    <li key={f} className="flex items-center gap-2.5 text-xs text-slate-600">
                       <span
-                        className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
-                        style={{ background: "rgba(24,0,173,0.08)" }}
+                        className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
+                        style={{ background: "rgba(24,0,173,0.05)" }}
                       >
-                        <Check className="h-2.5 w-2.5" style={{ color }} />
+                        <Check className="h-3 w-3" style={{ color }} />
                       </span>
-                      {f}
+                      <span>{f}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               <div
-                className="mx-5 mb-5 flex items-center justify-between rounded-xl px-4 py-2.5 transition-colors duration-300"
-                style={{ background: "rgba(24,0,173,0.04)", border: "1px solid rgba(24,0,173,0.08)" }}
+                className="mx-6 mb-6 flex items-center justify-between rounded-2xl px-5 py-3 transition-colors duration-300"
+                style={{
+                  background: "rgba(24,0,173,0.03)",
+                  border: "1px solid rgba(24,0,173,0.06)",
+                }}
               >
-                <Link to="/contact" className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors"
+                <Link to="/contact" className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors"
                   style={{ color: "#1800AD" }}>
-                  Start Project <ArrowUpRight className="h-3.5 w-3.5" />
+                  Start Project <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
-                <Link to="/services" className="text-[11px] font-medium" style={{ color: "rgba(11,19,36,0.4)" }}>
-                  Details →
+                <Link to="/services" className="text-[11px] font-semibold text-slate-400 group-hover:text-slate-600 transition-colors">
+                  Details &rarr;
                 </Link>
               </div>
             </div>
           ))}
-        </div>
       </div>
     </section>
   );
