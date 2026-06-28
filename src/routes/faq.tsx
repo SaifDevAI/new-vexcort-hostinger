@@ -1,180 +1,281 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { ArrowUpRight, Plus, HelpCircle } from "lucide-react";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect, useRef } from "react";
+import { ArrowUpRight, Plus, HelpCircle, MessageCircle, Zap, Globe, Bot, BarChart3, Smartphone } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "FAQ — Cortvex" },
-      { name: "description", content: "Frequently Asked Questions about Cortvex web development, design, and AI automation solutions." }
+      { title: "FAQ — Cortvex | Web Development, AI Automation & Digital Services" },
+      {
+        name: "description",
+        content:
+          "Get answers to common questions about Cortvex's web development, AI automation, SEO, chatbots, app development, and digital marketing services. Start your project today.",
+      },
+      { property: "og:title", content: "FAQ — Cortvex | Frequently Asked Questions" },
+      {
+        property: "og:description",
+        content:
+          "Clear answers about pricing, timelines, tech stacks, and how Cortvex delivers premium digital products for ambitious brands.",
+      },
+      { name: "robots", content: "index, follow" },
     ],
     links: [{ rel: "canonical", href: "https://cortvex.com/faq" }],
   }),
   component: FAQPage,
 });
 
-const faqs = [
-  {
-    q: "How fast can we start?",
-    a: "Most engagements kick off within 7 days of the discovery call.",
-  },
-  {
-    q: "Do you work with non-technical founders?",
-    a: "Yes - most of our clients are founders or marketing leads. We translate complexity into clear actions.",
-  },
-  {
-    q: "What stacks do you use?",
-    a: "React, Next/TanStack, Node, Python, modern AI stacks. We choose what fits.",
-  },
-  {
-    q: "Do you offer ongoing support?",
-    a: "Yes. Retainers cover maintenance, growth experiments and AI iteration.",
-  },
-  {
-    q: "Can you improve an existing site instead of rebuilding?",
-    a: "Absolutely. We can optimize UX, performance, SEO, and conversion paths without a full rebuild.",
-  },
-  {
-    q: "How do you handle revisions and feedback?",
-    a: "We work in weekly review cycles with clear checkpoints, so feedback gets integrated continuously.",
-  },
-  {
-    q: "Do you integrate with CRMs and third-party tools?",
-    a: "Yes. We regularly integrate HubSpot, Salesforce, Stripe, Make, Zapier, n8n, and custom APIs.",
-  },
+const categories = [
+  { id: "all",     label: "All",           Icon: HelpCircle },
+  { id: "general", label: "General",       Icon: MessageCircle },
+  { id: "web",     label: "Web & Design",  Icon: Globe },
+  { id: "ai",      label: "AI & Bots",     Icon: Bot },
+  { id: "apps",    label: "Apps",          Icon: Smartphone },
+  { id: "growth",  label: "SEO & Growth",  Icon: BarChart3 },
+  { id: "process", label: "Process",       Icon: Zap },
 ];
+
+const faqs = [
+  { cat: "general", q: "What exactly does Cortvex do?", a: "Cortvex is a full-service digital agency based in Islamabad. We design, build, automate, and market digital products — from high-converting websites and mobile apps to AI automation pipelines and chatbots. Think of us as the senior technical team you never had to hire in-house." },
+  { cat: "general", q: "Who are your typical clients?", a: "We work with ambitious founders, growing startups, established SMEs, and enterprise teams across Pakistan, the Middle East, and internationally. Our clients range from e-commerce brands scaling to seven figures to SaaS companies launching their first product." },
+  { cat: "general", q: "How quickly can we get started?", a: "Most projects kick off within 5–7 business days of the discovery call. We run a fast onboarding: one meeting, a clear brief, and we are in motion. No endless back-and-forth before work begins." },
+  { cat: "general", q: "Do you work with non-technical founders?", a: "Absolutely — the majority of our clients are non-technical founders or marketing leads. We translate every technical decision into plain business language, so you are always in control without needing to understand the code." },
+  { cat: "general", q: "Can you handle an entire project end-to-end?", a: "Yes. We offer end-to-end delivery: strategy, UX/UI design, engineering, QA, launch, and ongoing growth. You get one accountable partner instead of coordinating five different vendors." },
+  { cat: "general", q: "Where is Cortvex based and do you work internationally?", a: "Our core team is based in Islamabad, Pakistan. We work with clients globally — UK, UAE, USA, and beyond — via async collaboration and video calls. Time-zone overlap is never a barrier." },
+  { cat: "web", q: "How long does it take to build a website?", a: "A standard marketing or branding site typically takes 2–4 weeks. Complex platforms, e-commerce stores, or SaaS dashboards are 6–12 weeks depending on scope. We will give you an accurate timeline in the first discovery call." },
+  { cat: "web", q: "What technology stacks do you build with?", a: "We use React, Next.js, TanStack Router, TypeScript, Node.js, Python, and modern headless CMS solutions like Sanity and Contentful. We choose the right tool for the job, not the trendiest one." },
+  { cat: "web", q: "Will my website rank on Google after you build it?", a: "Every website we build includes solid technical SEO foundations: semantic HTML, structured data, Core Web Vitals optimisation, fast load times, and proper meta tags. For ongoing ranking growth, we offer a dedicated SEO retainer." },
+  { cat: "web", q: "Can you redesign or improve my existing website instead of rebuilding it?", a: "Yes, and we often recommend this. We can audit your current site and selectively improve UX, performance, conversion paths, and SEO without a full rebuild — saving you time and budget." },
+  { cat: "web", q: "Do you build e-commerce websites?", a: "Yes. We build custom e-commerce platforms, Shopify stores, and headless commerce solutions. We focus on conversion optimisation: clean checkout flows, product filtering, fast load times, and abandoned-cart recovery." },
+  { cat: "web", q: "Will my website be mobile-friendly and fast?", a: "Every site we deliver is fully responsive and performance-optimised. We target a 90+ Google PageSpeed score, sub-2s load times, and a Lighthouse score that makes your competitors look slow." },
+  { cat: "ai", q: "What AI automation services do you offer?", a: "We design and build custom AI workflows using n8n, Make, Zapier, LangChain, OpenAI, and custom Python backends. Common use cases include lead qualification, automated reporting, email triage, document processing, and internal operations automation." },
+  { cat: "ai", q: "How can a chatbot help my business?", a: "A well-built chatbot qualifies leads 24/7, answers product questions instantly, books meetings, and reduces support load by up to 70%. Our chatbots are trained on your own content and integrate with your CRM, calendar, and email systems." },
+  { cat: "ai", q: "What is a voice bot and how does it work?", a: "Our voice bots are AI-powered phone agents that handle inbound calls, answer FAQs, book appointments, and escalate to humans when needed — all in natural-sounding conversational voice. They run 24/7 with no per-minute staffing cost." },
+  { cat: "ai", q: "Can you integrate AI into my existing business tools?", a: "Yes. We regularly connect AI systems to HubSpot, Salesforce, Notion, Airtable, Google Workspace, Slack, WhatsApp, and custom databases. Your existing tools get smarter without you changing platforms." },
+  { cat: "ai", q: "Is AI automation only for large businesses?", a: "Not at all. Some of our most impactful automation work is for small businesses and startups. Even a simple workflow that auto-qualifies incoming leads and sends a personalised follow-up email can 3x your response rate overnight." },
+  { cat: "ai", q: "Can you connect n8n automation to my cPanel or hosting?", a: "Yes. We set up n8n on your server or VPS, connect it to your hosting environment via APIs, webhooks, and SSH-level integrations where needed. Your automation runs on your own infrastructure, keeping data under your control." },
+  { cat: "apps", q: "Do you build iOS and Android apps?", a: "Yes. We build cross-platform apps using React Native and Flutter, as well as native iOS (Swift) and Android (Kotlin) when required. All apps go through rigorous QA and we handle App Store and Play Store submission." },
+  { cat: "apps", q: "How much does it cost to build a mobile app?", a: "App budgets vary by complexity. A focused MVP typically starts from $3,000–$8,000. A production-grade product with backend, auth, and integrations ranges from $10,000–$30,000+. We will scope your exact project in the discovery call." },
+  { cat: "apps", q: "Do you build the backend and API for apps as well?", a: "Yes. We build the full stack: mobile frontend, REST or GraphQL APIs, database design, auth systems, push notifications, and cloud infrastructure. You get a complete, production-ready product." },
+  { cat: "growth", q: "What does your SEO service include?", a: "Our SEO service covers technical audits, keyword research, on-page optimisation, schema markup, content strategy, link building, and monthly performance reporting. We focus on sustainable organic growth, not quick hacks that get penalised." },
+  { cat: "growth", q: "How long does SEO take to show results?", a: "Honest answer: 3–6 months for measurable movement on competitive keywords, faster for local or niche terms. SEO is a compound investment — the longer you run it, the higher the ROI. We set realistic expectations upfront." },
+  { cat: "growth", q: "Do you run paid ads on Google and Meta?", a: "Yes. We manage performance campaigns on Google, Meta, TikTok, and LinkedIn. Every campaign is tied to real revenue metrics — cost per lead, ROAS, and customer acquisition cost — not impressions and vanity clicks." },
+  { cat: "growth", q: "Can you manage our social media accounts?", a: "Yes. Our social media service includes content calendar creation, creative production, copywriting, community management, and monthly analytics reporting. We build brand authority consistently, not just post for the sake of posting." },
+  { cat: "process", q: "How does the engagement process work?", a: "It is simple: (1) Discovery call — we understand your goals. (2) Proposal — clear scope, timeline, and pricing. (3) Kickoff — we onboard, set up tools, and start. (4) Weekly check-ins — you see progress every week. (5) Launch and handoff — complete delivery with documentation." },
+  { cat: "process", q: "How do revisions and feedback work?", a: "We work in weekly review cycles with structured feedback rounds built into the timeline. Feedback is incorporated continuously, so there are no surprise bills at the end for extra revisions. Core revision rounds are always included in the scope." },
+  { cat: "process", q: "Do you offer ongoing maintenance and support after launch?", a: "Yes. We offer monthly retainers covering bug fixes, security updates, performance monitoring, feature iterations, and AI system maintenance. Most clients stay on a retainer to keep their product growing post-launch." },
+  { cat: "process", q: "Do you integrate with CRMs, payment gateways, and third-party tools?", a: "Yes — regularly. Common integrations include HubSpot, Salesforce, Stripe, PayFast, JazzCash, Easypaisa, Zapier, Make, n8n, Google Analytics, Intercom, Mailchimp, and custom REST APIs. If it has an API, we can connect it." },
+  { cat: "process", q: "Will I own the code and assets after the project?", a: "Yes, always. You receive full ownership of all source code, design files, and assets upon project completion and final payment. We do not hold work hostage or use proprietary lock-in systems." },
+  { cat: "process", q: "Do you sign NDAs and protect our IP?", a: "Absolutely. We sign NDAs before any sensitive briefing and treat every client business information with strict confidentiality. Your ideas, data, and product details stay private." },
+];
+
+const stats = [
+  { value: "80+", label: "Happy clients" },
+  { value: "4.9", label: "Avg rating" },
+  { value: "5-7d", label: "Avg kickoff" },
+  { value: "24h", label: "Response time" },
+];
+
+function AccordionItem({ q, a, index }: { q: string; a: string; index: number }) {
+  const [open, setOpen] = useState(false);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    if (bodyRef.current) setHeight(open ? bodyRef.current.scrollHeight : 0);
+  }, [open]);
+
+  return (
+    <div
+      className="rounded-2xl overflow-hidden transition-all duration-300"
+      style={{
+        background: open ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.85)",
+        border: open ? "1.5px solid rgba(24,0,173,0.18)" : "1px solid rgba(24,0,173,0.08)",
+        boxShadow: open ? "0 16px 48px -16px rgba(24,0,173,0.18)" : "0 4px 16px -8px rgba(24,0,173,0.06)",
+        transform: open ? "translateY(-1px)" : "translateY(0)",
+      }}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left"
+        aria-expanded={open}
+      >
+        <span
+          className="shrink-0 hidden sm:grid h-6 w-6 place-items-center rounded-full text-[10px] font-bold"
+          style={{ background: open ? "rgba(24,0,173,0.1)" : "rgba(24,0,173,0.05)", color: open ? "#1800AD" : "rgba(24,0,173,0.45)" }}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <span
+          className="flex-1 text-sm md:text-base font-semibold leading-snug transition-colors duration-200"
+          style={{ color: open ? "#1800AD" : "#0B1324" }}
+        >
+          {q}
+        </span>
+        <span
+          className="shrink-0 grid h-8 w-8 place-items-center rounded-full transition-all duration-300"
+          style={{
+            background: open ? "rgba(24,0,173,0.1)" : "rgba(24,0,173,0.05)",
+            border: open ? "1px solid rgba(24,0,173,0.2)" : "1px solid rgba(24,0,173,0.08)",
+            color: "#1800AD",
+            transform: open ? "rotate(45deg)" : "rotate(0deg)",
+          }}
+        >
+          <Plus className="h-4 w-4" />
+        </span>
+      </button>
+      <div style={{ height, overflow: "hidden", transition: "height 0.35s cubic-bezier(0.16,1,0.3,1)" }}>
+        <div ref={bodyRef}>
+          <p
+            className="px-5 md:px-6 pb-5 md:pb-6 pt-4 text-sm leading-relaxed"
+            style={{ color: "rgba(11,19,36,0.62)", borderTop: "1px solid rgba(24,0,173,0.06)" }}
+          >
+            {a}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function FAQPage() {
   const [heroPhase, setHeroPhase] = useState(0);
+  const [activeCat, setActiveCat] = useState("all");
 
   useEffect(() => {
-    const t = setTimeout(() => setHeroPhase(1), 100);
+    const t = setTimeout(() => setHeroPhase(1), 80);
     return () => clearTimeout(t);
   }, []);
 
+  const filtered = activeCat === "all" ? faqs : faqs.filter((f) => f.cat === activeCat);
+
   return (
     <SiteLayout>
-      <div 
-        className="relative overflow-hidden pt-32 pb-24"
-        style={{
-          background: "linear-gradient(160deg, #FFFFFF 0%, #F4F6FF 50%, #EBF0FF 100%)",
-        }}
+      {/* Hero */}
+      <div
+        className="relative overflow-hidden pt-32 pb-16"
+        style={{ background: "linear-gradient(160deg, #FFFFFF 0%, #F4F6FF 50%, #EBF0FF 100%)" }}
       >
-        {/* Subtle grid backdrop */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            backgroundImage: "linear-gradient(rgba(24,0,173,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(24,0,173,0.03) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-            maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
-          }}
-        />
+        <div className="pointer-events-none absolute inset-0" style={{ backgroundImage: "linear-gradient(rgba(24,0,173,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(24,0,173,0.03) 1px, transparent 1px)", backgroundSize: "64px 64px", maskImage: "radial-gradient(ellipse at 60% 40%, black 40%, transparent 80%)" }} />
+        <div className="pointer-events-none absolute rounded-full" style={{ width: 420, height: 420, top: "-80px", right: "-100px", background: "radial-gradient(ellipse, rgba(14,165,164,0.12) 0%, transparent 70%)", filter: "blur(40px)" }} />
+        <div className="pointer-events-none absolute rounded-full" style={{ width: 300, height: 300, bottom: "0px", left: "10%", background: "radial-gradient(ellipse, rgba(24,0,173,0.09) 0%, transparent 70%)", filter: "blur(40px)" }} />
 
         <div className="container-x relative z-10">
-          {/* Header section */}
-          <div className="max-w-2xl">
-            <span 
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-full mb-6 transition-all duration-500"
-              style={{
-                background: "rgba(24,0,173,0.06)",
-                color: "#1800AD",
-                border: "1px solid rgba(24,0,173,0.12)",
-                opacity: heroPhase >= 1 ? 1 : 0,
-                transform: heroPhase >= 1 ? "translateY(0)" : "translateY(10px)",
-              }}
+          <div className="max-w-3xl">
+            <span
+              className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-full mb-6 transition-all duration-500"
+              style={{ background: "rgba(24,0,173,0.07)", color: "#1800AD", border: "1px solid rgba(24,0,173,0.14)", opacity: heroPhase >= 1 ? 1 : 0, transform: heroPhase >= 1 ? "translateY(0)" : "translateY(10px)" }}
             >
               <HelpCircle className="h-3.5 w-3.5" /> Support Center
             </span>
-            <h1 
-              className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight transition-all duration-700"
-              style={{
-                letterSpacing: "-0.03em",
-                opacity: heroPhase >= 1 ? 1 : 0,
-                transform: heroPhase >= 1 ? "translateY(0)" : "translateY(20px)",
-              }}
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight transition-all duration-700"
+              style={{ letterSpacing: "-0.03em", opacity: heroPhase >= 1 ? 1 : 0, transform: heroPhase >= 1 ? "translateY(0)" : "translateY(20px)" }}
             >
-              frequently asked <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1800AD] to-[#0EA5A4]">questions</span>
+              Got questions?{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1800AD] to-[#0EA5A4]">We have answers.</span>
             </h1>
-            <p 
-              className="mt-6 text-base text-slate-500 max-w-lg leading-relaxed transition-all duration-700"
-              style={{
-                opacity: heroPhase >= 1 ? 1 : 0,
-                transform: heroPhase >= 1 ? "translateY(0)" : "translateY(20px)",
-                transitionDelay: "150ms",
-              }}
+            <p
+              className="mt-5 text-base md:text-lg text-slate-500 max-w-xl leading-relaxed transition-all duration-700"
+              style={{ opacity: heroPhase >= 1 ? 1 : 0, transform: heroPhase >= 1 ? "translateY(0)" : "translateY(20px)", transitionDelay: "120ms" }}
             >
-              Quick answers to help you understand our services, stacks, workflows, and starting requirements.
+              Everything you need to know about our services, pricing, timelines, and how we work — before you book a call.
             </p>
           </div>
 
-          {/* Accordion List */}
-          <div 
-            className="mt-16 max-w-3xl space-y-4 transition-all duration-1000"
-            style={{
-              opacity: heroPhase >= 1 ? 1 : 0,
-              transform: heroPhase >= 1 ? "translateY(0)" : "translateY(30px)",
-              transitionDelay: "300ms",
-            }}
+          {/* Stats */}
+          <div
+            className="mt-12 flex flex-wrap gap-4 transition-all duration-700"
+            style={{ opacity: heroPhase >= 1 ? 1 : 0, transform: heroPhase >= 1 ? "translateY(0)" : "translateY(20px)", transitionDelay: "220ms" }}
           >
-            {faqs.map((f, i) => (
-              <details
-                key={f.q}
-                className="group rounded-3xl bg-white transition-all duration-300 overflow-hidden"
-                style={{
-                  border: "1px solid rgba(24,0,173,0.08)",
-                  boxShadow: "0 10px 30px -18px rgba(24,0,173,0.08)",
-                }}
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="flex flex-col items-center justify-center px-6 py-4 rounded-2xl"
+                style={{ background: "rgba(255,255,255,0.9)", border: "1px solid rgba(24,0,173,0.10)", boxShadow: "0 6px 24px -8px rgba(24,0,173,0.1)", minWidth: "120px" }}
               >
-                <summary 
-                  className="flex cursor-pointer list-none items-center justify-between p-6 text-sm md:text-base font-bold text-slate-800 transition-colors hover:text-[#1800AD]"
+                <span className="text-2xl font-black" style={{ color: "#1800AD", letterSpacing: "-0.03em" }}>{s.value}</span>
+                <span className="mt-0.5 text-[11px] font-semibold text-slate-400 uppercase tracking-widest">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="relative py-16" style={{ background: "linear-gradient(180deg, #EBF0FF 0%, #F7F8FF 30%, #FFFFFF 100%)" }}>
+        <div className="container-x">
+          {/* Category tabs */}
+          <div className="flex flex-wrap gap-2 mb-10">
+            {categories.map(({ id, label, Icon }) => {
+              const active = activeCat === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => setActiveCat(id)}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200"
+                  style={{
+                    background: active ? "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)" : "rgba(255,255,255,0.9)",
+                    color: active ? "#fff" : "rgba(11,19,36,0.6)",
+                    border: active ? "none" : "1px solid rgba(24,0,173,0.12)",
+                    boxShadow: active ? "0 6px 20px -6px rgba(24,0,173,0.45)" : "0 2px 8px -4px rgba(24,0,173,0.08)",
+                    transform: active ? "scale(1.04)" : "scale(1)",
+                  }}
                 >
-                  {f.q}
-                  <span
-                    className="grid h-8 w-8 shrink-0 place-items-center rounded-full transition-transform duration-300 group-open:rotate-45"
-                    style={{
-                      background: "rgba(24,0,173,0.05)",
-                      border: "1px solid rgba(24,0,173,0.1)",
-                      color: "#1800AD",
-                    }}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </span>
-                </summary>
-                <div className="px-6 pb-6 text-xs md:text-sm leading-relaxed text-slate-500 border-t border-slate-50/50 pt-4">
-                  {f.a}
-                </div>
-              </details>
+                  <Icon className="h-3.5 w-3.5" />
+                  {label}
+                  {id !== "all" && (
+                    <span
+                      className="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                      style={{ background: active ? "rgba(255,255,255,0.25)" : "rgba(24,0,173,0.08)", color: active ? "#fff" : "#1800AD" }}
+                    >
+                      {faqs.filter((f) => f.cat === id).length}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Two-column accordion grid */}
+          <div className="grid lg:grid-cols-2 gap-4">
+            {filtered.map((f, i) => (
+              <AccordionItem key={f.q} q={f.q} a={f.a} index={i} />
             ))}
           </div>
 
-          {/* CTA Footer */}
-          <div 
-            className="mt-16 rounded-3xl p-8 max-w-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-all duration-1000 bg-white"
-            style={{
-              border: "1px solid rgba(24,0,173,0.12)",
-              boxShadow: "0 22px 56px -24px rgba(24,0,173,0.14)",
-              opacity: heroPhase >= 1 ? 1 : 0,
-              transform: heroPhase >= 1 ? "translateY(0)" : "translateY(30px)",
-              transitionDelay: "450ms",
-            }}
+          {/* CTA footer */}
+          <div
+            className="mt-16 rounded-3xl p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+            style={{ background: "linear-gradient(135deg, rgba(24,0,173,0.04) 0%, rgba(14,165,164,0.04) 100%)", border: "1px solid rgba(24,0,173,0.12)", boxShadow: "0 24px 64px -24px rgba(24,0,173,0.12)" }}
           >
-            <div>
-              <h3 className="text-lg font-bold text-slate-900">Still have questions?</h3>
-              <p className="mt-1.5 text-xs text-slate-400 font-medium">We'll get back to you with next steps or a calendar link in 24 hours.</p>
+            <div className="flex items-start gap-4">
+              <span className="shrink-0 grid h-12 w-12 place-items-center rounded-2xl" style={{ background: "rgba(24,0,173,0.08)", border: "1px solid rgba(24,0,173,0.14)" }}>
+                <MessageCircle className="h-5 w-5" style={{ color: "#1800AD" }} />
+              </span>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">Still have a question?</h3>
+                <p className="mt-1 text-sm text-slate-400">Our team responds within 24 hours — usually much faster.</p>
+              </div>
             </div>
-            <Link 
-              to="/contact" 
-              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-semibold transition-all duration-200"
-              style={{
-                background: "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)",
-                color: "#ffffff",
-                boxShadow: "0 8px 24px -8px rgba(24,0,173,0.45)",
-              }}
-            >
-              Contact Us <ArrowUpRight className="h-4.5 w-4.5" />
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="https://wa.me/923107735262"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-semibold transition-all duration-200 hover:opacity-90"
+                style={{ background: "#25D366", color: "#ffffff", boxShadow: "0 8px 24px -8px rgba(37,211,102,0.5)" }}
+              >
+                WhatsApp Us
+              </a>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-semibold transition-all duration-200 hover:opacity-90"
+                style={{ background: "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)", color: "#ffffff", boxShadow: "0 8px 24px -8px rgba(24,0,173,0.45)" }}
+              >
+                Contact Us <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
