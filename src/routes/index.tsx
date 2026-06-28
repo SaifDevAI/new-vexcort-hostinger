@@ -117,7 +117,7 @@ function Hero() {
           className="w-full h-full object-cover opacity-90 scale-[1.08]"
           style={{ filter: "brightness(0.92) saturate(1.02)", transformOrigin: "center center" }}
         >
-          <source src="/home.mp4" type="video/mp4" />
+          <source src="/hero-bg.mp4" type="video/mp4" />
         </video>
       </div>
       <div className="container-x pointer-events-none absolute inset-x-0 top-[18%] z-20 flex justify-center">
@@ -287,7 +287,7 @@ function ServicesSection() {
   const current = slides[activeSlide];
 
   return (
-    <section ref={ref} className="section w-full py-20 bg-slate-50 flex items-center justify-center">
+    <section ref={ref} className="section w-full py-20 bg-white flex items-center justify-center">
       <div className="container-x max-w-6xl w-full">
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
