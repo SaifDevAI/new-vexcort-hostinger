@@ -273,32 +273,38 @@ export function NeuralSphere() {
 
       {/* Catchy Transparent Text Cards Positioned Asymmetrically with Slide-in Transition */}
       <div className="absolute inset-0 z-20 pointer-events-none">
-        {/* Left Card: High-Performance Engineering (Placed at the top left, slides in from right) */}
+        {/* Top-Left Card: High-Performance Engineering (slides in from left) */}
         <div 
-          className="absolute left-8 top-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/15 shadow-[0_20px_45px_rgba(14,165,164,0.06)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1"
+          className="absolute left-8 top-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/25 border border-[#0EA5A4]/20 shadow-[0_25px_50px_-12px_rgba(14,165,164,0.15)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-10px_rgba(14,165,164,0.25)]"
           style={{
             opacity: inView ? 1 : 0,
-            transform: inView ? "translateX(0)" : "translateX(60px)",
+            transform: inView ? "translateX(0)" : "translateX(-100px)",
           }}
         >
-          <span className="text-[10px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
-          <h3 className="mt-3 text-xl font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
-          <p className="text-[13px] text-slate-500 mt-2.5 leading-relaxed">
+          {/* Subtle neon corner border highlight */}
+          <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-[#0EA5A4] rounded-tl-[2.5rem]" />
+          
+          <span className="text-[10px] font-black tracking-[0.25em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
+          <h3 className="mt-3 text-xl font-black text-slate-900 leading-tight tracking-tight">Scale-ready fast architecture</h3>
+          <p className="text-[13px] text-slate-600 mt-3 leading-relaxed">
             Clean type-safe React/Vite platforms built for sub-second load times and high conversions.
           </p>
         </div>
 
-        {/* Right Card: AI Automation (Placed at the bottom right, slides in from left) */}
+        {/* Bottom-Right Card: AI Automation (slides in from right) */}
         <div 
-          className="absolute right-8 bottom-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/20 border border-[#1800AD]/15 shadow-[0_20px_45px_rgba(24,0,173,0.06)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 lg:text-right"
+          className="absolute right-8 bottom-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/25 border border-[#1800AD]/20 shadow-[0_25px_50px_-12px_rgba(24,0,173,0.15)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-10px_rgba(24,0,173,0.25)] lg:text-right"
           style={{
             opacity: inView ? 1 : 0,
-            transform: inView ? "translateX(0)" : "translateX(-60px)",
+            transform: inView ? "translateX(0)" : "translateX(100px)",
           }}
         >
-          <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
-          <h3 className="mt-3 text-xl font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
-          <p className="text-[13px] text-slate-500 mt-2.5 leading-relaxed">
+          {/* Subtle neon corner border highlight */}
+          <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-[#1800AD] rounded-br-[2.5rem]" />
+
+          <span className="text-[10px] font-black tracking-[0.25em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
+          <h3 className="mt-3 text-xl font-black text-slate-900 leading-tight tracking-tight">Eliminate manual workload entirely</h3>
+          <p className="text-[13px] text-slate-600 mt-3 leading-relaxed">
             We map custom AI agents and n8n nodes directly into your operations to process leads and data 24/7.
           </p>
         </div>
