@@ -1,4 +1,4 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { ArrowUpRight, Plus, HelpCircle, MessageCircle, Zap, Globe, Bot, BarChart3, Smartphone } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -141,6 +141,7 @@ function AccordionItem({ q, a, index }: { q: string; a: string; index: number })
 function FAQPage() {
   const [heroPhase, setHeroPhase] = useState(0);
   const [activeCat, setActiveCat] = useState("all");
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setHeroPhase(1), 80);
@@ -148,6 +149,10 @@ function FAQPage() {
   }, []);
 
   const filtered = activeCat === "all" ? faqs : faqs.filter((f) => f.cat === activeCat);
+  
+  // Display only first 6 questions by default if showAll is false
+  const visibleFaqs = showAll ? filtered : filtered.slice(0, 6);
+  const hasMore = filtered.length > 6;
 
   return (
     <SiteLayout>
@@ -212,7 +217,10 @@ function FAQPage() {
               return (
                 <button
                   key={id}
-                  onClick={() => setActiveCat(id)}
+                  onClick={() => {
+                    setActiveCat(id);
+                    setShowAll(false); // Reset collapse when changing categories
+                  }}
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200"
                   style={{
                     background: active ? "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)" : "rgba(255,255,255,0.9)",
@@ -239,10 +247,35 @@ function FAQPage() {
 
           {/* Two-column accordion grid */}
           <div className="grid lg:grid-cols-2 gap-4">
-            {filtered.map((f, i) => (
+            {visibleFaqs.map((f, i) => (
               <AccordionItem key={f.q} q={f.q} a={f.a} index={i} />
             ))}
           </div>
+
+          {/* Show More / Show Less Button */}
+          {hasMore && (
+            <div className="mt-8 flex justify-center">
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-bold transition-all duration-200 hover:scale-105"
+                style={{
+                  background: "linear-gradient(135deg, rgba(24,0,173,0.06) 0%, rgba(14,165,164,0.06) 100%)",
+                  color: "#1800AD",
+                  border: "1px solid rgba(24,0,173,0.15)",
+                  boxShadow: "0 4px 12px -4px rgba(24,0,173,0.1)",
+                }}
+              >
+                {showAll ? "Show Less Questions" : `Show More Questions (${filtered.length - 6} remaining)`}
+              </button>
+            </div>
+          )}
+
+          {/* Empty state */}
+          {filtered.length === 0 && (
+            <div className="text-center py-20 text-slate-400 text-sm">
+              No questions in this category yet.
+            </div>
+          )}
 
           {/* CTA footer */}
           <div
