@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { ArrowUpRight, Calendar, Check, Star, ShieldCheck, Zap, Globe, Bot, BarChart3, Smartphone, Palette } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CTASection } from "@/components/CTASection";
+import { NeuralSphere } from "@/components/NeuralSphere";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -603,6 +604,7 @@ function Home() {
       {/* Page content */}
       <div className="relative z-10">
         <Hero />
+        <NeuralSphere />
         <ServicesSection />
         <WhyChooseSection />
         <BentoGrid />
