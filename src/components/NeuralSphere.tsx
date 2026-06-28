@@ -251,7 +251,7 @@ function ParticleSphereMesh() {
 
 export function NeuralSphere() {
   return (
-    <div className="relative w-full h-[620px] bg-white overflow-hidden flex items-center justify-center">
+    <div className="relative w-full h-[620px] bg-white overflow-hidden flex items-center justify-center pt-12">
       {/* Subtle bottom gradient shadow to fit into the white background of next section */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/10 to-[#ffffff] z-10 pointer-events-none" />
 
