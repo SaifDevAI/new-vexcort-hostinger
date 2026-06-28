@@ -256,7 +256,7 @@ export function NeuralSphere() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/10 to-[#ffffff] z-10 pointer-events-none" />
 
       <Canvas
-        camera={{ position: [0, 0, 5.2], fov: 45 }}
+        camera={{ position: [0, 0.4, 5.2], fov: 45 }}
         style={{ width: "100%", height: "100%" }}
         gl={{ antialias: true, alpha: true }}
       >
