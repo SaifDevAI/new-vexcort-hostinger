@@ -637,57 +637,8 @@ function BentoGrid() {
 
 /* ──────────────────────────────────────────────────────────── Home ── */
 function Home() {
-  const [stars, setStars] = useState<{ id: number; x: number; y: number; size: number; color: string; delay: number; duration: number }[]>([]);
-
-  useEffect(() => {
-    const generatedStars = Array.from({ length: 70 }).map((_, i) => {
-      const isTeal = Math.random() > 0.5;
-      return {
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 2 + 1,
-        color: isTeal ? "#0EA5A4" : "#1800AD",
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
-      };
-    });
-    setStars(generatedStars);
-  }, []);
-
   return (
     <SiteLayout>
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes star-twinkle {
-          0%, 100% { opacity: 0.15; transform: scale(0.8); }
-          50% { opacity: 1; transform: scale(1.2); }
-        }
-        .animate-star {
-          animation: star-twinkle 3s infinite ease-in-out;
-        }
-      `}} />
-
-      {/* Star background */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-white">
-        {stars.map((star) => (
-          <div
-            key={star.id}
-            className="absolute rounded-full animate-star"
-            style={{
-              left: `${star.x}%`,
-              top: `${star.y}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              background: star.color,
-              boxShadow: `0 0 ${star.size * 3}px ${star.color}`,
-              opacity: 0.65,
-              animationDelay: `${star.delay}s`,
-              animationDuration: `${star.duration}s`,
-            }}
-          />
-        ))}
-      </div>
-
       {/* Page content */}
       <div className="relative z-10">
         <Hero />
