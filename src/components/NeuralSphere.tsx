@@ -251,9 +251,9 @@ function ParticleSphereMesh() {
 
 export function NeuralSphere() {
   return (
-    <div className="relative w-full h-[780px] bg-transparent overflow-hidden flex flex-col items-center justify-center -mt-28 z-30">
-      {/* Subtle bottom gradient shadow to fit into the white background of next section */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/5 to-[#ffffff] z-10 pointer-events-none" />
+    <div className="relative w-full h-[780px] bg-transparent overflow-hidden flex flex-col items-center justify-center -mt-4 z-30">
+      {/* Seamless bottom fade into the Capabilities portion */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/50 to-[#ffffff] z-10 pointer-events-none" />
 
       {/* Catchy Transparent Text Cards on Left and Right Sides */}
       <div className="absolute inset-x-8 top-[10%] bottom-[10%] z-20 pointer-events-none flex flex-col lg:flex-row justify-between items-center gap-8 w-[calc(100%-4rem)]">
