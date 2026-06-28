@@ -257,25 +257,25 @@ export function NeuralSphere() {
 
       {/* Catchy Transparent Text Cards Positioned Asymmetrically */}
       <div className="absolute inset-0 z-20 pointer-events-none">
-        {/* Left Card: AI Automation (Placed at the bottom left) */}
+        {/* Left Card: High-Performance Engineering (Placed at the top left) */}
         <div 
-          className="absolute left-8 bottom-12 max-w-[340px] rounded-3xl p-7 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_12px_30px_rgba(24,0,173,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
-        >
-          <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
-          <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
-          <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
-            We map custom AI agents and n8n nodes directly into your operations to process leads and data 24/7.
-          </p>
-        </div>
-
-        {/* Right Card: High-Performance Engineering (Placed at the top right) */}
-        <div 
-          className="absolute right-8 top-12 max-w-[340px] rounded-3xl p-7 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_12px_30px_rgba(14,165,164,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
+          className="absolute left-8 top-12 max-w-[340px] rounded-3xl p-7 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_12px_30px_rgba(14,165,164,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
         >
           <span className="text-[10px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
           <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
           <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
             Clean type-safe React/Vite platforms built for sub-second load times and high conversions.
+          </p>
+        </div>
+
+        {/* Right Card: AI Automation (Placed at the bottom right) */}
+        <div 
+          className="absolute right-8 bottom-12 max-w-[340px] rounded-3xl p-7 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_12px_30px_rgba(24,0,173,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
+        >
+          <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
+          <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
+          <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
+            We map custom AI agents and n8n nodes directly into your operations to process leads and data 24/7.
           </p>
         </div>
       </div>
