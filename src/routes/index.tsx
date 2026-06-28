@@ -314,11 +314,22 @@ function ServicesSection() {
         <div
           className="relative w-full rounded-[2.5rem] overflow-hidden p-8 md:p-10 text-white shadow-[0_30px_70px_rgba(24,0,173,0.14)] transition-all duration-700"
           style={{
-            background: `linear-gradient(135deg, #10101b 0%, #1800AD 65%, #0EA5A4 150%)`,
+            background: `linear-gradient(-45deg, #10101b, #1800AD, #0EA5A4, #10101b)`,
+            backgroundSize: "400% 400%",
+            animation: "moving-gradient-flow 15s ease infinite",
             opacity: inView ? 1 : 0,
             transform: inView ? "translateY(0)" : "translateY(40px)",
           }}
         >
+          {/* Moving Gradient Keyframe Injection */}
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes moving-gradient-flow {
+              0% { background-position: 0% 50% }
+              50% { background-position: 100% 50% }
+              100% { background-position: 0% 50% }
+            }
+          `}} />
+
           {/* Ambient decorative glowing orb */}
           <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-[#0EA5A4]/20 blur-[80px] pointer-events-none" />
 
