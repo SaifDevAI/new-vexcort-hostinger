@@ -275,7 +275,7 @@ export function NeuralSphere() {
       <div className="absolute inset-0 z-20 pointer-events-none">
         {/* Top-Left Card: High-Performance Engineering (slides in from left) */}
         <div 
-          className="absolute left-8 top-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/25 border border-[#0EA5A4]/20 shadow-[0_25px_50px_-12px_rgba(14,165,164,0.15)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-10px_rgba(14,165,164,0.25)]"
+          className="absolute left-8 top-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-lg bg-white/5 border border-white/10 shadow-[0_25px_50px_-12px_rgba(14,165,164,0.08)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-10px_rgba(14,165,164,0.18)]"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? "translateX(0)" : "translateX(-100px)",
@@ -293,7 +293,7 @@ export function NeuralSphere() {
 
         {/* Bottom-Right Card: AI Automation (slides in from right) */}
         <div 
-          className="absolute right-8 bottom-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/25 border border-[#1800AD]/20 shadow-[0_25px_50px_-12px_rgba(24,0,173,0.15)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-10px_rgba(24,0,173,0.25)] lg:text-right"
+          className="absolute right-8 bottom-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-lg bg-white/5 border border-white/10 shadow-[0_25px_50px_-12px_rgba(24,0,173,0.08)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-10px_rgba(24,0,173,0.18)] lg:text-right"
           style={{
             opacity: inView ? 1 : 0,
             transform: inView ? "translateX(0)" : "translateX(100px)",
