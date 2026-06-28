@@ -226,7 +226,7 @@ function ParticleSphereMesh() {
   });
 
   return (
-    <points ref={pointsRef} scale={[0.65, 0.65, 0.65]}>
+    <points ref={pointsRef} scale={[0.95, 0.95, 0.95]}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -251,7 +251,7 @@ function ParticleSphereMesh() {
 
 export function NeuralSphere() {
   return (
-    <div className="relative w-full h-[540px] bg-transparent overflow-hidden flex flex-col items-center justify-center mt-12 z-20">
+    <div className="relative w-full h-[840px] bg-transparent overflow-hidden flex flex-col items-center justify-center mt-16 z-20">
       {/* Subtle bottom gradient shadow to fit into the white background of next section */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/5 to-[#ffffff] z-10 pointer-events-none" />
 
@@ -259,23 +259,23 @@ export function NeuralSphere() {
       <div className="absolute inset-0 z-20 pointer-events-none">
         {/* Left Card: High-Performance Engineering (Placed at the top left) */}
         <div 
-          className="absolute left-6 top-6 max-w-[270px] rounded-3xl p-5 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_12px_30px_rgba(14,165,164,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
+          className="absolute left-8 top-12 max-w-[360px] rounded-[2rem] p-7 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_15px_35px_rgba(14,165,164,0.05)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
         >
-          <span className="text-[9px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
-          <h3 className="mt-1.5 text-base font-bold text-slate-900 leading-tight">Scale-ready architecture</h3>
-          <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
-            Clean type-safe React/Vite platforms built for sub-second load times.
+          <span className="text-[10px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
+          <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
+          <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
+            Clean type-safe React/Vite platforms built for sub-second load times and high conversions.
           </p>
         </div>
 
         {/* Right Card: AI Automation (Placed at the bottom right) */}
         <div 
-          className="absolute right-6 bottom-6 max-w-[270px] rounded-3xl p-5 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_12px_30px_rgba(24,0,173,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
+          className="absolute right-8 bottom-12 max-w-[360px] rounded-[2rem] p-7 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_15px_35px_rgba(24,0,173,0.05)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
         >
-          <span className="text-[9px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
-          <h3 className="mt-1.5 text-base font-bold text-slate-900 leading-tight">Eliminate manual workload</h3>
-          <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
-            We map custom AI agents and n8n nodes directly into your operations 24/7.
+          <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
+          <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
+          <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
+            We map custom AI agents and n8n nodes directly into your operations to process leads and data 24/7.
           </p>
         </div>
       </div>
