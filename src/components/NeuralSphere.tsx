@@ -250,31 +250,55 @@ function ParticleSphereMesh() {
 }
 
 export function NeuralSphere() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        setInView(true);
+        obs.disconnect();
+      }
+    }, { threshold: 0.1 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <div className="relative w-full h-[840px] bg-transparent overflow-hidden flex flex-col items-center justify-center mt-16 z-20">
+    <div ref={ref} className="relative w-full h-[840px] bg-transparent overflow-hidden flex flex-col items-center justify-center mt-16 z-20">
       {/* Subtle bottom gradient shadow to fit into the white background of next section */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/5 to-[#ffffff] z-10 pointer-events-none" />
 
-      {/* Catchy Transparent Text Cards Positioned Asymmetrically */}
+      {/* Catchy Transparent Text Cards Positioned Asymmetrically with Slide-in Transition */}
       <div className="absolute inset-0 z-20 pointer-events-none">
-        {/* Left Card: High-Performance Engineering (Placed at the top left) */}
+        {/* Left Card: High-Performance Engineering (Placed at the top left, slides in from left) */}
         <div 
-          className="absolute left-8 top-12 max-w-[360px] rounded-[2rem] p-7 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_15px_35px_rgba(14,165,164,0.05)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
+          className="absolute left-8 top-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/15 shadow-[0_20px_45px_rgba(14,165,164,0.06)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1"
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateX(0)" : "translateX(-60px)",
+          }}
         >
           <span className="text-[10px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
-          <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
-          <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
+          <h3 className="mt-3 text-xl font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
+          <p className="text-[13px] text-slate-500 mt-2.5 leading-relaxed">
             Clean type-safe React/Vite platforms built for sub-second load times and high conversions.
           </p>
         </div>
 
-        {/* Right Card: AI Automation (Placed at the bottom right) */}
+        {/* Right Card: AI Automation (Placed at the bottom right, slides in from right) */}
         <div 
-          className="absolute right-8 bottom-12 max-w-[360px] rounded-[2rem] p-7 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_15px_35px_rgba(24,0,173,0.05)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
+          className="absolute right-8 bottom-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/20 border border-[#1800AD]/15 shadow-[0_20px_45px_rgba(24,0,173,0.06)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 lg:text-right"
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateX(0)" : "translateX(60px)",
+          }}
         >
           <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
-          <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
-          <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
+          <h3 className="mt-3 text-xl font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
+          <p className="text-[13px] text-slate-500 mt-2.5 leading-relaxed">
             We map custom AI agents and n8n nodes directly into your operations to process leads and data 24/7.
           </p>
         </div>
