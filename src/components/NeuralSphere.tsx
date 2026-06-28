@@ -273,12 +273,12 @@ export function NeuralSphere() {
 
       {/* Catchy Transparent Text Cards Positioned Asymmetrically with Slide-in Transition */}
       <div className="absolute inset-0 z-20 pointer-events-none">
-        {/* Left Card: High-Performance Engineering (Placed at the top left, slides in from left) */}
+        {/* Left Card: High-Performance Engineering (Placed at the top left, slides in from right) */}
         <div 
           className="absolute left-8 top-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/15 shadow-[0_20px_45px_rgba(14,165,164,0.06)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1"
           style={{
             opacity: inView ? 1 : 0,
-            transform: inView ? "translateX(0)" : "translateX(-60px)",
+            transform: inView ? "translateX(0)" : "translateX(60px)",
           }}
         >
           <span className="text-[10px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
@@ -288,12 +288,12 @@ export function NeuralSphere() {
           </p>
         </div>
 
-        {/* Right Card: AI Automation (Placed at the bottom right, slides in from right) */}
+        {/* Right Card: AI Automation (Placed at the bottom right, slides in from left) */}
         <div 
           className="absolute right-8 bottom-12 max-w-[400px] rounded-[2.5rem] p-8 backdrop-blur-md bg-white/20 border border-[#1800AD]/15 shadow-[0_20px_45px_rgba(24,0,173,0.06)] pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 lg:text-right"
           style={{
             opacity: inView ? 1 : 0,
-            transform: inView ? "translateX(0)" : "translateX(60px)",
+            transform: inView ? "translateX(0)" : "translateX(-60px)",
           }}
         >
           <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
