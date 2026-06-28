@@ -1,9 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, useRef, useCallback } from "react";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState, useRef } from "react";
 import { ArrowUpRight, Check, Star, ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CTASection } from "@/components/CTASection";
-import { InteractiveParticles } from "@/components/InteractiveParticles";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -26,7 +25,7 @@ const services = [
     desc: "Production-grade websites and web platforms engineered for speed, scalability, and long-term maintainability.",
     features: ["TanStack / Next.js", "Type-safe architecture", "Performance budgets", "CMS integrations"],
     color: "#1800AD",
-    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
+    tag: "01",
   },
   {
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
@@ -35,7 +34,7 @@ const services = [
     desc: "Conversion-focused interfaces designed around your audience, brand voice, and high-intent user journeys.",
     features: ["UX research", "Design systems", "Interactive prototyping", "Brand-aligned UI"],
     color: "#0EA5A4",
-    bg: "from-[#0EA5A4]/10 to-[#0EA5A4]/5",
+    tag: "02",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/openai.svg",
@@ -44,7 +43,7 @@ const services = [
     desc: "Custom AI workflows that remove repetitive operations, increase team velocity, and unlock higher-value output.",
     features: ["Workflow design", "LLM integrations", "Internal tools", "Make / Zapier / n8n"],
     color: "#1800AD",
-    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
+    tag: "03",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/intercom.svg",
@@ -53,16 +52,16 @@ const services = [
     desc: "Code and no-code chatbots that qualify leads, answer product questions, and support visitors around the clock.",
     features: ["RAG over your docs", "CRM integration", "Multilingual support", "Built-in analytics"],
     color: "#0EA5A4",
-    bg: "from-[#0EA5A4]/10 to-[#0EA5A4]/5",
+    tag: "04",
   },
   {
-    logo: "/voice-agent-logo.png",
+    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/vapi.svg",
     logoAlt: "Voice agent logo",
     title: "Voice Bots",
     desc: "Natural-sounding voice agents for inbound support, appointment booking, and outbound follow-up calls.",
     features: ["Realtime voice flows", "Calendar booking", "Call summaries", "Smart human handoff"],
     color: "#1800AD",
-    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
+    tag: "05",
   },
   {
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg",
@@ -71,423 +70,62 @@ const services = [
     desc: "iOS and Android applications with refined UX, production-ready architecture, and measurable product outcomes.",
     features: ["React Native / Flutter", "Native modules", "Store submission", "Analytics + crash reports"],
     color: "#0EA5A4",
-    bg: "from-[#0EA5A4]/10 to-[#0EA5A4]/5",
+    tag: "06",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/google.svg",
     logoAlt: "Google logo",
-    title: "SEO",
+    title: "SEO Systems",
     desc: "Technical SEO and content systems that compound organic visibility and drive sustainable acquisition growth.",
     features: ["Technical audits", "Keyword strategy", "Content production", "Link building"],
     color: "#1800AD",
-    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
+    tag: "07",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/meta.svg",
     logoAlt: "Meta logo",
-    title: "Marketing",
+    title: "Paid Marketing",
     desc: "Performance marketing systems aligned to revenue targets with full-funnel visibility and rapid experimentation.",
     features: ["Paid social + search", "Landing page optimization", "Funnel analytics", "Creative testing"],
     color: "#0EA5A4",
-    bg: "from-[#0EA5A4]/10 to-[#0EA5A4]/5",
+    tag: "08",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/instagram.svg",
     logoAlt: "Instagram logo",
-    title: "Social Media",
+    title: "Social Media Handling",
     desc: "Full-service social management that builds trust, consistency, and brand authority across key audience channels.",
     features: ["Content calendar", "Creative production", "Community management", "Performance reporting"],
     color: "#1800AD",
-    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
+    tag: "09",
   },
 ];
 
-/* Helper: compute per-card transform based on distance from center */
-function getCardStyle(offset: number): React.CSSProperties {
-  // offset: -4 (far left) to +4 (far right), 0 = center
-  const absOff = Math.abs(offset);
-  const sign = offset < 0 ? -1 : 1;
+function ServicesPage() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
 
-  // Scale: center = 1, each step shrinks by 18%
-  const scale = Math.max(0.48, 1 - absOff * 0.17);
-  // Height: center 560px → shrinks proportionally
-  const height = Math.max(220, 560 - absOff * 80);
-  // Horizontal translate (spread them out)
-  const spreadPx = sign * absOff * 300;
-  // Z depth: side cards pushed back
-  const translateZ = -(absOff * absOff * 28);
-  // Rotation
-  const rotateY = sign * absOff * 12;
-  // Opacity
-  const opacity = Math.max(0.25, 1 - absOff * 0.22);
-  // Vertical drop
-  const translateY = absOff * absOff * 14;
-  // Blur
-  const blur = absOff > 1 ? absOff * 1.5 : 0;
-
-  return {
-    position: "absolute",
-    width: "380px",
-    height: `${height}px`,
-    transform: `translateX(calc(-50% + ${spreadPx}px)) translateY(${translateY}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
-    opacity,
-    filter: blur > 0 ? `blur(${blur}px)` : "none",
-    zIndex: 10 - Math.round(absOff),
-    transition: "all 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-    pointerEvents: absOff > 2.5 ? "none" : "auto",
-    left: "50%",
-    top: "50%",
-    marginTop: `-${height / 2}px`,
-    willChange: "transform, opacity",
-  };
-}
-
-function ServicesCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isProgrammaticScrollRef = useRef(false);
-  const scrollTimeoutRef = useRef<number | null>(null);
-
-  const scrollToCard = useCallback((targetIndex: number) => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    isProgrammaticScrollRef.current = true;
-    setActiveIndex(targetIndex);
-
-    const rect = section.getBoundingClientRect();
-    const absoluteSectionTop = window.scrollY + rect.top;
-    const totalScrollable = rect.height - window.innerHeight;
-    const targetScrollY = absoluteSectionTop + (targetIndex / (services.length - 1)) * totalScrollable;
-
-    window.scrollTo({
-      top: targetScrollY,
-      behavior: "smooth"
-    });
-
-    if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
-    scrollTimeoutRef.current = window.setTimeout(() => {
-      isProgrammaticScrollRef.current = false;
-    }, 800);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } }, { threshold: 0.02 });
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
-  const navigate = useCallback((dir: number) => {
-    const next = Math.max(0, Math.min(services.length - 1, activeIndex + dir));
-    if (next === activeIndex) return;
-    scrollToCard(next);
-  }, [activeIndex, scrollToCard]);
-
-  // Sync scroll position with active card index
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isProgrammaticScrollRef.current) return;
-      const section = sectionRef.current;
-      if (!section) return;
-
-      const rect = section.getBoundingClientRect();
-      const totalScrollable = rect.height - window.innerHeight;
-      if (totalScrollable <= 0) return;
-
-      const scrolled = -rect.top;
-      const progress = Math.max(0, Math.min(1, scrolled / totalScrollable));
-      const index = Math.round(progress * (services.length - 1));
-
-      if (index !== activeIndex) {
-        setActiveIndex(index);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
-    };
-  }, [activeIndex]);
-
-  const activeService = services[activeIndex];
-
-  // Visible window: show 5 cards centered on active
-  const visibleRange = 4; // cards on each side
-
-  return (
-    <section
-      ref={sectionRef}
-      className="relative w-full select-none"
-      style={{ minHeight: "100vh" }}
-    >
-      {/* Sticky carousel viewport */}
-      <div className="sticky top-0 w-full h-screen flex flex-col overflow-hidden"
-        style={{
-          background: "rgba(248, 250, 255, 0.95)",
-        }}
-      >
-        {/* Animated background aura that matches active card color */}
-        <div
-          className="absolute inset-0 pointer-events-none transition-all duration-700"
-          style={{
-            background: `radial-gradient(ellipse 60% 50% at 50% 40%, ${activeService.color}18 0%, transparent 70%)`,
-          }}
-        />
-
-        {/* Progress bar at top */}
-        <div className="absolute top-0 left-0 right-0 h-1 z-50 bg-slate-100">
-          <div
-            className="h-full transition-all duration-500"
-            style={{
-              width: `${((activeIndex + 1) / services.length) * 100}%`,
-              background: activeService.color,
-            }}
-          />
-        </div>
-
-        {/* Header */}
-        <div className="relative z-20 pt-8 pb-4 text-center px-6">
-          <p className="text-xs font-mono tracking-[0.25em] uppercase text-slate-400">
-            Scroll to explore
-          </p>
-          <div className="mt-2 flex items-center justify-center gap-2">
-            <span
-              className="text-sm font-bold tabular-nums transition-all duration-300"
-              style={{ color: activeService.color }}
-            >
-              {String(activeIndex + 1).padStart(2, "0")}
-            </span>
-            <span className="text-slate-300">/</span>
-            <span className="text-sm text-slate-400">{String(services.length).padStart(2, "0")}</span>
-          </div>
-        </div>
-
-        {/* 3D Card Stage */}
-        <div
-          className="relative flex-1 w-full"
-          style={{ perspective: "1200px", perspectiveOrigin: "50% 40%" }}
-        >
-          {services.map((svc, idx) => {
-            const offset = idx - activeIndex;
-            if (Math.abs(offset) > visibleRange) return null;
-            const style = getCardStyle(offset);
-            const isActive = offset === 0;
-
-            return (
-              <div
-                key={svc.title}
-                style={style}
-                onClick={() => {
-                  if (!isActive) scrollToCard(idx);
-                }}
-              >
-                <div
-                  className={`relative w-full h-full rounded-3xl overflow-hidden flex flex-col ${isActive ? "cursor-default" : "cursor-pointer"}`}
-                  style={{
-                    background: isActive
-                      ? "white"
-                      : "rgba(255,255,255,0.75)",
-                    border: `1.5px solid ${isActive ? svc.color + "50" : "rgba(226,232,240,0.6)"}`,
-                    boxShadow: isActive
-                      ? `0 32px 80px -20px ${svc.color}30, 0 0 0 1px ${svc.color}15, inset 0 1px 0 rgba(255,255,255,0.9)`
-                      : "0 8px 24px -10px rgba(0,0,0,0.08)",
-                    backdropFilter: isActive ? "none" : "blur(4px)",
-                  }}
-                >
-                  {/* Gradient top stripe */}
-                  <div
-                    className="absolute top-0 left-0 right-0 h-1.5 rounded-t-3xl transition-all duration-700"
-                    style={{ background: svc.color }}
-                  />
-
-                  {/* Content */}
-                  <div className="relative z-10 flex flex-col h-full p-7">
-                    {/* Top row */}
-                    <div className="flex items-start justify-between">
-                      <div
-                        className="flex h-14 w-14 items-center justify-center rounded-2xl shadow-lg transition-all duration-300"
-                        style={{
-                          background: `${svc.color}15`,
-                          border: `1px solid ${svc.color}30`,
-                        }}
-                      >
-                        <img
-                          src={svc.logo}
-                          alt={svc.logoAlt}
-                          className="h-7 w-7 object-contain"
-                          loading="lazy"
-                        />
-                      </div>
-                      <span
-                        className="text-[10px] font-mono tracking-widest px-2.5 py-1 rounded-full"
-                        style={{
-                          background: `${svc.color}12`,
-                          color: svc.color,
-                          border: `1px solid ${svc.color}25`,
-                        }}
-                      >
-                        SERVICE {String(idx + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h2
-                      className="mt-5 font-extrabold leading-tight tracking-tight"
-                      style={{
-                        fontSize: isActive ? "1.7rem" : "1.25rem",
-                        color: "#0B1324",
-                        transition: "font-size 0.5s ease",
-                      }}
-                    >
-                      {svc.title}
-                    </h2>
-
-                    {/* Desc – only full on active */}
-                    <p
-                      className="mt-3 text-sm leading-relaxed text-slate-500 transition-all duration-500"
-                      style={{
-                        WebkitLineClamp: isActive ? undefined : 2,
-                        overflow: isActive ? "visible" : "hidden",
-                        display: isActive ? "block" : "-webkit-box",
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
-                      {svc.desc}
-                    </p>
-
-                    {/* Features – only on active */}
-                    {isActive && (
-                      <ul className="mt-5 space-y-2.5">
-                        {svc.features.map((f, fi) => (
-                          <li
-                              key={f}
-                              className="flex items-center gap-2.5 text-sm text-slate-700"
-                              style={{
-                                animation: `fadeSlideIn 0.4s ease forwards`,
-                                animationDelay: `${fi * 60}ms`,
-                                opacity: 0,
-                              }}
-                            >
-                              <span
-                                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                                style={{ background: `${svc.color}18`, color: svc.color }}
-                              >
-                                <Check className="h-3 w-3" />
-                              </span>
-                              <span className="font-medium">{f}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-
-                    {/* CTA – only on active */}
-                    {isActive && (
-                      <div
-                        className="mt-6"
-                        style={{ animation: "fadeSlideIn 0.4s ease forwards 0.3s", opacity: 0 }}
-                      >
-                        <Link
-                          to="/contact"
-                          className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all hover:gap-3 hover:shadow-lg"
-                          style={{
-                            background: svc.color,
-                            color: "white",
-                            boxShadow: `0 8px 24px -8px ${svc.color}60`,
-                          }}
-                        >
-                          Start Project <ArrowUpRight className="h-4 w-4" />
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Bottom nav dots */}
-        <div className="relative z-20 pb-8 flex flex-col items-center gap-5">
-          {/* Arrow buttons */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => navigate(-1)}
-              disabled={activeIndex === 0}
-              className="group flex h-11 w-11 items-center justify-center rounded-full border bg-white/80 shadow-md backdrop-blur-sm transition-all hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
-              style={{ borderColor: activeService.color + "30" }}
-              aria-label="Previous"
-            >
-              <svg className="h-5 w-5 rotate-180 transition-transform group-hover:-translate-x-0.5" style={{ color: activeService.color }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
-
-            {/* Dots */}
-            <div className="flex items-center gap-1.5">
-              {services.map((_, i) => {
-                const dist = Math.abs(i - activeIndex);
-                return (
-                  <button
-                    key={i}
-                    onClick={() => scrollToCard(i)}
-                    className="rounded-full transition-all duration-300 cursor-pointer"
-                    style={{
-                      width: i === activeIndex ? "28px" : dist === 1 ? "8px" : "5px",
-                      height: i === activeIndex ? "8px" : dist === 1 ? "8px" : "5px",
-                      background: i === activeIndex ? activeService.color : i < activeIndex ? activeService.color + "50" : "rgba(203,213,225,0.8)",
-                    }}
-                    aria-label={`Go to service ${i + 1}`}
-                  />
-                );
-              })}
-            </div>
-
-            <button
-              onClick={() => navigate(1)}
-              disabled={activeIndex === services.length - 1}
-              className="group flex h-11 w-11 items-center justify-center rounded-full border bg-white/80 shadow-md backdrop-blur-sm transition-all hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
-              style={{ borderColor: activeService.color + "30" }}
-              aria-label="Next"
-            >
-              <svg className="h-5 w-5 transition-transform group-hover:translate-x-0.5" style={{ color: activeService.color }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Scroll hint (only at last card) */}
-          {activeIndex === services.length - 1 && (
-            <p className="text-xs text-slate-400 animate-bounce" style={{ animation: "fadeSlideIn 0.5s ease forwards" }}>
-              ↓ Scroll to continue
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Spacer: gives the sticky element room to scroll through all cards  */}
-      {/* Each card needs ~60vh of scroll travel */}
-      <div style={{ height: `${services.length * 60}vh` }} aria-hidden="true" />
-
-      <style>{`
-        @keyframes fadeSlideIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to   { opacity: 1; transform: translateY(0);    }
-        }
-      `}</style>
-    </section>
-  );
-}
-
-function ServicesPage() {
   return (
     <SiteLayout>
-      <InteractiveParticles />
-      <div className="relative z-10">
-        <section className="container-x pb-2 pt-28 md:pt-32">
-          <p className="eyebrow">Services</p>
+      <div ref={ref} className="relative z-10 bg-slate-50 min-h-screen">
+        {/* Header Hero Section */}
+        <section className="container-x pb-12 pt-28 md:pt-36">
+          <span className="eyebrow">Services Portfolio</span>
           <h1 className="h-display mt-3 max-w-4xl text-5xl md:text-6xl">
-            Premium digital services, delivered by a focused senior team.
+            Everything you need to grow online, under one roof.
           </h1>
-          <p className="mt-5 max-w-3xl text-muted-foreground">
-            From websites and apps to AI automation, chatbots, and growth programs, Cortvex covers
-            the full stack of capabilities a modern brand needs to compete and scale confidently.
+          <p className="mt-5 max-w-3xl text-muted-foreground text-base md:text-lg leading-relaxed">
+            From performant React systems and apps to n8n AI workflows, custom chatbots, and technical growth marketing, Cortvex delivers senior craft without the agency fluff.
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-6 font-logo text-[0.62rem] uppercase tracking-[0.02em] text-[#7a7f82]">
+          <div className="mt-8 flex flex-wrap items-center gap-6 font-logo text-[0.62rem] uppercase tracking-[0.02em] text-[#7a7f82]">
             <div className="flex items-center gap-1.5">
               <div className="flex">
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -502,7 +140,93 @@ function ServicesPage() {
           </div>
         </section>
 
-        <ServicesCarousel />
+        {/* Premium Grid layout for Services */}
+        <section className="container-x pb-24">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map(({ logo, logoAlt, title, desc, features, color, tag }, idx) => (
+              <div
+                key={title}
+                className="group relative flex flex-col overflow-hidden rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(24,0,173,0.12)]"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(244,246,255,0.65) 100%)",
+                  border: "1px solid rgba(24,0,173,0.08)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? "translateY(0)" : "translateY(50px)",
+                  transition: "all 0.65s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transitionDelay: `${idx * 60}ms`,
+                }}
+              >
+                {/* Neon accent top border */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[4px] rounded-t-3xl transition-all duration-500 opacity-40 group-hover:opacity-100"
+                  style={{ background: `linear-gradient(90deg, ${color} 0%, #0EA5A4 100%)` }}
+                />
+
+                <div className="flex flex-col flex-1 p-8">
+                  <div className="flex items-center justify-between">
+                    <span
+                      className="grid h-12 w-12 place-items-center rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3"
+                      style={{
+                        background: `linear-gradient(135deg, rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"},0.08) 0%, rgba(255,255,255,0.95) 100%)`,
+                        border: `1.5px solid rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"},0.12)`,
+                        boxShadow: "0 8px 20px -6px rgba(24,0,173,0.08)",
+                      }}
+                    >
+                      <img src={logo} alt={logoAlt} className="h-6 w-6 object-contain" onError={(e) => { (e.target as HTMLImageElement).src = "https://cdn.simpleicons.org/react" }} />
+                    </span>
+                    <span
+                      className="text-[10px] font-black tracking-[0.2em] px-3 py-1 rounded-full text-slate-400 group-hover:text-[#1800AD] transition-colors duration-300"
+                      style={{ background: "rgba(24,0,173,0.04)" }}
+                    >
+                      {tag}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-6 text-xl font-bold leading-tight text-slate-900 group-hover:text-[#1800AD] transition-colors duration-300"
+                    style={{ letterSpacing: "-0.02em" }}>
+                    {title}
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-relaxed text-slate-500 flex-1">
+                    {desc}
+                  </p>
+
+                  <ul className="mt-6 space-y-2.5">
+                    {features.map((f) => (
+                      <li key={f} className="flex items-center gap-2.5 text-xs text-slate-600">
+                        <span
+                          className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
+                          style={{ background: "rgba(24,0,173,0.05)" }}
+                        >
+                          <Check className="h-3 w-3" style={{ color }} />
+                        </span>
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div
+                  className="mx-6 mb-6 flex items-center justify-between rounded-2xl px-5 py-3 transition-colors duration-300"
+                  style={{
+                    background: "rgba(24,0,173,0.03)",
+                    border: "1px solid rgba(24,0,173,0.06)",
+                  }}
+                >
+                  <Link to="/contact" className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors"
+                    style={{ color: "#1800AD" }}>
+                    Start Project <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </Link>
+                  <span className="text-[11px] font-semibold text-slate-400">
+                    Cortvex Premium
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <CTASection />
       </div>
