@@ -80,12 +80,7 @@ const faqs = [
   { cat: "process", q: "Do you sign NDAs and protect our IP?", a: "Absolutely. We sign NDAs before any sensitive briefing and treat every client business information with strict confidentiality. Your ideas, data, and product details stay private." },
 ];
 
-const stats = [
-  { value: "80+", label: "Happy clients" },
-  { value: "4.9", label: "Avg rating" },
-  { value: "5-7d", label: "Avg kickoff" },
-  { value: "24h", label: "Response time" },
-];
+
 
 function AccordionItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);
@@ -186,23 +181,6 @@ function FAQPage() {
             >
               Everything you need to know about our services, pricing, timelines, and how we work — before you book a call.
             </p>
-          </div>
-
-          {/* Stats */}
-          <div
-            className="mt-12 flex flex-wrap gap-4 transition-all duration-700"
-            style={{ opacity: heroPhase >= 1 ? 1 : 0, transform: heroPhase >= 1 ? "translateY(0)" : "translateY(20px)", transitionDelay: "220ms" }}
-          >
-            {stats.map((s) => (
-              <div
-                key={s.label}
-                className="flex flex-col items-center justify-center px-6 py-4 rounded-2xl"
-                style={{ background: "rgba(255,255,255,0.9)", border: "1px solid rgba(24,0,173,0.10)", boxShadow: "0 6px 24px -8px rgba(24,0,173,0.1)", minWidth: "120px" }}
-              >
-                <span className="text-2xl font-black" style={{ color: "#1800AD", letterSpacing: "-0.03em" }}>{s.value}</span>
-                <span className="mt-0.5 text-[11px] font-semibold text-slate-400 uppercase tracking-widest">{s.label}</span>
-              </div>
-            ))}
           </div>
         </div>
       </div>
