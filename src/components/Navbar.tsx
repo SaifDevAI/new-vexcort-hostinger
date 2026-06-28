@@ -13,7 +13,7 @@ import {
 const links = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
-  { to: "/", hash: "home-faq-section", label: "FAQ" },
+  { to: "/faq", label: "FAQ" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ] as const;
@@ -94,16 +94,16 @@ export function Navbar() {
   const activeNavLabel = !isHomeRoute
     ? location.pathname === "/services"
       ? "Services"
-      : location.pathname === "/about"
-        ? "About"
-        : location.pathname === "/contact"
-          ? "Contact"
-          : ""
-    : faqInView
-      ? "FAQ"
-      : servicesInView
-        ? "Services"
-        : "Home";
+      : location.pathname === "/faq"
+        ? "FAQ"
+        : location.pathname === "/about"
+          ? "About"
+          : location.pathname === "/contact"
+            ? "Contact"
+            : ""
+    : servicesInView
+      ? "Services"
+      : "Home";
 
   return (
     <div className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4">

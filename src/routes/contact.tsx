@@ -16,6 +16,7 @@ import {
   Github,
   Phone,
   Zap,
+  Facebook,
 } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 
@@ -44,13 +45,6 @@ const serviceOptions = [
   "Social Media",
 ];
 const budgetOptions = ["< $2k", "$2k – $5k", "$5k – $15k", "$15k – $50k", "$50k+"];
-
-const faqs = [
-  { q: "How quickly do you respond?", a: "We reply within one business day, often the same day." },
-  { q: "Do you sign NDAs?", a: "Yes — happy to sign your NDA or send ours before our first call." },
-  { q: "Do you work with international clients?", a: "Yes. Most of our clients are remote across the US, EU and APAC." },
-  { q: "What happens after I submit the form?", a: "Our team reviews your brief, then reaches out with a tailored plan, a rough estimate, or a calendar link for a call." },
-];
 
 const trustItems = [
   { icon: Clock, label: "1-day response" },
@@ -251,6 +245,7 @@ function ContactPage() {
   const [selectedBudget, setSelectedBudget] = useState<string>("");
   const [focusedTextarea, setFocusedTextarea] = useState(false);
   const [heroPhase, setHeroPhase] = useState(0);
+  const [inquiryType, setInquiryType] = useState<string>("Get Service");
 
   useEffect(() => {
     const t1 = setTimeout(() => setHeroPhase(1), 80);
@@ -281,14 +276,14 @@ function ContactPage() {
         }
       `}} />
 
-      <div className="font-sans">
+      <div className="font-sans bg-[#F8F9FF]">
         {/* ── HERO SECTION ── */}
         <section
           className="relative overflow-hidden"
           style={{
             background: "linear-gradient(160deg, #FFFFFF 0%, #F4F6FF 50%, #EBF0FF 100%)",
             paddingTop: "100px",
-            paddingBottom: "80px",
+            paddingBottom: "32px",
           }}
         >
           {/* Blobs */}
@@ -334,8 +329,6 @@ function ContactPage() {
 
           <div className="container-x relative z-10">
             {/* Headline */}
-
-            {/* Headline */}
             <TypewriterHeading />
 
             {/* Sub text */}
@@ -352,132 +345,177 @@ function ContactPage() {
               a rough estimate or a link to book a discovery call.
             </p>
 
-            {/* Trust chips */}
-            <div
-              className="mt-8 flex flex-wrap gap-3"
-              style={{
-                opacity: heroPhase >= 2 ? 1 : 0,
-                transform: heroPhase >= 2 ? "translateY(0)" : "translateY(20px)",
-                transition: "all 0.9s cubic-bezier(0.16,1,0.3,1) 0.75s",
-              }}
-            >
-              {trustItems.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-3 py-1.5"
-                  style={{
-                    background: "rgba(255,255,255,0.82)",
-                    border: "1px solid rgba(24,0,173,0.12)",
-                    boxShadow: "0 4px 14px -8px rgba(24,0,173,0.18), inset 0 1px 0 rgba(255,255,255,0.9)",
-                  }}
-                >
-                  <Icon className="h-3.5 w-3.5 shrink-0" style={{ color: "#1800AD", display: "block" }} />
-                  <span className="text-xs font-semibold leading-none" style={{ color: "rgba(11,19,36,0.7)", display: "inline-block" }}>{label}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 
         {/* ── FORM + SIDEBAR ── */}
-        <section className="section container-x">
+        <section className="py-8 container-x">
           <div className="grid gap-8 lg:grid-cols-12">
 
-            {/* ─ FORM ─ */}
-            <FadeUp delay={0} className="lg:col-span-7">
-              <form
-                id="question-form"
-                onSubmit={(e) => { e.preventDefault(); setSent(true); }}
-                className="relative overflow-hidden rounded-3xl"
+            {/* ─ FORM CARD ─ */}
+            <FadeUp delay={0} className="lg:col-span-8">
+              <div
+                className="relative overflow-hidden rounded-[2rem] bg-white grid md:grid-cols-12"
                 style={{
-                  background: "transparent",
-                  border: "1px solid rgba(24,0,173,0.14)",
+                  border: "1px solid rgba(24,0,173,0.12)",
                   boxShadow: "0 32px 72px -20px rgba(24,0,173,0.18), 0 12px 32px -16px rgba(14,165,164,0.12)",
                 }}
               >
-                {/* Gradient top bar */}
-                <div
-                  className="absolute top-0 left-0 right-0 h-[3px]"
-                  style={{ background: "linear-gradient(90deg, #1800AD 0%, #0EA5A4 100%)" }}
-                />
-
-                <div className="p-8 md:p-10">
-                  {/* Form header */}
-                  <div className="mb-8">
-                    <p className="eyebrow">Project Brief</p>
-                    <h2 className="mt-2 text-2xl font-bold" style={{ color: "#0B1324", letterSpacing: "-0.02em" }}>
-                      Let's start your project
-                    </h2>
+                {/* Left Inner Sidebar: Category Selectors */}
+                <div 
+                  className="md:col-span-4 p-8 md:p-10 flex flex-col justify-start border-b md:border-b-0 md:border-r gap-8"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(24,0,173,0.02) 0%, rgba(14,165,164,0.02) 100%)",
+                    borderColor: "rgba(24,0,173,0.08)"
+                  }}
+                >
+                  <div>
+                    <span 
+                      className="inline-block px-3.5 py-1.5 text-xs font-bold rounded-full mb-6"
+                      style={{
+                        background: "rgba(24,0,173,0.06)",
+                        color: "#1800AD",
+                        border: "1px solid rgba(24,0,173,0.12)"
+                      }}
+                    >
+                      Inquire Now
+                    </span>
+                    <h3 className="text-2xl font-black text-slate-900 leading-tight tracking-tight">
+                      forge a <br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#1800AD] to-[#0EA5A4]">connection</span>
+                    </h3>
+                    <p className="mt-3 text-[11px] font-semibold leading-relaxed text-slate-500">
+                      Select your inquiry type to customize the brief layout.
+                    </p>
                   </div>
 
-                  {/* Name + Email */}
-                  <div className="grid gap-5 md:grid-cols-2">
-                    <Field label="Name" name="name" required placeholder="John Smith" />
-                    <Field label="Email" name="email" type="email" required placeholder="john@company.com" />
-                    <Field label="Phone" name="phone" type="tel" placeholder="+1 (555) 000-0000" />
-                    <Field label="Company" name="company" placeholder="Acme Inc." />
-                  </div>
-
-                  {/* Service selector — pill chips */}
-                  <div className="mt-7">
-                    <label className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgba(11,19,36,0.55)" }}>
-                      Service interested in
-                    </label>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {serviceOptions.map((s) => (
+                  <div className="space-y-3">
+                    {[
+                      "Get Service",
+                      "Outsourcing"
+                    ].map((type) => {
+                      const isSelected = inquiryType === type;
+                      return (
                         <button
-                          key={s}
+                          key={type}
                           type="button"
-                          onClick={() => setSelectedService(s)}
-                          className="rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-200"
+                          onClick={() => {
+                            setInquiryType(type);
+                            // Clear budget validation message when type changes
+                          }}
+                          className="w-full text-left px-5 py-4 rounded-xl text-xs font-bold transition-all duration-300 border"
                           style={{
-                            background: selectedService === s ? "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)" : "rgba(24,0,173,0.06)",
-                            color: selectedService === s ? "#fff" : "rgba(24,0,173,0.75)",
-                            border: selectedService === s ? "1px solid transparent" : "1px solid rgba(24,0,173,0.14)",
-                            boxShadow: selectedService === s ? "0 6px 18px -8px rgba(24,0,173,0.45)" : "none",
-                            transform: selectedService === s ? "scale(1.04)" : "scale(1)",
+                            background: isSelected 
+                              ? "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)" 
+                              : "rgba(255,255,255,0.7)",
+                            color: isSelected ? "#FFFFFF" : "#3B475D",
+                            borderColor: isSelected ? "transparent" : "rgba(24,0,173,0.08)",
+                            boxShadow: isSelected ? "0 8px 24px -10px rgba(24,0,173,0.4)" : "none",
+                            transform: isSelected ? "scale(1.02)" : "scale(1)"
                           }}
                         >
-                          {s}
+                          {type}
                         </button>
-                      ))}
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Right Inner Form Content */}
+                <form
+                  id="question-form"
+                  onSubmit={(e) => { 
+                    e.preventDefault(); 
+                    if (!selectedBudget) {
+                      alert("Please select a budget range.");
+                      return;
+                    }
+                    setSent(true); 
+                  }}
+                  className="md:col-span-8 p-8 md:p-10 flex flex-col justify-start"
+                >
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900">Detailed Inquiry</h3>
+                    <p className="text-xs font-semibold text-slate-400 mt-1">Fill out the specific details below.</p>
+
+                    {/* Name + Email */}
+                    <div className="grid gap-4 md:grid-cols-2 mt-8">
+                      <Field label="Name" name="name" required placeholder="John Smith" />
+                      <Field label="Email" name="email" type="email" required placeholder="john@company.com" />
+                      <Field label="Phone" name="phone" type="tel" placeholder="+1 (555) 000-0000" />
+                      <Field label="Company" name="company" placeholder="Acme Inc." />
                     </div>
-                    <input type="hidden" name="service" value={selectedService} />
                   </div>
 
-                  {/* Budget selector — pill chips */}
-                  <div className="mt-7">
-                    <label className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgba(11,19,36,0.55)" }}>
-                      Budget range
-                    </label>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {budgetOptions.map((b) => (
-                        <button
-                          key={b}
-                          type="button"
-                          onClick={() => setSelectedBudget(b)}
-                          className="rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200"
-                          style={{
-                            background: selectedBudget === b ? "linear-gradient(135deg, #0EA5A4 0%, #1800AD 100%)" : "rgba(14,165,164,0.06)",
-                            color: selectedBudget === b ? "#fff" : "rgba(14,165,164,0.85)",
-                            border: selectedBudget === b ? "1px solid transparent" : "1px solid rgba(14,165,164,0.18)",
-                            boxShadow: selectedBudget === b ? "0 6px 18px -8px rgba(14,165,164,0.45)" : "none",
-                            transform: selectedBudget === b ? "scale(1.04)" : "scale(1)",
-                          }}
-                        >
-                          {b}
-                        </button>
-                      ))}
+                    <div className="mt-8 pt-6 border-t border-slate-100">
+                      <h4 className="text-xs font-black text-[#1800AD] uppercase tracking-wider flex items-center">
+                        <span className="w-6 h-[2px] bg-gradient-to-r from-[#1800AD] to-[#0EA5A4] mr-2"></span>
+                        Details for: {inquiryType}
+                      </h4>
+
+                      {/* Service selector — pill chips (Only for specific types) */}
+                      {inquiryType !== "Contact Sales" && inquiryType !== "Outsourcing" ? (
+                        <div className="mt-6">
+                          <label className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgba(11,19,36,0.55)" }}>
+                            Service interested in
+                          </label>
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {serviceOptions.map((s) => (
+                              <button
+                                key={s}
+                                type="button"
+                                onClick={() => setSelectedService(s)}
+                                className="rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-200"
+                                style={{
+                                  background: selectedService === s ? "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)" : "rgba(24,0,173,0.06)",
+                                  color: selectedService === s ? "#fff" : "rgba(24,0,173,0.75)",
+                                  border: selectedService === s ? "1px solid transparent" : "1px solid rgba(24,0,173,0.14)",
+                                  boxShadow: selectedService === s ? "0 6px 18px -8px rgba(24,0,173,0.45)" : "none",
+                                  transform: selectedService === s ? "scale(1.04)" : "scale(1)",
+                                }}
+                              >
+                                {s}
+                              </button>
+                            ))}
+                          </div>
+                          <input type="hidden" name="service" value={selectedService} />
+                        </div>
+                      ) : null}
+
+                      {/* Budget selector — pill chips */}
+                      <div className="mt-6">
+                        <label className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgba(11,19,36,0.55)" }}>
+                          Budget range <span style={{ color: "#0EA5A4" }}>*</span>
+                        </label>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {budgetOptions.map((b) => (
+                            <button
+                              key={b}
+                              type="button"
+                              onClick={() => setSelectedBudget(b)}
+                              className="rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200"
+                              style={{
+                                  background: selectedBudget === b ? "linear-gradient(135deg, #0EA5A4 0%, #1800AD 100%)" : "rgba(14,165,164,0.06)",
+                                  color: selectedBudget === b ? "#fff" : "rgba(14,165,164,0.85)",
+                                  border: selectedBudget === b ? "1px solid transparent" : "1px solid rgba(14,165,164,0.18)",
+                                  boxShadow: selectedBudget === b ? "0 6px 18px -8px rgba(14,164,164,0.45)" : "none",
+                                  transform: selectedBudget === b ? "scale(1.04)" : "scale(1)",
+                              }}
+                            >
+                              {b}
+                            </button>
+                          ))}
+                        </div>
+                        <input type="hidden" name="budget" value={selectedBudget} />
+                      </div>
                     </div>
-                    <input type="hidden" name="budget" value={selectedBudget} />
-                  </div>
 
                   {/* Message */}
-                  <div className="mt-7">
-                    <label className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: focusedTextarea ? "#1800AD" : "rgba(11,19,36,0.55)" }}>
-                      Message <span style={{ color: "#0EA5A4" }}>*</span>
-                    </label>
-                    <textarea
+                  <div className="mt-6">
+                      <label className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: focusedTextarea ? "#1800AD" : "rgba(11,19,36,0.55)" }}>
+                        Message <span style={{ color: "#0EA5A4" }}>*</span>
+                      </label>
+                      <textarea
                       name="message"
                       rows={5}
                       required
@@ -533,21 +571,20 @@ function ContactPage() {
                       We respond within 1 business day
                     </p>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </FadeUp>
 
             {/* ─ SIDEBAR ─ */}
-            <aside className="space-y-5 lg:col-span-5">
+            <aside className="space-y-5 lg:col-span-4">
 
               {/* Book a Meeting Card */}
               <FadeUp delay={100}>
                 <div
-                  className="relative overflow-hidden rounded-3xl p-7 transition-all duration-300 group"
+                  className="relative overflow-hidden rounded-3xl p-7 transition-all duration-300 group bg-white"
                   style={{
-                    background: "transparent",
-                    border: "1px solid rgba(24,0,173,0.14)",
-                    boxShadow: "0 28px 60px -20px rgba(24,0,173,0.18)",
+                    border: "1px solid rgba(24,0,173,0.12)",
+                    boxShadow: "0 28px 60px -20px rgba(24,0,173,0.14)",
                   }}
                 >
                   {/* Grid pattern */}
@@ -594,11 +631,10 @@ function ContactPage() {
               {/* Email + Social */}
               <FadeUp delay={180}>
                 <div
-                  className="relative overflow-hidden rounded-3xl p-7 transition-all duration-300"
+                  className="relative overflow-hidden rounded-3xl p-7 transition-all duration-300 bg-white"
                   style={{
-                    background: "transparent",
                     border: "1px solid rgba(24,0,173,0.12)",
-                    boxShadow: "0 18px 48px -20px rgba(24,0,173,0.16)",
+                    boxShadow: "0 18px 48px -20px rgba(24,0,173,0.12)",
                   }}
                 >
                   {/* Gradient top bar */}
@@ -620,11 +656,11 @@ function ContactPage() {
                     <div>
                       <h3 className="text-sm font-bold" style={{ color: "#0B1324", letterSpacing: "-0.01em" }}>Email us directly</h3>
                       <a
-                        href="mailto:hello@cortvex.com"
+                        href="mailto:connect@cortvex.com"
                         className="mt-1 block text-sm font-medium transition-colors hover:text-[#1800AD]"
                         style={{ color: "rgba(11,19,36,0.55)" }}
                       >
-                        hello@cortvex.com
+                        connect@cortvex.com
                       </a>
                     </div>
                   </div>
@@ -643,13 +679,13 @@ function ContactPage() {
                     <div>
                       <h3 className="text-sm font-bold" style={{ color: "#0B1324", letterSpacing: "-0.01em" }}>WhatsApp / Call</h3>
                       <a
-                        href="https://wa.me/923001234567"
+                        href="https://wa.me/923107735262"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-1 block text-sm font-medium transition-colors hover:text-[#1800AD]"
                         style={{ color: "rgba(11,19,36,0.55)" }}
                       >
-                        +92 300 123 4567
+                        +92 310 773 5262
                       </a>
                     </div>
                   </div>
@@ -659,11 +695,10 @@ function ContactPage() {
               {/* Follow Cortvex */}
               <FadeUp delay={260}>
                 <div
-                  className="relative overflow-hidden rounded-3xl p-7"
+                  className="relative overflow-hidden rounded-3xl p-7 bg-white"
                   style={{
-                    background: "transparent",
                     border: "1px solid rgba(24,0,173,0.12)",
-                    boxShadow: "0 18px 48px -20px rgba(24,0,173,0.14)",
+                    boxShadow: "0 18px 48px -20px rgba(24,0,173,0.12)",
                   }}
                 >
                   <div
@@ -685,10 +720,9 @@ function ContactPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     {[
-                      { label: "Twitter / X", icon: Twitter, href: "#", color: "#1DA1F2" },
                       { label: "LinkedIn", icon: Linkedin, href: "#", color: "#0A66C2" },
                       { label: "Instagram", icon: Instagram, href: "#", color: "#E1306C" },
-                      { label: "GitHub", icon: Github, href: "#", color: "#333333" },
+                      { label: "Facebook", icon: Facebook, href: "#", color: "#1877F2" },
                     ].map(({ label, icon: Icon, href, color }) => (
                       <a
                         key={label}
@@ -710,59 +744,6 @@ function ContactPage() {
                 </div>
               </FadeUp>
             </aside>
-          </div>
-        </section>
-
-        {/* ── FAQ SECTION ── */}
-        <section className="section">
-          <div className="container-x">
-            <FadeUp>
-              <div className="mb-10">
-                <p className="eyebrow">FAQ</p>
-                <h2 className="h-display mt-3 text-4xl md:text-5xl">Quick answers.</h2>
-                <p className="mt-3 text-muted-foreground max-w-lg">
-                  Can't find what you need? Reach out and we'll respond within one business day.
-                </p>
-              </div>
-            </FadeUp>
-            <FadeUp delay={80}>
-              <div
-                className="divide-y rounded-3xl overflow-hidden"
-                style={{
-                  background: "transparent",
-                  border: "1px solid rgba(24,0,173,0.12)",
-                  boxShadow: "0 22px 56px -24px rgba(24,0,173,0.18)",
-                  divideColor: "rgba(24,0,173,0.07)",
-                }}
-              >
-                {faqs.map((f, i) => (
-                  <details
-                    key={f.q}
-                    className="group"
-                    style={{ borderBottom: i < faqs.length - 1 ? "1px solid rgba(24,0,173,0.07)" : "none" }}
-                  >
-                    <summary className="flex cursor-pointer list-none items-center justify-between px-7 py-5 text-base font-semibold transition-colors hover:text-[#1800AD]" style={{ color: "#0B1324" }}>
-                      {f.q}
-                      <span
-                        className="grid h-8 w-8 shrink-0 place-items-center rounded-full transition-all duration-300 group-open:rotate-45"
-                        style={{
-                          background: "rgba(24,0,173,0.07)",
-                          border: "1px solid rgba(24,0,173,0.12)",
-                          color: "#1800AD",
-                          fontSize: "1.2rem",
-                          fontWeight: 300,
-                        }}
-                      >
-                        +
-                      </span>
-                    </summary>
-                    <p className="px-7 pb-5 text-sm leading-relaxed" style={{ color: "rgba(11,19,36,0.58)" }}>
-                      {f.a}
-                    </p>
-                  </details>
-                ))}
-              </div>
-            </FadeUp>
           </div>
         </section>
       </div>

@@ -7,7 +7,7 @@ const nav = [
     heading: "Company",
     links: [
       { to: "/", label: "Home" },
-      { to: "/", hash: "home-faq-section", label: "FAQ" },
+      { to: "/faq", label: "FAQ" },
       { to: "/about", label: "About" },
       { to: "/contact", label: "Contact" },
     ],

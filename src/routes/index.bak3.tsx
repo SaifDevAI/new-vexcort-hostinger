@@ -4,7 +4,7 @@ import { ArrowUpRight, Calendar, Check, Star, ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CTASection } from "@/components/CTASection";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/index/bak3")({
   head: () => ({
     meta: [
       { title: "Cortvex — Web, AI, Apps, SEO & Marketing for Modern Brands" },
@@ -93,32 +93,32 @@ const services = [
 
 function Hero({ isStoryteller }: { isStoryteller?: boolean }) {
   return (
-    <section className="relative overflow-hidden w-full h-screen flex items-center">
-      {/* Background Video Player - Plays in all views */}
-      <div className="absolute inset-0 w-full h-full z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-white/95 z-25 pointer-events-none" />
-        {/* Darkening overlay */}
-        <div className="absolute inset-0 bg-slate-950/20 z-20 pointer-events-none" />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-90 scale-[1.08]"
-          style={{ 
-            filter: "brightness(0.92) saturate(1.02)",
-            transformOrigin: "center center"
-          }}
-        >
-          <source src="/home.mp4" type="video/mp4" />
-        </video>
-      </div>
+    <section className="relative overflow-hidden w-full h-full flex items-center">
       {!isStoryteller && (
-        <div className="container-x pointer-events-none absolute inset-x-0 top-[18%] z-20 flex justify-center">
-          <h1 className="font-logo animate-fade-up text-center text-[4.8rem] font-black uppercase leading-[0.78] text-[#3a3a3d] sm:text-[7rem] md:text-[9.5rem] lg:text-[11rem]">
-            Cortvex
-          </h1>
-        </div>
+        <>
+          <div className="animate-hero-bg-slide-in pointer-events-none absolute inset-0 z-20 flex items-end justify-center">
+            <div
+              className="absolute h-[min(58vh,560px)] w-[min(58vw,620px)] rounded-full opacity-70 blur-3xl"
+              style={{
+                background:
+                  "radial-gradient(circle, color-mix(in srgb, var(--brand) 58%, transparent) 0%, color-mix(in srgb, var(--brand-accent) 30%, transparent) 42%, transparent 72%)",
+              }}
+            />
+            <img
+              src="/homerobo.png"
+              alt=""
+              className="relative z-10 h-[min(92vh,860px)] w-auto max-w-none object-contain"
+              aria-hidden="true"
+              loading="eager"
+              fetchPriority="high"
+            />
+          </div>
+          <div className="container-x pointer-events-none absolute inset-x-0 top-[18%] z-10 flex justify-center">
+            <h1 className="font-logo animate-fade-up text-center text-[4.8rem] font-black uppercase leading-[0.78] text-[#3a3a3d] sm:text-[7rem] md:text-[9.5rem] lg:text-[11rem]">
+              Cortvex
+            </h1>
+          </div>
+        </>
       )}
       <div className="container-x relative z-30 min-h-[700px] py-16 lg:min-h-screen lg:py-20 w-full flex items-center">
         <div className="pointer-events-none absolute inset-x-4 bottom-16 mx-auto max-w-3xl animate-fade-up text-center">
@@ -770,12 +770,105 @@ function AIHighlight() {
   );
 }
 
+const faqs = [
+  {
+    q: "How fast can we start?",
+    a: "Most engagements kick off within 7 days of the discovery call.",
+  },
+  {
+    q: "Do you work with non-technical founders?",
+    a: "Yes - most of our clients are founders or marketing leads. We translate complexity into clear actions.",
+  },
+  {
+    q: "What stacks do you use?",
+    a: "React, Next/TanStack, Node, Python, modern AI stacks. We choose what fits.",
+  },
+  {
+    q: "Do you offer ongoing support?",
+    a: "Yes. Retainers cover maintenance, growth experiments and AI iteration.",
+  },
+  {
+    q: "Can you improve an existing site instead of rebuilding?",
+    a: "Absolutely. We can optimize UX, performance, SEO, and conversion paths without a full rebuild.",
+  },
+  {
+    q: "How do you handle revisions and feedback?",
+    a: "We work in weekly review cycles with clear checkpoints, so feedback gets integrated continuously.",
+  },
+  {
+    q: "Do you integrate with CRMs and third-party tools?",
+    a: "Yes. We regularly integrate HubSpot, Salesforce, Stripe, Make, Zapier, n8n, and custom APIs.",
+  },
+];
 
+function FAQ({ active }: { active?: boolean }) {
+  const [showMoreFaqs, setShowMoreFaqs] = useState(false);
+  const visibleFaqs = showMoreFaqs ? faqs.slice(0, 7) : faqs.slice(0, 4);
+
+  return (
+    <section
+      id="home-faq-section"
+      className={`${active !== undefined ? "pt-20 pb-4 lg:py-0 lg:pt-20" : "section"} w-full`}
+    >
+      <div className="container-x">
+        <div className="grid items-start gap-12 lg:grid-cols-12">
+          <div className={`lg:col-span-5 transition-all duration-1000 ease-out ${active !== undefined ? (active ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8") : "opacity-100 translate-x-0"}`}>
+            <p className="eyebrow">FAQ</p>
+            <h2 className="h-display mt-3 text-4xl md:text-5xl">Answers, fast.</h2>
+            <p className="mt-4 text-muted-foreground">
+              Can't find what you need? Reach out and we'll respond within one business day.
+            </p>
+            <div className="mt-6 rounded-2xl border bg-white/70 p-5 shadow-[0_14px_40px_-28px_rgba(18,35,92,0.35)] backdrop-blur-sm">
+              <p className="text-sm text-muted-foreground">
+                Have a specific question about your project, budget, or timeline?
+              </p>
+              <Link to="/contact" hash="question-form" className="btn btn-primary mt-4">
+                Ask a question <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+          <div className="lg:col-span-7">
+            <div className="divide-y rounded-2xl border bg-white shadow-[0_18px_50px_-30px_rgba(18,35,92,0.35)]">
+              {visibleFaqs.map((f, idx) => (
+                <details
+                  key={f.q}
+                  className={`group p-6 transition-all duration-700 ease-out transform ${
+                    active !== undefined
+                      ? `${active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"} lg:p-4`
+                      : "opacity-100 translate-y-0"
+                  }`}
+                  style={{ transitionDelay: active ? `${idx * 70}ms` : "0ms" }}
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between text-base font-semibold">
+                    {f.q}
+                    <span className="grid h-7 w-7 place-items-center rounded-full border text-[color:var(--brand)] transition-transform group-open:rotate-45">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm text-muted-foreground">{f.a}</p>
+                </details>
+              ))}
+            </div>
+            {!showMoreFaqs && (
+              <button
+                type="button"
+                onClick={() => setShowMoreFaqs(true)}
+                className="btn btn-ghost mt-5"
+              >
+                Show more questions <ArrowUpRight className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(1);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [activeServiceIndex, setActiveServiceIndex] = useState(0);
   const [stars, setStars] = useState<{ id: number; x: number; y: number; size: number; color: string; delay: number; duration: number }[]>([]);
 
@@ -814,12 +907,17 @@ function Home() {
       const currentScroll = -rect.top;
       const progress = Math.min(Math.max(currentScroll / totalScrollable, 0), 1);
 
-      if (progress < 0.75) {
-        setActiveSlide(1); // Services slide active instantly as scroll starts inside container
-        const activeIndex = Math.floor(progress / (0.75 / 9));
+      if (progress < 0.12) {
+        setActiveSlide(0);
+      } else if (progress < 0.68) {
+        setActiveSlide(1);
+        const relativeProgress = progress - 0.12;
+        const activeIndex = Math.floor(relativeProgress / (0.56 / 9));
         setActiveServiceIndex(Math.min(Math.max(activeIndex, 0), 8));
+      } else if (progress < 0.84) {
+        setActiveSlide(2);
       } else {
-        setActiveSlide(2); // Why choose slide active
+        setActiveSlide(3);
       }
     };
 
@@ -869,6 +967,7 @@ function Home() {
           <ServicesPreview />
           <WhyChoose />
           <AIHighlight />
+          <FAQ />
           <CTASection />
         </div>
       </SiteLayout>
@@ -906,16 +1005,82 @@ function Home() {
         ))}
       </div>
 
-      <div className="relative bg-transparent z-10">
-        {/* Slide 0 (Landing/Hero) is now static and scrolls down normally */}
-        <Hero />
-      </div>
-
-      <div ref={containerRef} className="relative h-[450vh] bg-transparent z-10">
-        {/* Pinned Viewport for slides 1 and 2 */}
+      <div ref={containerRef} className="relative h-[700vh] bg-transparent z-10">
+        {/* Pinned Viewport */}
         <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between">
 
-          {/* Slides start directly with Slide 1: ServicesPreview (3D Carousel) */}
+          {/* Huge background logo text */}
+          <div
+             className="pointer-events-none absolute inset-x-0 top-[18%] z-10 flex justify-center transition-opacity duration-1000 ease-in-out"
+             style={{ opacity: activeSlide === 0 ? 0.95 : 0 }}
+          >
+            <h1 className="font-logo text-center text-[4.8rem] font-black uppercase leading-[0.78] text-[#cccccc] sm:text-[7rem] md:text-[9.5rem] lg:text-[11rem]">
+              Cortvex
+            </h1>
+          </div>
+
+          {/* Shared background/narrator robot */}
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <div
+              className="absolute rounded-full opacity-60 blur-3xl transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                width: activeSlide === 0 ? "58vw" : "36vw",
+                height: activeSlide === 0 ? "58vh" : "36vh",
+                background:
+                  "radial-gradient(circle, color-mix(in srgb, var(--brand) 58%, transparent) 0%, color-mix(in srgb, var(--brand-accent) 30%, transparent) 42%, transparent 72%)",
+                transform:
+                  activeSlide === 0
+                    ? "translate(0px, 14vh)"
+                    : activeSlide === 1
+                      ? "translate(30vw, 22vh)"
+                      : activeSlide === 2
+                        ? "translate(30vw, 22vh)"
+                        : "translate(32vw, -20vh)",
+              }}
+            />
+            <img
+              src="/homerobo.png"
+              alt=""
+              className="relative z-10 w-auto object-contain transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                height:
+                  activeSlide === 0
+                    ? "min(86vh, 760px)"
+                    : activeSlide === 1
+                      ? "min(50vh, 450px)"
+                      : activeSlide === 2
+                        ? "min(46vh, 420px)"
+                        : "min(40vh, 360px)",
+                transform:
+                  activeSlide === 0
+                    ? "translate(0px, 4vh)"
+                    : activeSlide === 1
+                      ? "translate(30vw, 22vh)"
+                      : activeSlide === 2
+                        ? "translate(30vw, 22vh)"
+                        : "translate(32vw, -20vh)",
+                opacity:
+                  activeSlide === 0
+                    ? 0.92
+                    : activeSlide === 1
+                      ? 0.25
+                      : activeSlide === 2
+                        ? 0.16
+                        : 0.12,
+              }}
+            />
+          </div>
+          <div
+            className={`absolute inset-0 z-20 flex items-center transition-all duration-1000 ease-in-out ${
+              activeSlide === 0
+                ? "opacity-100 translate-y-0 pointer-events-auto"
+                : "opacity-0 pointer-events-none -translate-y-12"
+            }`}
+          >
+            <div className="w-full">
+              <Hero isStoryteller />
+            </div>
+          </div>
 
           {/* Slide 1: ServicesPreview (3D Carousel) */}
           <div
@@ -937,11 +1102,26 @@ function Home() {
             className={`absolute inset-0 z-20 flex items-center transition-all duration-1000 ease-in-out ${
               activeSlide === 2
                 ? "opacity-100 translate-y-0 pointer-events-auto"
-                : "opacity-0 pointer-events-none translate-y-12"
+                : activeSlide > 2
+                  ? "opacity-0 pointer-events-none -translate-y-12"
+                  : "opacity-0 pointer-events-none translate-y-12"
             }`}
           >
             <div className="w-full">
               <WhyChoose active={activeSlide === 2} />
+            </div>
+          </div>
+
+          {/* Slide 3: FAQ */}
+          <div
+            className={`absolute inset-0 z-20 flex items-center transition-all duration-1000 ease-in-out ${
+              activeSlide === 3
+                ? "opacity-100 translate-y-0 pointer-events-auto"
+                : "opacity-0 pointer-events-none translate-y-12"
+            }`}
+          >
+            <div className="w-full">
+              <FAQ active={activeSlide === 3} />
             </div>
           </div>
         </div>

@@ -25,8 +25,8 @@ const services = [
     title: "Web Development",
     desc: "Production-grade websites and web platforms engineered for speed, scalability, and long-term maintainability.",
     features: ["TanStack / Next.js", "Type-safe architecture", "Performance budgets", "CMS integrations"],
-    color: "#6366f1",
-    bg: "from-indigo-500/10 to-purple-500/5",
+    color: "#1800AD",
+    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
   },
   {
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
@@ -34,8 +34,8 @@ const services = [
     title: "Web Design",
     desc: "Conversion-focused interfaces designed around your audience, brand voice, and high-intent user journeys.",
     features: ["UX research", "Design systems", "Interactive prototyping", "Brand-aligned UI"],
-    color: "#f43f5e",
-    bg: "from-rose-500/10 to-pink-500/5",
+    color: "#0EA5A4",
+    bg: "from-[#0EA5A4]/10 to-[#0EA5A4]/5",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/openai.svg",
@@ -43,8 +43,8 @@ const services = [
     title: "AI Automation",
     desc: "Custom AI workflows that remove repetitive operations, increase team velocity, and unlock higher-value output.",
     features: ["Workflow design", "LLM integrations", "Internal tools", "Make / Zapier / n8n"],
-    color: "#10b981",
-    bg: "from-emerald-500/10 to-teal-500/5",
+    color: "#1800AD",
+    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/intercom.svg",
@@ -52,8 +52,8 @@ const services = [
     title: "Web Chatbots",
     desc: "Code and no-code chatbots that qualify leads, answer product questions, and support visitors around the clock.",
     features: ["RAG over your docs", "CRM integration", "Multilingual support", "Built-in analytics"],
-    color: "#3b82f6",
-    bg: "from-blue-500/10 to-cyan-500/5",
+    color: "#0EA5A4",
+    bg: "from-[#0EA5A4]/10 to-[#0EA5A4]/5",
   },
   {
     logo: "/voice-agent-logo.png",
@@ -61,8 +61,8 @@ const services = [
     title: "Voice Bots",
     desc: "Natural-sounding voice agents for inbound support, appointment booking, and outbound follow-up calls.",
     features: ["Realtime voice flows", "Calendar booking", "Call summaries", "Smart human handoff"],
-    color: "#8b5cf6",
-    bg: "from-violet-500/10 to-purple-500/5",
+    color: "#1800AD",
+    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
   },
   {
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg",
@@ -70,8 +70,8 @@ const services = [
     title: "App Development",
     desc: "iOS and Android applications with refined UX, production-ready architecture, and measurable product outcomes.",
     features: ["React Native / Flutter", "Native modules", "Store submission", "Analytics + crash reports"],
-    color: "#06b6d4",
-    bg: "from-cyan-500/10 to-sky-500/5",
+    color: "#0EA5A4",
+    bg: "from-[#0EA5A4]/10 to-[#0EA5A4]/5",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/google.svg",
@@ -79,8 +79,8 @@ const services = [
     title: "SEO",
     desc: "Technical SEO and content systems that compound organic visibility and drive sustainable acquisition growth.",
     features: ["Technical audits", "Keyword strategy", "Content production", "Link building"],
-    color: "#f59e0b",
-    bg: "from-amber-500/10 to-orange-500/5",
+    color: "#1800AD",
+    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/meta.svg",
@@ -88,8 +88,8 @@ const services = [
     title: "Marketing",
     desc: "Performance marketing systems aligned to revenue targets with full-funnel visibility and rapid experimentation.",
     features: ["Paid social + search", "Landing page optimization", "Funnel analytics", "Creative testing"],
-    color: "#0ea5e9",
-    bg: "from-sky-500/10 to-blue-500/5",
+    color: "#0EA5A4",
+    bg: "from-[#0EA5A4]/10 to-[#0EA5A4]/5",
   },
   {
     logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/instagram.svg",
@@ -97,8 +97,8 @@ const services = [
     title: "Social Media",
     desc: "Full-service social management that builds trust, consistency, and brand authority across key audience channels.",
     features: ["Content calendar", "Creative production", "Community management", "Performance reporting"],
-    color: "#ec4899",
-    bg: "from-pink-500/10 to-rose-500/5",
+    color: "#1800AD",
+    bg: "from-[#1800AD]/10 to-[#1800AD]/5",
   },
 ];
 
@@ -218,7 +218,7 @@ function ServicesCarousel() {
       {/* Sticky carousel viewport */}
       <div className="sticky top-0 w-full h-screen flex flex-col overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, rgba(248, 250, 255, 0.7) 0%, rgba(240, 244, 255, 0.7) 50%, rgba(250, 245, 255, 0.7) 100%)",
+          background: "rgba(248, 250, 255, 0.95)",
         }}
       >
         {/* Animated background aura that matches active card color */}
@@ -295,15 +295,6 @@ function ServicesCarousel() {
                     style={{ background: svc.color }}
                   />
 
-                  {/* Card background gradient blob */}
-                  <div
-                    className="absolute top-0 right-0 w-48 h-48 rounded-full pointer-events-none transition-all duration-700"
-                    style={{
-                      background: `radial-gradient(circle, ${svc.color}12 0%, transparent 70%)`,
-                      transform: "translate(30%, -30%)",
-                    }}
-                  />
-
                   {/* Content */}
                   <div className="relative z-10 flex flex-col h-full p-7">
                     {/* Top row */}
@@ -311,7 +302,7 @@ function ServicesCarousel() {
                       <div
                         className="flex h-14 w-14 items-center justify-center rounded-2xl shadow-lg transition-all duration-300"
                         style={{
-                          background: `linear-gradient(135deg, ${svc.color}20, ${svc.color}10)`,
+                          background: `${svc.color}15`,
                           border: `1px solid ${svc.color}30`,
                         }}
                       >

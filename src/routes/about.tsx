@@ -178,7 +178,7 @@ function SentenceReveal({ children, delay = 0, className = "" }: { children: Rea
   );
 }
 
-function ScrollRevealSentence({ text }: { text: string }) {
+function ScrollRevealSentence({ text, align = "left" }: { text: string; align?: "left" | "center" }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const [isActive, setIsActive] = useState(false);
 
@@ -203,23 +203,13 @@ function ScrollRevealSentence({ text }: { text: string }) {
   return (
     <p
       ref={ref}
-      className="font-display font-black leading-[1] tracking-tight transition-all duration-500"
+      className={`font-display font-black leading-[1] tracking-tight transition-all duration-500 text-${align}`}
       style={{
         fontSize: "clamp(36px, 6vw, 88px)",
         color: isActive ? "#1800AD" : "rgba(15,23,42,0.15)",
         opacity: isActive ? 1 : 0.45,
         transform: isActive ? "scale(1.02)" : "scale(1)",
-        transformOrigin: "left center",
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLElement).style.color = "#1800AD";
-        (e.currentTarget as HTMLElement).style.opacity = "1";
-      }}
-      onMouseLeave={e => {
-        if (!isActive) {
-          (e.currentTarget as HTMLElement).style.color = "rgba(15,23,42,0.15)";
-          (e.currentTarget as HTMLElement).style.opacity = "0.45";
-        }
+        transformOrigin: align === "center" ? "center center" : "left center",
       }}
     >
       {text}
@@ -665,10 +655,10 @@ function AboutPage() {
             <div className="lg:col-span-9">
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#1800AD]">Capabilities</span>
               <h2 className="font-display font-black text-slate-900 mt-4 leading-[1.05] tracking-tight text-[clamp(32px,5.2vw,76px)]">
-                Bespoke Studio & <span className="font-light text-slate-400 font-sans italic">Engineering</span> Essentials.
+                we build tools that <span className="font-light text-[#1800AD] font-sans italic">dominate</span> markets.
               </h2>
-              <p className="text-slate-500 text-sm sm:text-base max-w-2xl mt-5 leading-relaxed">
-                We engineer production-grade custom web interfaces, coordinate multi-agent AI ecosystems, and run intent-driven search growth pipelines designed to convert clicks into clients.
+              <p className="text-slate-600 text-sm sm:text-base max-w-2xl mt-5 leading-relaxed">
+                We design and engineer bespoke web platforms, deploy intelligent autonomous AI systems, and script hyper-optimized search systems that turn cold traffic into compounding revenue.
               </p>
             </div>
             <div className="lg:col-span-3 lg:text-right pt-6 lg:pt-12">
@@ -693,16 +683,16 @@ function AboutPage() {
                 alt="Web Dev Showcase"
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
               <div className="relative z-10 text-white">
                 <Link
                   to="/services"
                   className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold hover:bg-white hover:text-slate-900 transition-all"
                 >
-                  See Details <ArrowUpRight className="h-3.5 w-3.5" />
+                  Explore Engineering <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
                 <h3 className="text-xl sm:text-2xl font-black mt-4 leading-snug">
-                  Next-Gen Web Apps: Production-grade platforms engineered for velocity.
+                  High-Performance Web: Platforms engineered for absolute velocity, retention, and conversion.
                 </h3>
               </div>
             </div>
@@ -718,14 +708,20 @@ function AboutPage() {
                   alt="AI Automation"
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-slate-950/25 group-hover:bg-slate-950/40 transition-colors duration-500" />
-                <div className="relative z-10 text-center flex flex-col items-center">
-                  <Link
-                    to="/services"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-slate-950 text-white border border-slate-800 px-4 py-2 text-xs font-semibold hover:scale-105 transition-all"
-                  >
-                    See AI Workflows <ArrowUpRight className="h-3.5 w-3.5" />
-                  </Link>
+                <div className="absolute inset-0 bg-slate-950/35 group-hover:bg-slate-950/50 transition-colors duration-500" />
+                <div className="relative z-10 text-white">
+                  <div className="flex flex-col items-start">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#0EA5A4] bg-[#0EA5A4]/10 rounded px-2.5 py-1 mb-3">AI Automation</span>
+                    <h3 className="text-xl sm:text-2xl font-black leading-snug mb-4">
+                      AI Workflow Automations: Replace human bottlenecks with 24/7 digital labor pipelines.
+                    </h3>
+                    <Link
+                      to="/services"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-white text-slate-950 px-4 py-2 text-xs font-semibold hover:scale-105 transition-all"
+                    >
+                      Deploy AI Workflows <ArrowUpRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -734,20 +730,26 @@ function AboutPage() {
             <div className="md:col-span-3 flex flex-col gap-6">
               {/* Right small card 1 */}
               <div
-                className="relative rounded-[2rem] overflow-hidden bg-white border border-slate-200/50 p-6 min-h-[160px] flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all duration-500"
+                className="relative rounded-[2rem] overflow-hidden bg-[#F4F6FF] border border-[#1800AD]/10 p-7 min-h-[220px] flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all duration-500"
               >
                 <img
                   src="/app_dev_showcase.png"
                   alt="App Dev"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-20"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60 mix-blend-multiply"
                 />
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/70 via-white/40 to-transparent pointer-events-none" />
                 <div className="relative z-10 flex flex-col justify-between h-full">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#1800AD]">App Dev</span>
+                  <div>
+                    <span className="text-xs font-black uppercase tracking-wider text-[#1800AD]">App Development</span>
+                    <h4 className="text-lg font-black text-slate-900 mt-3 leading-snug" style={{ letterSpacing: "-0.01em" }}>
+                      Bespoke iOS & Android environments tailored to scale.
+                    </h4>
+                  </div>
                   <Link
                     to="/services"
-                    className="self-start inline-flex items-center gap-1 rounded-full bg-slate-100 hover:bg-slate-900 hover:text-white px-3 py-1.5 text-xs font-semibold transition-all mt-8"
+                    className="self-start inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-slate-900 hover:text-white text-slate-950 px-4 py-2 text-xs font-bold transition-all shadow-sm border border-slate-200/50 mt-6"
                   >
-                    See Details <ArrowUpRight className="h-3.5 w-3.5" />
+                    Details <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               </div>
@@ -756,10 +758,10 @@ function AboutPage() {
               <div
                 className="rounded-[2rem] border border-slate-200/50 bg-slate-50/50 p-6 flex flex-col justify-center min-h-[160px] shadow-sm"
               >
-                <span className="text-3xl font-black text-slate-900 leading-none">99/100</span>
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1.5">Lighthouse Score</span>
+                <span className="text-3xl font-black text-slate-900 leading-none">0.8s</span>
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1.5">Average Load Speed</span>
                 <p className="text-xs text-slate-500 mt-3 leading-relaxed">
-                  We build with strict performance budgets so your platform loads in sub-second speeds.
+                  Engineered with strict code splitting to guarantee instant content delivery and minimize bounce rates.
                 </p>
               </div>
             </div>
@@ -770,10 +772,10 @@ function AboutPage() {
             {/* Left title card */}
             <div className="lg:col-span-4 flex flex-col justify-center gap-4">
               <h2 className="font-display font-black text-slate-900 leading-[1.05] tracking-tight text-[clamp(28px,4.5vw,52px)]">
-                Conversions Start With Speed & SEO.
+                traffic is vanity. conversions are sanity.
               </h2>
-              <p className="text-slate-500 text-sm leading-relaxed">
-                Unlock compounding organic traffic and capture high-intent leads with clean UI.
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Build high-intent organic search pipelines combined with high-fidelity customer experiences that turn visitors into pipeline revenue.
               </p>
               <Link
                 to="/services"
@@ -792,7 +794,7 @@ function AboutPage() {
                 alt="Growth Systems"
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
               <div className="relative z-10 flex flex-col gap-3">
                 <Link
                   to="/services"
@@ -801,8 +803,8 @@ function AboutPage() {
                   See Details <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
                 <div className="flex gap-2 mt-4 text-[10px] font-bold text-white/70 uppercase">
-                  <span>#SEOsystems</span>
-                  <span>#Acquisition</span>
+                  <span>#SearchSystems</span>
+                  <span>#DemandGen</span>
                 </div>
               </div>
             </div>
@@ -816,7 +818,7 @@ function AboutPage() {
                 alt="Web Dev"
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
               <div className="relative z-10 flex flex-col gap-3">
                 <Link
                   to="/services"
@@ -825,8 +827,8 @@ function AboutPage() {
                   See Details <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
                 <div className="flex gap-2 mt-4 text-[10px] font-bold text-white/70 uppercase">
-                  <span>#WebPerformance</span>
-                  <span>#CleanUI</span>
+                  <span>#CoreWebVitals</span>
+                  <span>#UXEngineering</span>
                 </div>
               </div>
             </div>
@@ -1151,7 +1153,7 @@ function AboutPage() {
       ═══════════════════════════════════════════════════════════════════════ */}
       <section
         ref={futureReveal.ref}
-        className="relative py-40 md:py-56 overflow-hidden bg-white"
+        className="relative py-32 md:py-48 overflow-hidden bg-white"
         aria-label="The future"
       >
         <div
@@ -1165,29 +1167,46 @@ function AboutPage() {
         <div className="container-x relative z-10 text-center max-w-5xl mx-auto">
           <SentenceReveal>
             <p className="text-xs font-semibold uppercase tracking-widest mb-8" style={{ color: "#1800AD" }}>The Future</p>
-            <h2
-              className="font-display font-black text-slate-900 leading-[1.02] tracking-tight"
-              style={{ fontSize: "clamp(42px, 7vw, 100px)" }}
-            >
-              The future belongs to
-              <br />
-              companies that{" "}
-              <span
+            <div className="space-y-4 md:space-y-6">
+              <ScrollRevealSentence text="The future belongs to" align="center" />
+              <ScrollRevealSentence text="companies that" align="center" />
+              <p
+                className="font-display font-black leading-[1] tracking-tight transition-all duration-500 text-center"
                 style={{
+                  fontSize: "clamp(32px, 5.5vw, 88px)",
                   background: "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   color: "transparent",
+                  transformOrigin: "center center",
                 }}
               >
-                build faster.
-              </span>
-            </h2>
+                build faster & scale.
+              </p>
+            </div>
           </SentenceReveal>
 
           <SentenceReveal delay={300}>
-            <p className="mt-8 text-2xl md:text-3xl text-slate-500 max-w-2xl mx-auto leading-relaxed underline" style={{ fontFamily: "Wistania, sans-serif" }}>
-              The companies shipping in weeks rather than months will define the next decade of business.
+            <p 
+              className="mt-12 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-semibold text-slate-600"
+              style={{
+                letterSpacing: "-0.015em",
+              }}
+            >
+              The companies delivering{" "}
+              <span 
+                className="italic font-normal text-[#1800AD]"
+                style={{ 
+                  fontFamily: '"Wistania", sans-serif',
+                  fontSize: "1.25em",
+                  borderBottom: "1.5px solid rgba(24,0,173,0.25)",
+                  paddingBottom: "2px",
+                  display: "inline-block"
+                }}
+              >
+                high-fidelity quality
+              </span>{" "}
+              at startup velocity will lead the next decade of business.
             </p>
           </SentenceReveal>
         </div>
@@ -1205,25 +1224,32 @@ function AboutPage() {
           <div className="relative max-w-4xl mx-auto">
             {/* Animated gradient border */}
             <div
-              className="absolute inset-0 rounded-3xl cta-gradient-border"
-              style={{ padding: "2px" }}
+              className="absolute inset-0 rounded-3xl"
+              style={{ 
+                padding: "1px",
+                background: "linear-gradient(135deg, rgba(24,0,173,0.2) 0%, rgba(14,165,164,0.2) 100%)",
+                boxShadow: "0 30px 60px -15px rgba(24,0,173,0.12), 0 12px 30px -10px rgba(14,165,164,0.08)",
+              }}
               aria-hidden
             >
               <div className="absolute inset-0 rounded-3xl" style={{ background: "white" }} />
             </div>
 
             <div
-              className="relative rounded-3xl overflow-hidden px-8 py-14 md:px-16 md:py-20 text-center"
+              className="relative rounded-3xl overflow-hidden px-8 py-16 md:px-16 md:py-20 text-center"
               style={{
-                background: "linear-gradient(135deg, rgba(24,0,173,0.03) 0%, rgba(14,165,164,0.03) 100%)",
-                border: "2px solid transparent",
-                backgroundClip: "padding-box",
+                background: "rgba(255,255,255,0.85)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                border: "1px solid rgba(24,0,173,0.08)",
               }}
             >
               {/* Glow behind */}
               <div
                 className="pointer-events-none absolute inset-0"
-                style={{ background: "radial-gradient(ellipse at 50% 110%, rgba(14,165,164,0.12) 0%, transparent 60%)" }}
+                style={{ 
+                  background: "radial-gradient(circle at 50% 100%, rgba(24,0,173,0.06) 0%, rgba(14,165,164,0.04) 50%, transparent 80%)",
+                }}
                 aria-hidden
               />
 
