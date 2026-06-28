@@ -255,26 +255,26 @@ export function NeuralSphere() {
       {/* Subtle bottom gradient shadow to fit into the white background of next section */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/5 to-[#ffffff] z-10 pointer-events-none" />
 
-      {/* Catchy Transparent Text Cards on Left and Right Sides */}
-      <div className="absolute inset-x-8 top-[10%] bottom-[10%] z-20 pointer-events-none flex flex-col lg:flex-row justify-between items-center gap-8 w-[calc(100%-4rem)]">
-        {/* Left Card: AI Automation & Logic */}
+      {/* Catchy Transparent Text Cards Positioned Asymmetrically */}
+      <div className="absolute inset-0 z-20 pointer-events-none">
+        {/* Left Card: AI Automation (Placed at the bottom left) */}
         <div 
-          className="max-w-[290px] rounded-2xl p-6 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_12px_30px_rgba(24,0,173,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
+          className="absolute left-8 bottom-12 max-w-[340px] rounded-3xl p-7 backdrop-blur-md bg-white/20 border border-[#1800AD]/10 shadow-[0_12px_30px_rgba(24,0,173,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1"
         >
           <span className="text-[10px] font-black tracking-[0.2em] text-[#1800AD] uppercase">AUTOMATION PIPELINES</span>
-          <h3 className="mt-2 text-base font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
-          <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+          <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Eliminate manual workload entirely</h3>
+          <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
             We map custom AI agents and n8n nodes directly into your operations to process leads and data 24/7.
           </p>
         </div>
 
-        {/* Right Card: High-Performance Engineering */}
+        {/* Right Card: High-Performance Engineering (Placed at the top right) */}
         <div 
-          className="max-w-[290px] rounded-2xl p-6 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_12px_30px_rgba(14,165,164,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
+          className="absolute right-8 top-12 max-w-[340px] rounded-3xl p-7 backdrop-blur-md bg-white/20 border border-[#0EA5A4]/10 shadow-[0_12px_30px_rgba(14,165,164,0.04)] pointer-events-auto transition-transform duration-500 hover:-translate-y-1 lg:text-right"
         >
           <span className="text-[10px] font-black tracking-[0.2em] text-[#0EA5A4] uppercase">ELITE ENGINEERING</span>
-          <h3 className="mt-2 text-base font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
-          <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+          <h3 className="mt-2 text-lg font-bold text-slate-900 leading-tight">Scale-ready fast architecture</h3>
+          <p className="text-[12px] text-slate-500 mt-2 leading-relaxed">
             Clean type-safe React/Vite platforms built for sub-second load times and high conversions.
           </p>
         </div>
