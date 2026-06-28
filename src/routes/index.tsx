@@ -182,45 +182,96 @@ function ServicesSection() {
     return () => obs.disconnect();
   }, []);
 
-  // Slides definition matching the premium layout
+  // 9 Slides matching all core website services with realistic deep metrics
   const slides = [
     {
       category: "Web Development",
-      badge: "Performance",
+      badge: "Scale-Ready",
       statValue: "99%",
-      statSub: "Lighthouse Speed",
-      highlightText: "Cortvex websites load in sub-second speed",
-      subText: "to maximize conversion rates, keep visitors engaged, and dominate organic search engines.",
-      previews: [
-        "/web_dev_showcase.png",
-        "/app_dev_showcase.png"
-      ],
+      statSub: "Lighthouse Speed Score",
+      highlightText: "High-performance React architectures",
+      subText: "built with TanStack and Next.js to maximize conversion rates and compounding user engagement.",
+      iconText: "React / Node / TS",
       color: "#1800AD"
     },
     {
-      category: "AI Automation",
-      badge: "Efficiency",
-      statValue: "18h",
-      statSub: "Saved per Sprint",
-      highlightText: "automated workflow integrations built via n8n",
-      subText: "to replace slow manual bottlenecks with real-time autonomous data processing scripts.",
-      previews: [
-        "/ai_auto_showcase.png",
-        "/growth_sys_showcase.png"
-      ],
+      category: "Web Design",
+      badge: "Conversion-Led",
+      statValue: "40%",
+      statSub: "Average Conversion Lift",
+      highlightText: "Bespoke user-focused interfaces",
+      subText: "designed in Figma around high-intent buyer journeys and tailored brand aesthetics.",
+      iconText: "UX / Prototyping",
       color: "#0EA5A4"
     },
     {
-      category: "SEO & Growth",
+      category: "AI Automation",
+      badge: "Efficiency Labs",
+      statValue: "18h",
+      statSub: "Saved per Team Sprint",
+      highlightText: "Custom autonomous agent pipelines",
+      subText: "engineered with n8n and Make to eliminate manual operational bottlenecks 24/7.",
+      iconText: "n8n / LLM / Workflows",
+      color: "#1800AD"
+    },
+    {
+      category: "Web Chatbots",
+      badge: "Automation",
+      statValue: "94%",
+      statSub: "First-Response Accuracy",
+      highlightText: "Intelligent customer service agents",
+      subText: "integrating custom vector databases (RAG) over your support docs for immediate solutions.",
+      iconText: "OpenAI / Pinecone",
+      color: "#0EA5A4"
+    },
+    {
+      category: "Voice Bots",
+      badge: "Operations",
+      statValue: "2.8x",
+      statSub: "Booking Velocity Increase",
+      highlightText: "Natural real-time voice agents",
+      subText: "qualified for inbound customer inquiries, call scheduling, and automated reminders.",
+      iconText: "Vapi / Twilio",
+      color: "#1800AD"
+    },
+    {
+      category: "App Development",
+      badge: "Mobile Apps",
+      statValue: "4.9★",
+      statSub: "Average Store Rating",
+      highlightText: "Refined native mobile platforms",
+      subText: "compiled with React Native and Flutter for lightning-fast iOS & Android performance.",
+      iconText: "Flutter / Native",
+      color: "#0EA5A4"
+    },
+    {
+      category: "SEO Systems",
       badge: "Acquisition",
+      statValue: "340%",
+      statSub: "Organic Traffic Increase",
+      highlightText: "Technical and content SEO systems",
+      subText: "wired to acquisition pipelines and compounding organic leads that scale without paid ad spend.",
+      iconText: "Audits / Backlinks",
+      color: "#1800AD"
+    },
+    {
+      category: "Paid Marketing",
+      badge: "Growth Engine",
       statValue: "4.2x",
-      statSub: "Average Traffic ROI",
-      highlightText: "sustained organic compound visitor growth",
-      subText: "aligned directly to revenue goals and customer acquisition metrics, not vanity vanity clicks.",
-      previews: [
-        "/growth_sys_showcase.png",
-        "/web_dev_showcase.png"
-      ],
+      statSub: "Average Ad Spend ROI",
+      highlightText: "Full-funnel traffic management",
+      subText: "combining landing page testing and programmatic ads to acquire high-value customers.",
+      iconText: "Meta / Google / Ads",
+      color: "#0EA5A4"
+    },
+    {
+      category: "Social Media Handling",
+      badge: "Brand Voice",
+      statValue: "10x",
+      statSub: "Audience Growth Rate",
+      highlightText: "Consistency-first community growth",
+      subText: "leveraging high-quality custom asset creation and full-service community handling pipelines.",
+      iconText: "Creatives / Handling",
       color: "#1800AD"
     }
   ];
@@ -229,17 +280,17 @@ function ServicesSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 5500);
     return () => clearInterval(interval);
   }, [slides.length]);
 
   const current = slides[activeSlide];
 
   return (
-    <section ref={ref} className="section w-full py-24 bg-slate-50 flex items-center justify-center">
-      <div className="container-x max-w-4xl w-full">
+    <section ref={ref} className="section w-full py-20 bg-slate-50 flex items-center justify-center">
+      <div className="container-x max-w-6xl w-full">
         {/* Header */}
-        <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
+        <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
           <div
             className="transition-all duration-700"
             style={{ opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(30px)" }}
@@ -259,78 +310,78 @@ function ServicesSection() {
           </div>
         </div>
 
-        {/* Premium Interactive Slideshow Card */}
+        {/* Premium Interactive Slideshow Card - Wider and Shorter */}
         <div
-          className="relative w-full rounded-[2.5rem] overflow-hidden p-8 md:p-12 text-white shadow-[0_30px_70px_rgba(24,0,173,0.18)] transition-all duration-700"
+          className="relative w-full rounded-[2.5rem] overflow-hidden p-8 md:p-10 text-white shadow-[0_30px_70px_rgba(24,0,173,0.14)] transition-all duration-700"
           style={{
-            background: `linear-gradient(145deg, #10101b 0%, #1800AD 65%, #0EA5A4 150%)`,
+            background: `linear-gradient(135deg, #10101b 0%, #1800AD 65%, #0EA5A4 150%)`,
             opacity: inView ? 1 : 0,
             transform: inView ? "translateY(0)" : "translateY(40px)",
           }}
         >
-          {/* Accent glow orb */}
-          <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-[#0EA5A4]/25 blur-[80px] pointer-events-none" />
+          {/* Ambient decorative glowing orb */}
+          <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-[#0EA5A4]/20 blur-[80px] pointer-events-none" />
 
-          {/* Card Top Row */}
-          <div className="flex items-center justify-between gap-4">
+          {/* Top category indicator bar */}
+          <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#0EA5A4] animate-pulse" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/10">
+                <span className="h-2 w-2 rounded-full bg-[#0EA5A4] animate-pulse" />
               </span>
               <span className="text-xs font-black tracking-widest uppercase text-white/90">{current.category}</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/10">
-                {current.badge} &darr;
+              <span className="text-[10px] font-mono tracking-widest uppercase px-3 py-1.5 rounded-full bg-white/10 border border-white/15">
+                {current.iconText}
               </span>
-              <Link to="/contact" className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 transition-all hover:bg-white hover:text-[#1800AD]">
-                <ArrowUpRight className="h-5 w-5" />
-              </Link>
+              <span className="text-[11px] font-bold px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10">
+                {current.badge}
+              </span>
             </div>
           </div>
 
-          {/* Main Stat and Big Metric Title */}
-          <div className="mt-12 md:mt-16 flex items-start gap-2">
-            <h3 className="text-7xl md:text-8xl font-black tracking-tighter leading-none">{current.statValue}</h3>
-            <ArrowUpRight className="h-8 w-8 text-[#0EA5A4] mt-2 shrink-0" />
-          </div>
-          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#0EA5A4] mt-2">{current.statSub}</p>
-
-          {/* Bold Catchy Summary Text block */}
-          <div className="mt-8 md:mt-10 max-w-xl">
-            <p className="text-xl md:text-2xl font-semibold leading-snug">
-              <strong className="font-extrabold text-white">{current.highlightText}</strong> {current.subText}
-            </p>
-          </div>
-
-          {/* Preview Thumbnails Row */}
-          <div className="mt-10 md:mt-12 flex gap-4 overflow-hidden">
-            {current.previews.map((src, pIdx) => (
-              <div
-                key={src}
-                className="w-36 h-24 rounded-2xl overflow-hidden border border-white/15 shadow-md shrink-0 relative group transition-transform duration-500 hover:scale-105"
-              >
-                <img src={src} alt="Preview" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors duration-300" />
+          {/* 2-Column Responsive Layout: Left Stat, Right Content Copy */}
+          <div className="grid md:grid-cols-12 gap-8 items-center mt-8">
+            {/* Left side: Large dynamic metrics */}
+            <div className="md:col-span-5 flex flex-col justify-center">
+              <div className="flex items-start gap-1">
+                <span className="text-6xl md:text-7xl font-black tracking-tighter leading-none">{current.statValue}</span>
+                <ArrowUpRight className="h-6 w-6 text-[#0EA5A4] mt-1 shrink-0" />
               </div>
-            ))}
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0EA5A4] mt-2">{current.statSub}</p>
+            </div>
+
+            {/* Right side: Catchy description content block */}
+            <div className="md:col-span-7 flex flex-col justify-center">
+              <p className="text-lg md:text-xl font-semibold leading-relaxed">
+                <span className="font-extrabold text-white text-2xl block mb-2">{current.highlightText}</span>
+                <span className="text-white/80 text-sm md:text-base font-normal">{current.subText}</span>
+              </p>
+            </div>
           </div>
 
-          {/* Horizontal Slide Indicators */}
-          <div className="mt-12 flex items-center gap-2">
-            {slides.map((_, sIdx) => (
-              <button
-                key={sIdx}
-                onClick={() => setActiveSlide(sIdx)}
-                className="h-1 rounded-full transition-all duration-500"
-                style={{
-                  width: sIdx === activeSlide ? "32px" : "12px",
-                  background: sIdx === activeSlide ? "#0EA5A4" : "rgba(255,255,255,0.25)"
-                }}
-                aria-label={`Go to slide ${sIdx + 1}`}
-              />
-            ))}
+          {/* Footer: Slide Navigation dots & Start action */}
+          <div className="mt-10 pt-6 border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
+            {/* Horizontal Slide Indicators */}
+            <div className="flex items-center gap-2">
+              {slides.map((_, sIdx) => (
+                <button
+                  key={sIdx}
+                  onClick={() => setActiveSlide(sIdx)}
+                  className="h-1.5 rounded-full transition-all duration-500"
+                  style={{
+                    width: sIdx === activeSlide ? "32px" : "10px",
+                    background: sIdx === activeSlide ? "#0EA5A4" : "rgba(255,255,255,0.25)"
+                  }}
+                  aria-label={`Go to slide ${sIdx + 1}`}
+                />
+              ))}
+            </div>
+
+            <Link to="/contact" className="inline-flex items-center gap-2 rounded-xl bg-white text-[#1800AD] px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all hover:bg-slate-100 hover:scale-105 shadow-sm">
+              Start Project &rarr;
+            </Link>
           </div>
         </div>
       </div>
