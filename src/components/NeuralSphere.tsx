@@ -139,33 +139,23 @@ const fragmentShader = `
     float r = dot(cxy, cxy);
     if (r > 1.0) discard;
     
-    // Flowing Color gradient mapping
-    // Neon Magenta -> Hot Pink -> Coral Red -> Orange -> Soft Yellow -> Cyan -> Electric Blue -> White highlights
+    // Flowing Color gradient mapping mapping to primary colors: #1800AD -> #0EA5A4
     float t = vElevation * 3.0 + 0.5;
     
-    vec3 color1 = vec3(0.9, 0.0, 0.45); // Neon Magenta
-    vec3 color2 = vec3(0.95, 0.2, 0.35); // Hot Pink
-    vec3 color3 = vec3(0.0, 0.75, 0.9);  // Cyan
-    vec3 color4 = vec3(0.1, 0.3, 0.95);  // Electric Blue
-    vec3 color5 = vec3(0.95, 0.6, 0.1);  // Orange-Yellow
-    vec3 color6 = vec3(1.0, 1.0, 1.0);   // White highlight
+    vec3 color1 = vec3(0.094, 0.0, 0.678); // #1800AD (Vibrant Dark Blue)
+    vec3 color2 = vec3(0.055, 0.647, 0.643); // #0EA5A4 (Vibrant Teal)
+    vec3 color3 = vec3(0.388, 0.4, 0.945);  // Intermediate Soft Purple/Indigo
     
     vec3 color = color1;
-    if (t < -0.2) {
-      color = mix(color4, color3, (t + 0.5) / 0.3);
-    } else if (t < 0.2) {
-      color = mix(color3, color2, (t + 0.2) / 0.4);
-    } else if (t < 0.6) {
-      color = mix(color2, color1, (t - 0.2) / 0.4);
-    } else if (t < 1.0) {
-      color = mix(color1, color5, (t - 0.6) / 0.4);
+    if (t < 0.0) {
+      color = mix(color1, color3, (t + 0.5) / 0.5);
     } else {
-      color = mix(color5, color6, min((t - 1.0) / 0.5, 1.0));
+      color = mix(color3, color2, min(t / 1.0, 1.0));
     }
     
     // Flat rendering, no bloom or neon edge outlines
     float alpha = 1.0 - smoothstep(0.88, 1.0, r);
-    gl_FragColor = vec4(color, alpha * 0.9);
+    gl_FragColor = vec4(color, alpha * 0.85);
   }
 `;
 
@@ -261,26 +251,9 @@ function ParticleSphereMesh() {
 
 export function NeuralSphere() {
   return (
-    <div className="relative w-full h-[620px] bg-[#050505] overflow-hidden flex items-center justify-center">
-      {/* Decorative radial overlay to mask edges */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#050505]/20 to-[#050505] z-10 pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#050505_95%)] z-10 pointer-events-none" />
-
-      {/* Floating text headers */}
-      <div className="absolute inset-x-8 top-12 z-20 pointer-events-none flex flex-wrap justify-between items-start">
-        <div className="max-w-xs transition-opacity duration-700">
-          <span className="text-[10px] font-bold tracking-[0.2em] text-[#0EA5A4] uppercase">CYBERSECURITY</span>
-          <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">
-            Neutralising threats at sector speed. AI-driven logistics mapping risk paths automatically.
-          </p>
-        </div>
-        <div className="max-w-xs text-right transition-opacity duration-700">
-          <span className="text-[10px] font-bold tracking-[0.2em] text-[#1800AD] uppercase">ARTIFICIAL INTELLIGENCE</span>
-          <p className="text-[11px] text-slate-400 mt-2 leading-relaxed">
-            We orchestrate a systematic approach to build high impact AI ventures.
-          </p>
-        </div>
-      </div>
+    <div className="relative w-full h-[620px] bg-white overflow-hidden flex items-center justify-center">
+      {/* Subtle bottom gradient shadow to fit into the white background of next section */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ffffff]/10 to-[#ffffff] z-10 pointer-events-none" />
 
       <Canvas
         camera={{ position: [0, 0, 5.2], fov: 45 }}
