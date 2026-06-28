@@ -310,7 +310,7 @@ function AboutPage() {
   const c1 = useCounter(20, 1800);
   const c2 = useCounter(80, 1600);
   const c3 = useCounter(4.9, 1400, 1);
-  const c4 = useCounter(7, 1200);
+  const c4 = useCounter(2, 1200);
 
   useEffect(() => {
     if (statsReveal.inView) { c1.start(); c2.start(); c3.start(); c4.start(); }
@@ -1002,7 +1002,7 @@ function AboutPage() {
               { count: c1.count, suffix: "+", label: "Businesses Automated", decimals: 0 },
               { count: c2.count, suffix: "+", label: "Projects Delivered", decimals: 0 },
               { count: c3.count, suffix: "★", label: "Client Rating", decimals: 1 },
-              { count: c4.count, suffix: "-7d", label: "Kickoff Time", decimals: 0 },
+              { count: c4.count, prefix: "< ", suffix: " Weeks", label: "Kickoff Time", decimals: 0 },
             ].map((stat, i) => (
               <SentenceReveal key={i} delay={i * 120}>
                 <div className="text-center">
@@ -1016,7 +1016,7 @@ function AboutPage() {
                       color: "transparent",
                     }}
                   >
-                    {stat.decimals > 0 ? stat.count.toFixed(stat.decimals) : (stat.label === "Kickoff Time" ? "5" : Math.floor(stat.count))}{stat.suffix}
+                    {stat.prefix || ""}{stat.decimals > 0 ? stat.count.toFixed(stat.decimals) : Math.floor(stat.count)}{stat.suffix}
                   </p>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-[#1800AD]">{stat.label}</p>
                 </div>
