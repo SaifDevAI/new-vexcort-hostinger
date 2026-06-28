@@ -107,7 +107,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden w-full h-screen flex items-center">
       <div className="absolute inset-0 w-full h-full z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-white/95 z-25 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/10 to-white z-25 pointer-events-none" />
         <div className="absolute inset-0 bg-slate-950/20 z-20 pointer-events-none" />
         <video
           autoPlay
