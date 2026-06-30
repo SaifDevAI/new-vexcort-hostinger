@@ -1,4 +1,4 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { ArrowUpRight, Check, Star, ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -146,61 +146,63 @@ function ServicesPage() {
             {services.map(({ logo, logoAlt, title, desc, features, color, tag }, idx) => (
               <div
                 key={title}
-                className="group relative flex flex-col overflow-hidden rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(24,0,173,0.12)]"
+                className="group relative flex flex-col overflow-hidden rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:        {/* Premium overlapping chat-style cards for Services */}
+        <section className="container-x pb-24">
+          <div className="grid gap-12 md:gap-16 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map(({ logo, logoAlt, title, desc, features, color, tag }, idx) => (
+              <div
+                key={title}
+                className="group relative flex flex-col justify-between rounded-[2rem] p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(24,0,173,0.12)] min-h-[580px]"
                 style={{
-                  background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(244,246,255,0.65) 100%)",
-                  border: "1px solid rgba(24,0,173,0.08)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
+                  background: color === "#1800AD" ? "rgba(24,0,173,0.03)" : "rgba(14,165,164,0.03)",
+                  border: `3px dashed ${color}50`,
                   opacity: inView ? 1 : 0,
                   transform: inView ? "translateY(0)" : "translateY(50px)",
                   transition: "all 0.65s cubic-bezier(0.16, 1, 0.3, 1)",
                   transitionDelay: `${idx * 60}ms`,
                 }}
               >
-                {/* Neon accent top border */}
-                <div
-                  className="absolute top-0 left-0 right-0 h-[4px] rounded-t-3xl transition-all duration-500 opacity-40 group-hover:opacity-100"
-                  style={{ background: `linear-gradient(90deg, ${color} 0%, #0EA5A4 100%)` }}
-                />
-
-                <div className="flex flex-col flex-1 p-8">
-                  <div className="flex items-center justify-between">
-                    <span
-                      className="grid h-12 w-12 place-items-center rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3"
-                      style={{
-                        background: `linear-gradient(135deg, rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"},0.08) 0%, rgba(255,255,255,0.95) 100%)`,
-                        border: `1.5px solid rgba(${color === "#1800AD" ? "24,0,173" : "14,165,164"},0.12)`,
-                        boxShadow: "0 8px 20px -6px rgba(24,0,173,0.08)",
-                      }}
-                    >
-                      <img src={logo} alt={logoAlt} className="h-6 w-6 object-contain" onError={(e) => { (e.target as HTMLImageElement).src = "https://cdn.simpleicons.org/react" }} />
-                    </span>
-                    <span
-                      className="text-[10px] font-black tracking-[0.2em] px-3 py-1 rounded-full text-slate-400 group-hover:text-[#1800AD] transition-colors duration-300"
-                      style={{ background: "rgba(24,0,173,0.04)" }}
-                    >
-                      {tag}
+                {/* Floating skewed header chat bubble */}
+                <div 
+                  className="w-[90%] rounded-3xl p-6 bg-white border shadow-md relative -rotate-3 transition-transform duration-500 group-hover:rotate-0 self-center mt-2 z-10"
+                  style={{
+                    borderColor: `${color}15`,
+                    background: idx % 3 === 0 ? "#FFF0F0" : idx % 3 === 1 ? "#FFFFF0" : "#FFF5FF",
+                  }}
+                >
+                  <div className="flex items-center justify-between border-b border-slate-900/5 pb-3">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Client Request</span>
+                    <span className="grid h-8 w-8 place-items-center rounded-xl bg-white shadow-sm border border-slate-100">
+                      <img src={logo} alt={logoAlt} className="h-4.5 w-4.5 object-contain" onError={(e) => { (e.target as HTMLImageElement).src = "https://cdn.simpleicons.org/react" }} />
                     </span>
                   </div>
 
-                  <h3 className="mt-6 text-xl font-bold leading-tight text-slate-900 group-hover:text-[#1800AD] transition-colors duration-300"
-                    style={{ letterSpacing: "-0.02em" }}>
+                  <p className="mt-4 text-xs font-semibold text-slate-700 italic leading-relaxed bg-white border rounded-2xl p-3 shadow-inner">
+                    "I want to explore {title} systems, outline a realistic strategy for scaling our operations."
+                  </p>
+
+                  <h3 className="mt-4 text-lg font-black leading-tight text-slate-900 tracking-tight">
                     {title}
                   </h3>
 
-                  <p className="mt-3 text-sm leading-relaxed text-slate-500 flex-1">
+                  <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
                     {desc}
                   </p>
+                </div>
 
-                  <ul className="mt-6 space-y-2.5">
+                {/* Overlapping middle chat bubble listing features */}
+                <div 
+                  className="w-[95%] rounded-3xl p-6 bg-white border border-slate-100 shadow-lg relative rotate-2 transition-transform duration-500 group-hover:rotate-0 -mt-10 self-center z-20"
+                >
+                  <span className="text-[9px] font-black tracking-widest text-[#1800AD] uppercase block mb-3">Core Deliverables</span>
+                  <ul className="space-y-2">
                     {features.map((f) => (
-                      <li key={f} className="flex items-center gap-2.5 text-xs text-slate-600">
+                      <li key={f} className="flex items-center gap-2 text-[11px] text-slate-600 font-medium">
                         <span
-                          className="flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
+                          className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
                           style={{ background: "rgba(24,0,173,0.05)" }}
                         >
-                          <Check className="h-3 w-3" style={{ color }} />
+                          <Check className="h-2.5 w-2.5" style={{ color }} />
                         </span>
                         <span>{f}</span>
                       </li>
@@ -208,19 +210,19 @@ function ServicesPage() {
                   </ul>
                 </div>
 
-                <div
-                  className="mx-6 mb-6 flex items-center justify-between rounded-2xl px-5 py-3 transition-colors duration-300"
+                {/* Interactive bottom card button block */}
+                <div 
+                  className="w-[90%] rounded-2xl p-4 flex items-center justify-between transition-transform duration-500 rotate-1 group-hover:rotate-0 self-center z-10"
                   style={{
-                    background: "rgba(24,0,173,0.03)",
-                    border: "1px solid rgba(24,0,173,0.06)",
+                    background: color,
+                    boxShadow: `0 8px 24px -6px ${color}60`,
                   }}
                 >
-                  <Link to="/contact" className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors"
-                    style={{ color: "#1800AD" }}>
-                    Start Project <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <Link to="/contact" className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-white transition-opacity hover:opacity-90">
+                    Book Service <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
-                  <span className="text-[11px] font-semibold text-slate-400">
-                    Cortvex Premium
+                  <span className="text-[10px] font-black text-white/70 tracking-widest">
+                    #{tag}
                   </span>
                 </div>
               </div>
