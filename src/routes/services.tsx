@@ -142,23 +142,23 @@ function ServicesPage() {
         }
       `}} />
 
-      <div ref={ref} className="relative z-10 bg-slate-50 min-h-screen overflow-hidden">
+      <div ref={ref} className="relative z-10 bg-transparent min-h-screen overflow-hidden">
         {/* Full-Screen GPU-Accelerated Parallax Mesh Background */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-slate-50 opacity-60">
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-transparent opacity-90">
           {/* Layer 1: Foreground parallax (0.3x scroll speed) */}
           <div 
             className="absolute inset-0 transition-transform duration-100 ease-out"
             style={{ 
               transform: `translate3d(0, ${scrollY * 0.3}px, 0)`,
-              filter: 'blur(220px)'
+              filter: 'blur(180px)'
             }}
           >
             <div 
-              className="absolute top-[10%] left-[15%] w-[450px] h-[450px] rounded-full bg-[#1800AD]/15"
+              className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full bg-[#1800AD]/25"
               style={{ animation: 'float-slow-1 25s infinite ease-in-out' }}
             />
             <div 
-              className="absolute top-[50%] right-[10%] w-[500px] h-[500px] rounded-full bg-[#0EA5A4]/15"
+              className="absolute top-[50%] right-[10%] w-[550px] h-[550px] rounded-full bg-[#0EA5A4]/25"
               style={{ animation: 'float-slow-2 35s infinite ease-in-out' }}
             />
           </div>
@@ -168,15 +168,15 @@ function ServicesPage() {
             className="absolute inset-0 transition-transform duration-100 ease-out"
             style={{ 
               transform: `translate3d(0, ${scrollY * 0.1}px, 0)`,
-              filter: 'blur(250px)'
+              filter: 'blur(200px)'
             }}
           >
             <div 
-              className="absolute top-[30%] right-[30%] w-[600px] h-[600px] rounded-full bg-[#1800AD]/10"
+              className="absolute top-[30%] right-[30%] w-[650px] h-[650px] rounded-full bg-[#1800AD]/20"
               style={{ animation: 'float-slow-3 45s infinite ease-in-out', animationDelay: '-5s' }}
             />
             <div 
-              className="absolute bottom-[10%] left-[25%] w-[550px] h-[550px] rounded-full bg-[#0EA5A4]/10"
+              className="absolute bottom-[10%] left-[25%] w-[600px] h-[600px] rounded-full bg-[#0EA5A4]/20"
               style={{ animation: 'float-slow-1 30s infinite ease-in-out', animationDelay: '-12s' }}
             />
           </div>
