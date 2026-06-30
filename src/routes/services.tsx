@@ -206,92 +206,221 @@ function ServicesPage() {
           </div>
         </section>
 
-        {/* Premium overlapping chat-style cards for Services */}
-        <section className="container-x pb-24">
-          <div className="grid gap-12 md:gap-16 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map(({ logo, logoAlt, title, desc, features, color, tag }, idx) => (
-              <div
-                key={title}
-                className="group relative flex flex-col justify-between rounded-[2rem] p-6 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(24,0,173,0.12)] min-h-[580px]"
-                style={{
-                  background: color === "#1800AD" ? "rgba(24,0,173,0.03)" : "rgba(14,165,164,0.03)",
-                  border: `3px dashed ${color}50`,
-                  opacity: inView ? 1 : 0,
-                  transform: inView ? "translateY(0)" : "translateY(50px)",
-                  transition: "all 0.65s cubic-bezier(0.16, 1, 0.3, 1)",
-                  transitionDelay: `${idx * 60}ms`,
-                }}
-              >
-                {/* Floating skewed header chat bubble */}
-                <div 
-                  className="w-[90%] rounded-3xl p-6 bg-white border shadow-md relative -rotate-3 transition-transform duration-500 group-hover:rotate-0 self-center mt-2 z-10"
-                  style={{
-                    borderColor: `${color}15`,
-                    background: idx % 3 === 0 ? "#FFF0F0" : idx % 3 === 1 ? "#FFFFF0" : "#FFF5FF",
-                  }}
-                >
-                  <div className="flex items-center justify-between border-b border-slate-900/5 pb-3">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Client Request</span>
-                    <span className="grid h-8 w-8 place-items-center rounded-xl bg-white shadow-sm border border-slate-100">
-                      <img src={logo} alt={logoAlt} className="h-4.5 w-4.5 object-contain" onError={(e) => { (e.target as HTMLImageElement).src = "https://cdn.simpleicons.org/react" }} />
-                    </span>
-                  </div>
-
-                  <p className="mt-4 text-xs font-semibold text-slate-700 italic leading-relaxed bg-white border rounded-2xl p-3 shadow-inner">
-                    "I want to explore {title} systems, outline a realistic strategy for scaling our operations."
-                  </p>
-
-                  <h3 className="mt-4 text-lg font-black leading-tight text-slate-900 tracking-tight">
-                    {title}
-                  </h3>
-
-                  <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
-                    {desc}
-                  </p>
-                </div>
-
-                {/* Overlapping middle chat bubble listing features */}
-                <div 
-                  className="w-[95%] rounded-3xl p-6 bg-white border border-slate-100 shadow-lg relative rotate-2 transition-transform duration-500 group-hover:rotate-0 -mt-10 self-center z-20"
-                >
-                  <span className="text-[9px] font-black tracking-widest text-[#1800AD] uppercase block mb-3">Core Deliverables</span>
-                  <ul className="space-y-2">
-                    {features.map((f) => (
-                      <li key={f} className="flex items-center gap-2 text-[11px] text-slate-600 font-medium">
-                        <span
-                          className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full"
-                          style={{ background: "rgba(24,0,173,0.05)" }}
-                        >
-                          <Check className="h-2.5 w-2.5" style={{ color }} />
-                        </span>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Interactive bottom card button block */}
-                <div 
-                  className="w-[90%] rounded-2xl p-4 flex items-center justify-between transition-transform duration-500 rotate-1 group-hover:rotate-0 self-center z-10"
-                  style={{
-                    background: color,
-                    boxShadow: `0 8px 24px -6px ${color}60`,
-                  }}
-                >
-                  <Link to="/contact" className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-white transition-opacity hover:opacity-90">
-                    Book Service <ArrowUpRight className="h-3.5 w-3.5" />
-                  </Link>
-                  <span className="text-[10px] font-black text-white/70 tracking-widest">
-                    #{tag}
-                  </span>
-                </div>
-              </div>
-            ))}
+        {/* Interactive centered card stack section */}
+        <section className="container-x pb-32 flex flex-col items-center justify-center relative min-h-[680px]">
+          <div className="relative w-full max-w-[420px] h-[600px] flex items-center justify-center">
+            <CardStack services={services} />
           </div>
         </section>
 
         <CTASection />
       </div>
     </SiteLayout>
+  );
+}
+
+// Center Stack card rotator component
+function CardStack({ services }: { services: typeof import("./services").services }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto rotation effect
+  useEffect(() => {
+    if (isDragging || isHovered) return;
+    const interval = setInterval(() => {
+      handleNext();
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [currentIndex, isDragging, isHovered]);
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % services.length);
+    setDragOffset({ x: 0, y: 0 });
+  };
+
+  // Drag interaction handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const dx = moveEvent.clientX - startX;
+      const dy = moveEvent.clientY - startY;
+      setDragOffset({ x: dx, y: dy });
+    };
+
+    const handleMouseUp = (upEvent: MouseEvent) => {
+      setIsDragging(false);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+
+      const dx = upEvent.clientX - startX;
+      const dy = upEvent.clientY - startY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance > 120) {
+        // Animate off screen then cycle
+        handleNext();
+      } else {
+        // Reset offset back to center
+        setDragOffset({ x: 0, y: 0 });
+      }
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  // Touch interaction handlers for mobile support
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    const startX = e.touches[0].clientX;
+    const startY = e.touches[0].clientY;
+
+    const handleTouchMove = (moveEvent: TouchEvent) => {
+      const dx = moveEvent.touches[0].clientX - startX;
+      const dy = moveEvent.touches[0].clientY - startY;
+      setDragOffset({ x: dx, y: dy });
+    };
+
+    const handleTouchEnd = (endEvent: TouchEvent) => {
+      setIsDragging(false);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
+
+      const dx = endEvent.changedTouches[0].clientX - startX;
+      const dy = endEvent.changedTouches[0].clientY - startY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance > 100) {
+        handleNext();
+      } else {
+        setDragOffset({ x: 0, y: 0 });
+      }
+    };
+
+    document.addEventListener("touchmove", handleTouchMove, { passive: true });
+    document.addEventListener("touchend", handleTouchEnd, { passive: true });
+  };
+
+  // Stack rendering (max 3 cards shown at once)
+  const visibleCards = [
+    services[currentIndex],
+    services[(currentIndex + 1) % services.length],
+    services[(currentIndex + 2) % services.length],
+  ];
+
+  return (
+    <div 
+      className="relative w-full h-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {visibleCards.map((service, index) => {
+        const isTop = index === 0;
+        const depth = index; // 0 is top, 1 is middle, 2 is bottom
+
+        // Card transform equations based on depth
+        const scale = isTop ? (isDragging ? 1.02 : 1) : 1 - depth * 0.05;
+        const translateY = isTop ? dragOffset.y : depth * 25;
+        const translateX = isTop ? dragOffset.x : 0;
+        const rotation = isTop ? (dragOffset.x * 0.04) : 0;
+        const zIndex = 30 - depth;
+
+        return (
+          <div
+            key={service.title}
+            className={`absolute inset-0 cursor-grab active:cursor-grabbing select-none`}
+            style={{
+              transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotation}deg)`,
+              zIndex,
+              transition: isDragging && isTop ? "none" : "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease",
+              pointerEvents: isTop ? "auto" : "none",
+              opacity: 1 - depth * 0.25,
+            }}
+            onMouseDown={isTop ? handleMouseDown : undefined}
+            onTouchStart={isTop ? handleTouchStart : undefined}
+            onClick={isTop ? () => { if (Math.abs(dragOffset.x) < 5 && Math.abs(dragOffset.y) < 5) handleNext(); } : undefined}
+          >
+            {/* Preserved card inner design exactly */}
+            <div
+              className="relative flex flex-col justify-between rounded-[2rem] p-6 shadow-[0_30px_60px_rgba(24,0,173,0.18)] min-h-[560px] h-full w-full border-2 bg-slate-50"
+              style={{
+                borderColor: `${service.color}15`,
+                boxShadow: isTop ? `0 25px 60px -15px ${service.color}35` : "none",
+              }}
+            >
+              {/* Floating skewed header chat bubble */}
+              <div 
+                className="w-[90%] rounded-3xl p-5 bg-white border shadow-md relative -rotate-3 transition-transform duration-500 group-hover:rotate-0 self-center mt-2 z-10"
+                style={{
+                  borderColor: `${service.color}15`,
+                  background: index % 3 === 0 ? "#FFF0F0" : index % 3 === 1 ? "#FFFFF0" : "#FFF5FF",
+                }}
+              >
+                <div className="flex items-center justify-between border-b border-slate-900/5 pb-3">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Client Request</span>
+                  <span className="grid h-8 w-8 place-items-center rounded-xl bg-white shadow-sm border border-slate-100">
+                    <img src={service.logo} alt={service.logoAlt} className="h-4.5 w-4.5 object-contain" />
+                  </span>
+                </div>
+
+                <p className="mt-4 text-xs font-semibold text-slate-700 italic leading-relaxed bg-white border rounded-2xl p-3 shadow-inner">
+                  "I want to explore {service.title} systems, outline a realistic strategy for scaling our operations."
+                </p>
+
+                <h3 className="mt-4 text-base font-black leading-tight text-slate-900 tracking-tight">
+                  {service.title}
+                </h3>
+
+                <p className="mt-2 text-[10px] leading-relaxed text-slate-500">
+                  {service.desc}
+                </p>
+              </div>
+
+              {/* Overlapping middle chat bubble listing features */}
+              <div 
+                className="w-[95%] rounded-3xl p-5 bg-white border border-slate-100 shadow-lg relative rotate-2 transition-transform duration-500 group-hover:rotate-0 -mt-8 self-center z-20"
+              >
+                <span className="text-[9px] font-black tracking-widest text-[#1800AD] uppercase block mb-2">Core Deliverables</span>
+                <ul className="space-y-1.5">
+                  {service.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2 text-[10px] text-slate-600 font-medium">
+                      <span
+                        className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full"
+                        style={{ background: "rgba(24,0,173,0.05)" }}
+                      >
+                        <Check className="h-2 w-2" style={{ color: service.color }} />
+                      </span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Interactive bottom card button block */}
+              <div 
+                className="w-[90%] rounded-xl p-3 flex items-center justify-between transition-transform duration-500 rotate-1 self-center z-10"
+                style={{
+                  background: service.color,
+                  boxShadow: `0 8px 24px -6px ${service.color}60`,
+                }}
+              >
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-white">
+                  Swipe/Click Card <ArrowUpRight className="h-3 w-3" />
+                </span>
+                <span className="text-[9px] font-black text-white/70 tracking-widest">
+                  #{service.tag}
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }
