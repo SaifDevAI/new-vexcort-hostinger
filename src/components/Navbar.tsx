@@ -1,21 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Menu, X, Calendar, UserRound } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Logo } from "./Logo";
-import { supabase } from "@/lib/supabase";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const links = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
   { to: "/faq", label: "FAQ" },
   { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
 ] as const;
 
 const navActiveClass =
@@ -27,7 +19,6 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [servicesInView, setServicesInView] = useState(false);
   const [faqInView, setFaqInView] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -65,31 +56,6 @@ export function Navbar() {
     };
   }, [location.pathname]);
 
-  useEffect(() => {
-    const syncAuthState = async () => {
-      const { data } = await supabase.auth.getSession();
-      setIsAuthenticated(Boolean(data.session));
-    };
-
-    syncAuthState();
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(Boolean(session));
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleSignOut = async () => {
-    try {
-      await supabase.auth.signOut({ scope: "global" });
-    } finally {
-      window.location.href = "/signin?mode=login";
-    }
-  };
-
   const isHomeRoute = location.pathname === "/";
   const activeNavLabel = !isHomeRoute
     ? location.pathname === "/services"
@@ -98,9 +64,7 @@ export function Navbar() {
         ? "FAQ"
         : location.pathname === "/about"
           ? "About"
-          : location.pathname === "/contact"
-            ? "Contact"
-            : ""
+          : ""
     : servicesInView
       ? "Services"
       : "Home";
@@ -118,10 +82,9 @@ export function Navbar() {
 
         <ul className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
-            <li key={`${l.to}-${l.hash ?? l.label}`}>
+            <li key={`${l.to}-${l.label}`}>
               <Link
                 to={l.to}
-                hash={l.hash}
                 activeOptions={{ exact: l.to === "/" }}
                 className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors hover:text-foreground ${
                   l.label === activeNavLabel ? navActiveClass : "text-foreground/70"
@@ -135,55 +98,12 @@ export function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-2 lg:flex">
-          {isAuthenticated ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  type="button"
-                  className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--color-border)] bg-white text-foreground/80 transition-colors hover:text-[color:var(--brand)]"
-                  aria-label="Open profile menu"
-                >
-                  <UserRound className="h-5 w-5" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-44">
-                <DropdownMenuItem asChild>
-                  <Link to="/book-meeting">
-                    <Calendar className="h-4 w-4" /> Book a Meeting
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onSelect={(event) => {
-                    event.preventDefault();
-                    void handleSignOut();
-                  }}
-                >
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <>
-              <Link
-                to="/signin"
-                search={{ mode: "login" }}
-                className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                  location.pathname === "/signin"
-                    ? "text-[color:var(--brand)] bg-[color:var(--brand-soft)] ring-1 ring-[color:var(--color-border)]"
-                    : "text-foreground/72 hover:text-[color:var(--brand)]"
-                }`}
-              >
-                Log In
-              </Link>
-              <Link
-                to="/signin"
-                search={{ mode: "signup" }}
-                className="btn btn-primary px-4 py-2 text-sm"
-              >
-                <Calendar className="h-4 w-4" /> Book a Meeting
-              </Link>
-            </>
-          )}
+          <Link
+            to="/contact"
+            className="btn btn-primary px-5 py-2 text-sm rounded-full font-bold flex items-center gap-1"
+          >
+            Contact Us <ArrowUpRight className="h-4 w-4" />
+          </Link>
         </div>
 
         <button
@@ -201,12 +121,11 @@ export function Navbar() {
           open ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0"
         }`}
       >
-        <ul className="flex flex-col">
+        <ul className="flex flex-col gap-1">
           {links.map((l) => (
-            <li key={`${l.to}-${l.hash ?? l.label}`}>
+            <li key={`${l.to}-${l.label}`}>
               <Link
                 to={l.to}
-                hash={l.hash}
                 onClick={() => setOpen(false)}
                 className={`block rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-[color:var(--color-surface)] ${
                   l.label === activeNavLabel
@@ -219,54 +138,15 @@ export function Navbar() {
               </Link>
             </li>
           ))}
-          {isAuthenticated ? (
-            <>
-              <li className="mt-2">
-                <Link
-                  to="/book-meeting"
-                  onClick={() => setOpen(false)}
-                  className="btn btn-primary w-full"
-                >
-                  <Calendar className="h-4 w-4" /> Book a Meeting
-                </Link>
-              </li>
-              <li className="mt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpen(false);
-                    void handleSignOut();
-                  }}
-                  className="btn w-full border border-[color:var(--color-border)] bg-white text-foreground/85"
-                >
-                  Sign out
-                </button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className="mt-2">
-                <Link
-                  to="/signin"
-                  search={{ mode: "login" }}
-                  onClick={() => setOpen(false)}
-                  className="btn w-full border border-[color:var(--color-border)] bg-white text-foreground/85"
-                >
-                  Log In
-                </Link>
-              </li>
-              <li className="mt-2">
-                <Link
-                  to="/signin"
-                  search={{ mode: "signup" }}
-                  onClick={() => setOpen(false)}
-                  className="btn btn-primary w-full"
-                >
-                  <Calendar className="h-4 w-4" /> Book a Meeting
-                </Link>
-              </li>
-            </>
-          )}
+          <li className="mt-2 pt-2 border-t border-slate-100">
+            <Link
+              to="/contact"
+              onClick={() => setOpen(false)}
+              className="btn btn-primary w-full rounded-xl py-3 justify-center text-center font-bold flex items-center gap-1.5"
+            >
+              Contact Us <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
