@@ -225,13 +225,24 @@ function CardStack({ services }: { services: typeof import("./services").service
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isFlattened, setIsFlattened] = useState(false);
 
-  // Auto rotation effect
+  // Auto rotation and flattening cycle effect
   useEffect(() => {
     if (isDragging || isHovered) return;
     const interval = setInterval(() => {
-      handleNext();
-    }, 6000);
+      // Toggle flattened layout, then shift index on stack
+      setIsFlattened((prev) => {
+        if (prev) {
+          // transition from flat -> stacked: change card index
+          handleNext();
+          return false;
+        } else {
+          // transition from stacked -> flat
+          return true;
+        }
+      });
+    }, 4500);
     return () => clearInterval(interval);
   }, [currentIndex, isDragging, isHovered]);
 
@@ -324,11 +335,25 @@ function CardStack({ services }: { services: typeof import("./services").service
         const isTop = index === 0;
         const depth = index; // 0 is top, 1 is middle, 2 is bottom
 
-        // Card transform equations based on depth
-        const scale = isTop ? (isDragging ? 1.02 : 1) : 1 - depth * 0.05;
-        const translateY = isTop ? dragOffset.y : depth * 25;
-        const translateX = isTop ? dragOffset.x : 0;
-        const rotation = isTop ? (dragOffset.x * 0.04) : 0;
+        // Card transform equations based on depth & flat vs stacked states
+        const scale = isTop 
+          ? (isDragging ? 1.02 : 1) 
+          : (isFlattened ? 0.95 : 1 - depth * 0.05);
+
+        // Translate cards horizontally side-by-side if flattened (left, middle, right)
+        const flatOffsetX = index === 0 ? -420 : index === 1 ? 0 : 420;
+        const translateX = isTop 
+          ? dragOffset.x 
+          : (isFlattened ? flatOffsetX : 0);
+
+        const translateY = isTop 
+          ? dragOffset.y 
+          : (isFlattened ? 0 : depth * 25);
+
+        const rotation = isTop 
+          ? (dragOffset.x * 0.04) 
+          : (isFlattened ? (index === 0 ? -3 : index === 1 ? 0 : 3) : 0);
+
         const zIndex = 30 - depth;
 
         return (
@@ -338,9 +363,9 @@ function CardStack({ services }: { services: typeof import("./services").service
             style={{
               transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotation}deg)`,
               zIndex,
-              transition: isDragging && isTop ? "none" : "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease",
+              transition: isDragging && isTop ? "none" : "transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.15), opacity 0.8s ease",
               pointerEvents: isTop ? "auto" : "none",
-              opacity: 1 - depth * 0.25,
+              opacity: isFlattened ? 1 : 1 - depth * 0.25,
             }}
             onMouseDown={isTop ? handleMouseDown : undefined}
             onTouchStart={isTop ? handleTouchStart : undefined}
