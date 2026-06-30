@@ -104,6 +104,15 @@ const services = [
 function ServicesPage() {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -115,7 +124,64 @@ function ServicesPage() {
 
   return (
     <SiteLayout>
-      <div ref={ref} className="relative z-10 bg-slate-50 min-h-screen">
+      {/* Premium Animated Mesh Gradient Styles */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes float-slow-1 {
+          0%, 100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+          33% { transform: translate(40px, -50px) scale(1.08) rotate(120deg); }
+          66% { transform: translate(-30px, 30px) scale(0.95) rotate(240deg); }
+        }
+        @keyframes float-slow-2 {
+          0%, 100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+          50% { transform: translate(-60px, 40px) scale(1.05) rotate(-180deg); }
+        }
+        @keyframes float-slow-3 {
+          0%, 100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+          40% { transform: translate(50px, 60px) scale(0.96) rotate(90deg); }
+          75% { transform: translate(-40px, -30px) scale(1.04) rotate(-90deg); }
+        }
+      `}} />
+
+      <div ref={ref} className="relative z-10 bg-slate-50 min-h-screen overflow-hidden">
+        {/* Full-Screen GPU-Accelerated Parallax Mesh Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-slate-50 opacity-60">
+          {/* Layer 1: Foreground parallax (0.3x scroll speed) */}
+          <div 
+            className="absolute inset-0 transition-transform duration-100 ease-out"
+            style={{ 
+              transform: `translate3d(0, ${scrollY * 0.3}px, 0)`,
+              filter: 'blur(220px)'
+            }}
+          >
+            <div 
+              className="absolute top-[10%] left-[15%] w-[450px] h-[450px] rounded-full bg-[#1800AD]/15"
+              style={{ animation: 'float-slow-1 25s infinite ease-in-out' }}
+            />
+            <div 
+              className="absolute top-[50%] right-[10%] w-[500px] h-[500px] rounded-full bg-[#0EA5A4]/15"
+              style={{ animation: 'float-slow-2 35s infinite ease-in-out' }}
+            />
+          </div>
+
+          {/* Layer 2: Background parallax (0.1x scroll speed) */}
+          <div 
+            className="absolute inset-0 transition-transform duration-100 ease-out"
+            style={{ 
+              transform: `translate3d(0, ${scrollY * 0.1}px, 0)`,
+              filter: 'blur(250px)'
+            }}
+          >
+            <div 
+              className="absolute top-[30%] right-[30%] w-[600px] h-[600px] rounded-full bg-[#1800AD]/10"
+              style={{ animation: 'float-slow-3 45s infinite ease-in-out', animationDelay: '-5s' }}
+            />
+            <div 
+              className="absolute bottom-[10%] left-[25%] w-[550px] h-[550px] rounded-full bg-[#0EA5A4]/10"
+              style={{ animation: 'float-slow-1 30s infinite ease-in-out', animationDelay: '-12s' }}
+            />
+          </div>
+        </div>
+
         {/* Header Hero Section */}
         <section className="container-x pb-12 pt-28 md:pt-36">
           <span className="eyebrow">Services Portfolio</span>
