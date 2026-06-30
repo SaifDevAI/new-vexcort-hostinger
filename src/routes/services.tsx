@@ -140,13 +140,7 @@ function ServicesPage() {
           </div>
         </section>
 
-        {/* Premium Grid layout for Services */}
-        <section className="container-x pb-24">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map(({ logo, logoAlt, title, desc, features, color, tag }, idx) => (
-              <div
-                key={title}
-                className="group relative flex flex-col overflow-hidden rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:        {/* Premium overlapping chat-style cards for Services */}
+        {/* Premium overlapping chat-style cards for Services */}
         <section className="container-x pb-24">
           <div className="grid gap-12 md:gap-16 sm:grid-cols-2 lg:grid-cols-3">
             {services.map(({ logo, logoAlt, title, desc, features, color, tag }, idx) => (
