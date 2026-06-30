@@ -341,7 +341,8 @@ function CardStack({ services }: { services: typeof import("./services").service
           : (isFlattened ? 0.95 : 1 - depth * 0.05);
 
         // Translate cards horizontally side-by-side if flattened (left, middle, right)
-        const flatOffsetX = index === 0 ? -240 : index === 1 ? 0 : 240;
+        // index 0 (top active card) stays centered, index 1 moves left, index 2 moves right
+        const flatOffsetX = index === 0 ? 0 : index === 1 ? -240 : 240;
         const translateX = isTop 
           ? dragOffset.x 
           : (isFlattened ? flatOffsetX : 0);
@@ -352,7 +353,7 @@ function CardStack({ services }: { services: typeof import("./services").service
 
         const rotation = isTop 
           ? (dragOffset.x * 0.04) 
-          : (isFlattened ? (index === 0 ? -3 : index === 1 ? 0 : 3) : 0);
+          : (isFlattened ? (index === 0 ? 0 : index === 1 ? -3 : 3) : 0);
 
         const zIndex = 30 - depth;
 
