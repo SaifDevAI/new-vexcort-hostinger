@@ -447,6 +447,43 @@ function CardStack({ services }: { services: typeof import("./services").service
           </div>
         );
       })}
+
+      {/* Horizontal Page Indicator Navigation Dots */}
+      <div className="absolute -bottom-16 left-0 right-0 flex items-center justify-center gap-2.5 z-40 pointer-events-auto">
+        {services.map((service, sIdx) => {
+          const isActive = sIdx === currentIndex;
+          return (
+            <button
+              key={service.title}
+              onClick={() => {
+                setCurrentIndex(sIdx);
+                setDragOffset({ x: 0, y: 0 });
+                setIsFlattened(false);
+              }}
+              onMouseEnter={() => {
+                setCurrentIndex(sIdx);
+                setDragOffset({ x: 0, y: 0 });
+                setIsFlattened(false);
+              }}
+              className="group relative flex items-center justify-center h-6 w-6 focus:outline-none"
+              title={`View ${service.title}`}
+            >
+              {/* Tooltip */}
+              <span className="absolute bottom-7 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-white bg-slate-900 rounded-md opacity-0 scale-95 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 whitespace-nowrap shadow-md">
+                {service.title}
+              </span>
+              <span 
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  isActive ? "w-6" : "w-2 group-hover:w-3"
+                }`}
+                style={{
+                  background: isActive ? service.color : "rgba(24, 0, 173, 0.25)"
+                }}
+              />
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
