@@ -242,7 +242,7 @@ function CardStack({ services }: { services: typeof import("./services").service
           return true;
         }
       });
-    }, 4500);
+    }, 2400);
     return () => clearInterval(interval);
   }, [currentIndex, isDragging, isHovered]);
 
@@ -363,7 +363,7 @@ function CardStack({ services }: { services: typeof import("./services").service
             style={{
               transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotation}deg)`,
               zIndex,
-              transition: isDragging && isTop ? "none" : "transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.15), opacity 0.8s ease",
+              transition: isDragging && isTop ? "none" : "transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1.1), opacity 0.45s ease",
               pointerEvents: isTop ? "auto" : "none",
               opacity: isFlattened ? 1 : 1 - depth * 0.25,
             }}
