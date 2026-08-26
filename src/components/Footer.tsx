@@ -7,6 +7,7 @@ const nav = [
     heading: "Company",
     links: [
       { to: "/", label: "Home" },
+      { to: "/portfolio", label: "Portfolio" },
       { to: "/faq", label: "FAQ" },
       { to: "/about", label: "About" },
       { to: "/contact", label: "Contact" },
@@ -25,7 +26,7 @@ const nav = [
   {
     heading: "Resources",
     links: [
-      { to: "/signin", search: { mode: "signup" }, label: "Book a Meeting" },
+      { to: "/contact", label: "Contact Us" },
       { to: "/contact", label: "Ask a Question" },
     ],
   },
@@ -33,17 +34,17 @@ const nav = [
 
 const socials = [
   {
-    href: "https://www.linkedin.com/company/cortvex",
+    href: "https://www.linkedin.com/company/Vexcort",
     icon: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
     label: "LinkedIn",
   },
   {
-    href: "https://www.instagram.com/cortvex_official",
+    href: "https://www.instagram.com/Vexcort_official",
     icon: "https://cdn.simpleicons.org/instagram/E4405F",
     label: "Instagram",
   },
   {
-    href: "https://www.facebook.com/cortvex_official",
+    href: "https://www.facebook.com/Vexcort_official",
     icon: "https://cdn.simpleicons.org/facebook/1877F2",
     label: "Facebook",
   },
@@ -58,15 +59,14 @@ export function Footer() {
             <div className="lg:col-span-2">
               <Logo showText={false} className="-mt-2" />
               <p className="mt-4 max-w-xs text-base leading-relaxed text-foreground/70">
-                Cortvex builds modern websites, apps, and AI systems that help teams grow with
+                Vexcort builds modern websites, apps, and AI systems that help teams grow with
                 clarity and measurable outcomes.
               </p>
               <Link
-                to="/signin"
-                search={{ mode: "signup" }}
-                className="btn mt-6 bg-foreground text-white hover:opacity-90"
+                to="/contact"
+                className="btn mt-6 bg-foreground text-white hover:opacity-90 rounded-full"
               >
-                Book a Meeting <ArrowUpRight className="h-4 w-4" />
+                Contact Us <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
 
@@ -99,10 +99,10 @@ export function Footer() {
               <div className="mt-4 space-y-3 text-[1.03rem] text-foreground/78">
                 <p className="font-semibold text-foreground">Say Hi!</p>
                 <a
-                  href="mailto:connect@cortvex.com"
+                  href="mailto:connect@vexcort.com"
                   className="block hover:text-[color:var(--brand)]"
                 >
-                  connect@cortvex.com
+                  connect@vexcort.com
                 </a>
                 <p>Islamabad, Pakistan</p>
               </div>
@@ -135,10 +135,48 @@ export function Footer() {
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="mt-7 flex flex-col items-start justify-between gap-3 text-sm text-foreground/60 md:flex-row md:items-center">
-          <p>&copy; {new Date().getFullYear()} Cortvex. All rights reserved.</p>
-          <p>connect@cortvex.com</p>
+      {/* Premium Accent Footer Strip (Aligned to Web's Theme Color) */}
+      <div className="relative mt-16 border-t border-[color:var(--color-border)] bg-[#FAF9F6] py-16 pointer-events-none select-none overflow-hidden">
+        {/* Organic centering radial gradient glows */}
+        <div 
+          className="absolute left-1/2 top-1/2 z-0 h-[220px] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 filter blur-[90px]"
+          style={{
+            background: "radial-gradient(circle, rgba(14,165,164,0.4) 0%, rgba(24,0,173,0.2) 60%, transparent 100%)",
+          }}
+        />
+        <div 
+          className="absolute left-1/2 top-1/2 z-0 h-[100px] w-[40%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-35 filter blur-[40px]"
+          style={{
+            background: "radial-gradient(circle, #0EA5A4 0%, transparent 70%)",
+          }}
+        />
+
+        <div className="container-x relative z-10 flex flex-col items-center">
+          {/* Centered Massive Wordmark */}
+          <h2 
+            className="font-logo text-[12vw] font-black uppercase leading-none tracking-[0.06em] text-slate-800/12 sm:text-[14vw] md:text-[15vw] transition-all duration-700 hover:text-slate-800/20"
+            style={{
+              textShadow: "0 0 45px rgba(14,165,164,0.18), 0 0 90px rgba(24,0,173,0.12)",
+            }}
+          >
+            VEXCORT
+          </h2>
+
+          {/* Clean Copyright & Tagline Row */}
+          <div className="w-full mt-12 pt-8 border-t border-[color:var(--color-border)] flex flex-col items-center justify-between gap-4 text-xs text-foreground/60 md:flex-row pointer-events-auto">
+            <p>&copy; {new Date().getFullYear()} Vexcort. All rights reserved.</p>
+            <p className="font-logo text-[10px] tracking-[0.2em] uppercase text-[#0EA5A4] drop-shadow-[0_0_8px_rgba(14,165,164,0.25)]">
+              METICULOUSLY CRAFTED • AI & DIGITAL SYSTEMS
+            </p>
+            <a 
+              href="mailto:connect@vexcort.com" 
+              className="text-foreground/60 hover:text-[#0EA5A4] transition-colors"
+            >
+              connect@vexcort.com
+            </a>
+          </div>
         </div>
       </div>
     </footer>

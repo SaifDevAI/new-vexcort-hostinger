@@ -1,10 +1,9 @@
 @import "tailwindcss" source(none);
-@source "../src";
 @import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Mrs+Saint+Delafield&family=Herr+Von+Muellerhoff&display=swap");
+
+@source "../src";
+@custom-variant dark (&:is(.dark *));
 
 @font-face {
   font-family: "Mokoto";

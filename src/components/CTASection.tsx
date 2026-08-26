@@ -21,7 +21,7 @@ export function CTASection() {
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link to="/signin" search={{ mode: "signup" }} className="btn bg-white text-[color:var(--brand)] hover:opacity-95">
+              <Link to="/contact" className="btn bg-white text-[color:var(--brand)] hover:opacity-95">
                 <Calendar className="h-4 w-4" /> Book a Meeting
               </Link>
               <Link to="/services" className="btn border border-white/40 bg-white/10 text-white hover:bg-white/20">

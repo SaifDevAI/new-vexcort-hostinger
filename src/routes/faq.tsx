@@ -6,21 +6,26 @@ import { SiteLayout } from "@/components/SiteLayout";
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "FAQ — Cortvex | Web Development, AI Automation & Digital Services" },
+      { title: "FAQ - Vexcort | Web Dev, AI Automation & Services" },
       {
         name: "description",
         content:
-          "Get answers to common questions about Cortvex's web development, AI automation, SEO, chatbots, app development, and digital marketing services. Start your project today.",
+          "Get answers to common questions about Vexcort's web development, AI automation, SEO, chatbots, app development, and digital marketing services. Start your project today.",
       },
-      { property: "og:title", content: "FAQ — Cortvex | Frequently Asked Questions" },
+      { property: "og:title", content: "FAQ - Vexcort | Frequently Asked Questions" },
       {
         property: "og:description",
         content:
-          "Clear answers about pricing, timelines, tech stacks, and how Cortvex delivers premium digital products for ambitious brands.",
+          "Clear answers about pricing, timelines, tech stacks, and how Vexcort delivers premium digital products for ambitious brands.",
       },
+      { property: "og:image", content: "https://vexcort.com/textlogo.png" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:title", content: "FAQ - Vexcort | Web Dev, AI Automation & Services" },
+      { name: "twitter:description", content: "Clear answers about pricing, timelines, tech stacks, and how Vexcort delivers premium digital products for ambitious brands." },
+      { name: "twitter:image", content: "https://vexcort.com/textlogo.png" },
       { name: "robots", content: "index, follow" },
     ],
-    links: [{ rel: "canonical", href: "https://cortvex.com/faq" }],
+    links: [{ rel: "canonical", href: "https://vexcort.com/faq" }],
   }),
   component: FAQPage,
 });
@@ -37,44 +42,44 @@ const categories = [
 
 const faqs = [
   // General
-  { cat: "general", q: "What exactly does Cortvex do?", a: "Cortvex is a full-service digital agency. We design, build, automate, and market digital products — from high-converting websites and mobile apps to AI automation pipelines and chatbots. Think of us as the senior technical team you never had to hire in-house.", priority: true },
-  { cat: "general", q: "How quickly can we get started?", a: "Most projects kick off within 5–7 business days of the discovery call. We run a fast onboarding: one meeting, a clear brief, and we are in motion. No endless back-and-forth before work begins.", priority: true },
+  { cat: "general", q: "What exactly does Vexcort do?", a: "Vexcort is a full-service digital agency. We design, build, automate, and market digital products Ã¢â‚¬â€ from high-converting websites and mobile apps to AI automation pipelines and chatbots. Think of us as the senior technical team you never had to hire in-house.", priority: true },
+  { cat: "general", q: "How quickly can we get started?", a: "Most projects kick off within 5Ã¢â‚¬â€œ7 business days of the discovery call. We run a fast onboarding: one meeting, a clear brief, and we are in motion. No endless back-and-forth before work begins.", priority: true },
   { cat: "general", q: "Who are your typical clients?", a: "We work with ambitious founders, growing startups, established SMEs, and enterprise teams across Pakistan, the Middle East, and internationally. Our clients range from e-commerce brands scaling to seven figures to SaaS companies launching their first product." },
-  { cat: "general", q: "Do you work with non-technical founders?", a: "Absolutely — the majority of our clients are non-technical founders or marketing leads. We translate every technical decision into plain business language, so you are always in control without needing to understand the code." },
+  { cat: "general", q: "Do you work with non-technical founders?", a: "Absolutely Ã¢â‚¬â€ the majority of our clients are non-technical founders or marketing leads. We translate every technical decision into plain business language, so you are always in control without needing to understand the code." },
   { cat: "general", q: "Can you handle an entire project end-to-end?", a: "Yes. We offer end-to-end delivery: strategy, UX/UI design, engineering, QA, launch, and ongoing growth. You get one accountable partner instead of coordinating five different vendors." },
-  { cat: "general", q: "Where is Cortvex based and do you work internationally?", a: "Our core team is based in Islamabad, Pakistan. We work with clients globally — UK, UAE, USA, and beyond — via async collaboration and video calls. Time-zone overlap is never a barrier." },
+  { cat: "general", q: "Where is Vexcort based and do you work internationally?", a: "Our core team is based in Islamabad, Pakistan. We work with clients globally Ã¢â‚¬â€ UK, UAE, USA, and beyond Ã¢â‚¬â€ via async collaboration and video calls. Time-zone overlap is never a barrier." },
   
   // Web & Design
-  { cat: "web", q: "How long does it take to build a website?", a: "A standard marketing or branding site typically takes 2–4 weeks. Complex platforms, e-commerce stores, or SaaS dashboards are 6–12 weeks depending on scope. We will give you an accurate timeline in the first discovery call.", priority: true },
+  { cat: "web", q: "How long does it take to build a website?", a: "A standard marketing or branding site typically takes 2Ã¢â‚¬â€œ4 weeks. Complex platforms, e-commerce stores, or SaaS dashboards are 6Ã¢â‚¬â€œ12 weeks depending on scope. We will give you an accurate timeline in the first discovery call.", priority: true },
   { cat: "web", q: "What technology stacks do you build with?", a: "We use React, Next.js, TanStack Router, TypeScript, Node.js, Python, and modern headless CMS solutions like Sanity and Contentful. We choose the right tool for the job, not the trendiest one.", priority: true },
   { cat: "web", q: "Will my website rank on Google after you build it?", a: "Every website we build includes solid technical SEO foundations: semantic HTML, structured data, Core Web Vitals optimisation, fast load times, and proper meta tags. For ongoing ranking growth, we offer a dedicated SEO retainer." },
-  { cat: "web", q: "Can you redesign or improve my existing website instead of rebuilding it?", a: "Yes, and we often recommend this. We can audit your current site and selectively improve UX, performance, conversion paths, and SEO without a full rebuild — saving you time and budget." },
+  { cat: "web", q: "Can you redesign or improve my existing website instead of rebuilding it?", a: "Yes, and we often recommend this. We can audit your current site and selectively improve UX, performance, conversion paths, and SEO without a full rebuild Ã¢â‚¬â€ saving you time and budget." },
   { cat: "web", q: "Do you build e-commerce websites?", a: "Yes. We build custom e-commerce platforms, Shopify stores, and headless commerce solutions. We focus on conversion optimisation: clean checkout flows, product filtering, fast load times, and abandoned-cart recovery." },
   { cat: "web", q: "Will my website be mobile-friendly and fast?", a: "Every site we deliver is fully responsive and performance-optimised. We target a 90+ Google PageSpeed score, sub-2s load times, and a Lighthouse score that makes your competitors look slow." },
   
   // AI & Bots
   { cat: "ai", q: "What AI automation services do you offer?", a: "We design and build custom AI workflows using n8n, Make, Zapier, LangChain, OpenAI, and custom Python backends. Common use cases include lead qualification, automated reporting, email triage, document processing, and internal operations automation.", priority: true },
   { cat: "ai", q: "How can a chatbot help my business?", a: "A well-built chatbot qualifies leads 24/7, answers product questions instantly, books meetings, and reduces support load by up to 70%. Our chatbots are trained on your own content and integrate with your CRM, calendar, and email systems." },
-  { cat: "ai", q: "What is a voice bot and how does it work?", a: "Our voice bots are AI-powered phone agents that handle inbound calls, answer FAQs, book appointments, and escalate to humans when needed — all in natural-sounding conversational voice. They run 24/7 with no per-minute staffing cost." },
+  { cat: "ai", q: "What is a voice bot and how does it work?", a: "Our voice bots are AI-powered phone agents that handle inbound calls, answer FAQs, book appointments, and escalate to humans when needed Ã¢â‚¬â€ all in natural-sounding conversational voice. They run 24/7 with no per-minute staffing cost." },
   { cat: "ai", q: "Can you integrate AI into my existing business tools?", a: "Yes. We regularly connect AI systems to HubSpot, Salesforce, Notion, Airtable, Google Workspace, Slack, WhatsApp, and custom databases. Your existing tools get smarter without you changing platforms." },
   { cat: "ai", q: "Is AI automation only for large businesses?", a: "Not at all. Some of our most impactful automation work is for small businesses and startups. Even a simple workflow that auto-qualifies incoming leads and sends a personalised follow-up email can 3x your response rate overnight." },
   
   // Apps
   { cat: "apps", q: "Do you build iOS and Android apps?", a: "Yes. We build cross-platform apps using React Native and Flutter, as well as native iOS (Swift) and Android (Kotlin) when required. All apps go through rigorous QA and we handle App Store and Play Store submission.", priority: true },
-  { cat: "apps", q: "How much does it cost to build a mobile app?", a: "App budgets vary by complexity. A focused MVP typically starts from $3,000–$8,000. A production-grade product with backend, auth, and integrations ranges from $10,000–$30,000+. We will scope your exact project in the discovery call." },
+  { cat: "apps", q: "How much does it cost to build a mobile app?", a: "App budgets vary by complexity. A focused MVP typically starts from $3,000Ã¢â‚¬â€œ$8,000. A production-grade product with backend, auth, and integrations ranges from $10,000Ã¢â‚¬â€œ$30,000+. We will scope your exact project in the discovery call." },
   { cat: "apps", q: "Do you build the backend and API for apps as well?", a: "Yes. We build the full stack: mobile frontend, REST or GraphQL APIs, database design, auth systems, push notifications, and cloud infrastructure. You get a complete, production-ready product." },
   
   // Growth
   { cat: "growth", q: "What does your SEO service include?", a: "Our SEO service covers technical audits, keyword research, on-page optimisation, schema markup, content strategy, link building, and monthly performance reporting. We focus on sustainable organic growth, not quick hacks that get penalised.", priority: true },
-  { cat: "growth", q: "How long does SEO take to show results?", a: "Honest answer: 3–6 months for measurable movement on competitive keywords, faster for local or niche terms. SEO is a compound investment — the longer you run it, the higher the ROI. We set realistic expectations upfront." },
-  { cat: "growth", q: "Do you run paid ads on Google and Meta?", a: "Yes. We manage performance campaigns on Google, Meta, TikTok, and LinkedIn. Every campaign is tied to real revenue metrics — cost per lead, ROAS, and customer acquisition cost — not impressions and vanity clicks." },
+  { cat: "growth", q: "How long does SEO take to show results?", a: "Honest answer: 3Ã¢â‚¬â€œ6 months for measurable movement on competitive keywords, faster for local or niche terms. SEO is a compound investment Ã¢â‚¬â€ the longer you run it, the higher the ROI. We set realistic expectations upfront." },
+  { cat: "growth", q: "Do you run paid ads on Google and Meta?", a: "Yes. We manage performance campaigns on Google, Meta, TikTok, and LinkedIn. Every campaign is tied to real revenue metrics Ã¢â‚¬â€ cost per lead, ROAS, and customer acquisition cost Ã¢â‚¬â€ not impressions and vanity clicks." },
   { cat: "growth", q: "Can you manage our social media accounts?", a: "Yes. Our social media service includes content calendar creation, creative production, copywriting, community management, and monthly analytics reporting. We build brand authority consistently, not just post for the sake of posting." },
   
   // Process
-  { cat: "process", q: "How does the engagement process work?", a: "It is simple: (1) Discovery call — we understand your goals. (2) Proposal — clear scope, timeline, and pricing. (3) Kickoff — we onboard, set up tools, and start. (4) Weekly check-ins — you see progress every week. (5) Launch and handoff — complete delivery with documentation.", priority: true },
+  { cat: "process", q: "How does the engagement process work?", a: "It is simple: (1) Discovery call Ã¢â‚¬â€ we understand your goals. (2) Proposal Ã¢â‚¬â€ clear scope, timeline, and pricing. (3) Kickoff Ã¢â‚¬â€ we onboard, set up tools, and start. (4) Weekly check-ins Ã¢â‚¬â€ you see progress every week. (5) Launch and handoff Ã¢â‚¬â€ complete delivery with documentation.", priority: true },
   { cat: "process", q: "How do revisions and feedback work?", a: "We work in weekly review cycles with structured feedback rounds built into the timeline. Feedback is incorporated continuously, so there are no surprise bills at the end for extra revisions. Core revision rounds are always included in the scope.", priority: true },
   { cat: "process", q: "Do you offer ongoing maintenance and support after launch?", a: "Yes. We offer monthly retainers covering bug fixes, security updates, performance monitoring, feature iterations, and AI system maintenance. Most clients stay on a retainer to keep their product growing post-launch." },
-  { cat: "process", q: "Do you integrate with CRMs, payment gateways, and third-party tools?", a: "Yes — regularly. Common integrations include HubSpot, Salesforce, Stripe, PayFast, JazzCash, Easypaisa, Zapier, Make, n8n, Google Analytics, Intercom, Mailchimp, and custom REST APIs. If it has an API, we can connect it." },
+  { cat: "process", q: "Do you integrate with CRMs, payment gateways, and third-party tools?", a: "Yes Ã¢â‚¬â€ regularly. Common integrations include HubSpot, Salesforce, Stripe, PayFast, JazzCash, Easypaisa, Zapier, Make, n8n, Google Analytics, Intercom, Mailchimp, and custom REST APIs. If it has an API, we can connect it." },
   { cat: "process", q: "Will I own the code and assets after the project?", a: "Yes, always. You receive full ownership of all source code, design files, and assets upon project completion and final payment. We do not hold work hostage or use proprietary lock-in systems." },
   { cat: "process", q: "Do you sign NDAs and protect our IP?", a: "Absolutely. We sign NDAs before any sensitive briefing and treat every client business information with strict confidentiality. Your ideas, data, and product details stay private." },
 ];
@@ -150,12 +155,28 @@ function FAQPage() {
   const priorityFaqs = categoryFiltered.filter(f => f.priority);
   const normalFaqs = categoryFiltered.filter(f => !f.priority);
 
-  // If we show all, merge them, otherwise only show priority FAQs
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a.replace(/Ã¢â‚¬â€/g, "—").replace(/Ã¢â‚¬â€œ/g, "–").replace(/Ã¢â‚¬/g, "")
+      }
+    }))
+  };
+
   const displayFaqs = showAll ? [...priorityFaqs, ...normalFaqs] : priorityFaqs;
   const hasMore = normalFaqs.length > 0;
 
   return (
     <SiteLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Hero */}
       <div
         className="relative overflow-hidden pt-32 pb-8"
@@ -178,7 +199,7 @@ function FAQPage() {
               className="mt-5 text-base md:text-lg text-slate-500 max-w-xl leading-relaxed transition-all duration-700"
               style={{ opacity: heroPhase >= 1 ? 1 : 0, transform: heroPhase >= 1 ? "translateY(0)" : "translateY(20px)", transitionDelay: "120ms" }}
             >
-              Everything you need to know about our services, pricing, timelines, and how we work — before you book a call.
+              Everything you need to know about our services, pricing, timelines, and how we work Ã¢â‚¬â€ before you book a call.
             </p>
           </div>
         </div>
@@ -251,7 +272,7 @@ function FAQPage() {
               </span>
               <div>
                 <h3 className="text-lg font-bold text-slate-900">Still have a question?</h3>
-                <p className="mt-1 text-sm text-slate-400">Our team responds within 24 hours — usually much faster.</p>
+                <p className="mt-1 text-sm text-slate-400">Our team responds within 24 hours Ã¢â‚¬â€ usually much faster.</p>
               </div>
             </div>
             <div className="flex flex-wrap gap-3">

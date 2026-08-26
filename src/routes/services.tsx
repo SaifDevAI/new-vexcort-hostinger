@@ -1,216 +1,164 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
-import { ArrowUpRight, Check, Star, ShieldCheck } from "lucide-react";
+import { 
+  ArrowUpRight, 
+  Check, 
+  Cpu, 
+  Code2, 
+  Palette, 
+  MessageSquare, 
+  Mic, 
+  Smartphone, 
+  Search, 
+  Megaphone, 
+  Share2 
+} from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { SiteLayout } from "@/components/SiteLayout";
 import { CTASection } from "@/components/CTASection";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services - Cortvex" },
+      { title: "Vexcort Services \u2014 Web Dev, AI & SEO Agency" },
       { name: "description", content: "Web development, web design, AI automation, chatbots, voice bots, app development, SEO, marketing and social media handling." },
-      { property: "og:title", content: "Services - Cortvex" },
-      { property: "og:description", content: "Premium digital services for modern brands." },
+      { property: "og:title", content: "Vexcort Services \u2014 Web Dev, AI Automation & SEO" },
+      { property: "og:description", content: "Explore Vexcort's full suite of digital services: web development, AI automation, app development, chatbots, SEO, and social media marketing for modern brands." },
+      { property: "og:image", content: "https://vexcort.com/textlogo.png" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:title", content: "Vexcort Services \u2014 Web Dev, AI & SEO Agency" },
+      { name: "twitter:description", content: "Explore Vexcort's full suite: web development, AI automation, app development, SEO, and social media marketing." },
+      { name: "twitter:image", content: "https://vexcort.com/textlogo.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cortvex.com/services" }],
+    links: [{ rel: "canonical", href: "https://vexcort.com/services" }],
   }),
   component: ServicesPage,
 });
 
-const services = [
+interface ServiceItem {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  desc: string;
+  features: string[];
+  gradient: string;
+  tag: string;
+}
+
+const servicesList: ServiceItem[] = [
   {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-    logoAlt: "React logo",
+    icon: Code2,
     title: "Web Development",
     desc: "Production-grade websites and web platforms engineered for speed, scalability, and long-term maintainability.",
     features: ["TanStack / Next.js", "Type-safe architecture", "Performance budgets", "CMS integrations"],
-    color: "#1800AD",
+    gradient: "linear-gradient(135deg, #7F5AF0 0%, #4C6FFF 100%)",
     tag: "01",
   },
   {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
-    logoAlt: "Figma logo",
+    icon: Palette,
     title: "Web Design",
     desc: "Conversion-focused interfaces designed around your audience, brand voice, and high-intent user journeys.",
     features: ["UX research", "Design systems", "Interactive prototyping", "Brand-aligned UI"],
-    color: "#0EA5A4",
+    gradient: "linear-gradient(135deg, #4F46E5 0%, #00C2FF 100%)",
     tag: "02",
   },
   {
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/openai.svg",
-    logoAlt: "OpenAI logo",
+    icon: Cpu,
     title: "AI Automation",
     desc: "Custom AI workflows that remove repetitive operations, increase team velocity, and unlock higher-value output.",
     features: ["Workflow design", "LLM integrations", "Internal tools", "Make / Zapier / n8n"],
-    color: "#1800AD",
+    gradient: "linear-gradient(135deg, #00C897 0%, #00E0B8 100%)",
     tag: "03",
   },
   {
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/intercom.svg",
-    logoAlt: "Intercom logo",
+    icon: MessageSquare,
     title: "Web Chatbots",
     desc: "Code and no-code chatbots that qualify leads, answer product questions, and support visitors around the clock.",
     features: ["RAG over your docs", "CRM integration", "Multilingual support", "Built-in analytics"],
-    color: "#0EA5A4",
+    gradient: "linear-gradient(135deg, #FF8A00 0%, #FFC837 100%)",
     tag: "04",
   },
   {
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/vapi.svg",
-    logoAlt: "Voice agent logo",
+    icon: Mic,
     title: "Voice Bots",
     desc: "Natural-sounding voice agents for inbound support, appointment booking, and outbound follow-up calls.",
     features: ["Realtime voice flows", "Calendar booking", "Call summaries", "Smart human handoff"],
-    color: "#1800AD",
+    gradient: "linear-gradient(135deg, #FF4D6D 0%, #C9184A 100%)",
     tag: "05",
   },
   {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg",
-    logoAlt: "Flutter logo",
+    icon: Smartphone,
     title: "App Development",
     desc: "iOS and Android applications with refined UX, production-ready architecture, and measurable product outcomes.",
     features: ["React Native / Flutter", "Native modules", "Store submission", "Analytics + crash reports"],
-    color: "#0EA5A4",
+    gradient: "linear-gradient(135deg, #00B4D8 0%, #0077B6 100%)",
     tag: "06",
   },
   {
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/google.svg",
-    logoAlt: "Google logo",
+    icon: Search,
     title: "SEO Systems",
     desc: "Technical SEO and content systems that compound organic visibility and drive sustainable acquisition growth.",
     features: ["Technical audits", "Keyword strategy", "Content production", "Link building"],
-    color: "#1800AD",
+    gradient: "linear-gradient(135deg, #7F5AF0 0%, #4F46E5 100%)",
     tag: "07",
   },
   {
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/meta.svg",
-    logoAlt: "Meta logo",
+    icon: Megaphone,
     title: "Paid Marketing",
     desc: "Performance marketing systems aligned to revenue targets with full-funnel visibility and rapid experimentation.",
     features: ["Paid social + search", "Landing page optimization", "Funnel analytics", "Creative testing"],
-    color: "#0EA5A4",
+    gradient: "linear-gradient(135deg, #FF8A00 0%, #FF4D6D 100%)",
     tag: "08",
   },
   {
-    logo: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/instagram.svg",
-    logoAlt: "Instagram logo",
-    title: "Social Media Handling",
+    icon: Share2,
+    title: "Social Media",
     desc: "Full-service social management that builds trust, consistency, and brand authority across key audience channels.",
     features: ["Content calendar", "Creative production", "Community management", "Performance reporting"],
-    color: "#1800AD",
+    gradient: "linear-gradient(135deg, #00C897 0%, #00B4D8 100%)",
     tag: "09",
   },
 ];
 
 function ServicesPage() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } }, { threshold: 0.02 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  const servicesSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Vexcort Services",
+    "numberOfItems": servicesList.length,
+    "itemListElement": servicesList.map((service, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "item": {
+        "@type": "Service",
+        "name": service.title,
+        "description": service.desc,
+        "provider": {
+          "@type": "Organization",
+          "name": "Vexcort"
+        }
+      }
+    }))
+  };
 
   return (
     <SiteLayout>
-      {/* Premium Animated Mesh Gradient Styles */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes float-slow-1 {
-          0%, 100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
-          33% { transform: translate(40px, -50px) scale(1.08) rotate(120deg); }
-          66% { transform: translate(-30px, 30px) scale(0.95) rotate(240deg); }
-        }
-        @keyframes float-slow-2 {
-          0%, 100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
-          50% { transform: translate(-60px, 40px) scale(1.05) rotate(-180deg); }
-        }
-        @keyframes float-slow-3 {
-          0%, 100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
-          40% { transform: translate(50px, 60px) scale(0.96) rotate(90deg); }
-          75% { transform: translate(-40px, -30px) scale(1.04) rotate(-90deg); }
-        }
-      `}} />
-
-      <div ref={ref} className="relative z-10 bg-transparent min-h-screen overflow-hidden">
-        {/* Full-Screen GPU-Accelerated Parallax Mesh Background */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-transparent opacity-90">
-          {/* Layer 1: Foreground parallax (0.3x scroll speed) */}
-          <div 
-            className="absolute inset-0 transition-transform duration-100 ease-out"
-            style={{ 
-              transform: `translate3d(0, ${scrollY * 0.3}px, 0)`,
-              filter: 'blur(180px)'
-            }}
-          >
-            <div 
-              className="absolute top-[10%] left-[15%] w-[500px] h-[500px] rounded-full bg-[#1800AD]/25"
-              style={{ animation: 'float-slow-1 25s infinite ease-in-out' }}
-            />
-            <div 
-              className="absolute top-[50%] right-[10%] w-[550px] h-[550px] rounded-full bg-[#0EA5A4]/25"
-              style={{ animation: 'float-slow-2 35s infinite ease-in-out' }}
-            />
-          </div>
-
-          {/* Layer 2: Background parallax (0.1x scroll speed) */}
-          <div 
-            className="absolute inset-0 transition-transform duration-100 ease-out"
-            style={{ 
-              transform: `translate3d(0, ${scrollY * 0.1}px, 0)`,
-              filter: 'blur(200px)'
-            }}
-          >
-            <div 
-              className="absolute top-[30%] right-[30%] w-[650px] h-[650px] rounded-full bg-[#1800AD]/20"
-              style={{ animation: 'float-slow-3 45s infinite ease-in-out', animationDelay: '-5s' }}
-            />
-            <div 
-              className="absolute bottom-[10%] left-[25%] w-[600px] h-[600px] rounded-full bg-[#0EA5A4]/20"
-              style={{ animation: 'float-slow-1 30s infinite ease-in-out', animationDelay: '-12s' }}
-            />
-          </div>
-        </div>
-
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
+      />
+      <div className="relative z-10 bg-[#FAF9F6] text-[#0B1324] min-h-screen overflow-hidden flex flex-col justify-between">
+        
         {/* Header Hero Section */}
-        <section className="container-x pb-12 pt-28 md:pt-36">
-          <span className="eyebrow">Services Portfolio</span>
-          <h1 className="h-display mt-3 max-w-4xl text-5xl md:text-6xl">
-            Everything you need to grow online, under one roof.
-          </h1>
-          <p className="mt-5 max-w-3xl text-muted-foreground text-base md:text-lg leading-relaxed">
-            From performant React systems and apps to n8n AI workflows, custom chatbots, and technical growth marketing, Cortvex delivers senior craft without the agency fluff.
+        <section className="container-x pt-32 pb-16 text-center">
+          <TypewriterServicesHeading />
+          <p className="mt-4 max-w-2xl mx-auto text-slate-500 text-sm md:text-base leading-relaxed">
+            Build intelligent digital products powered by AI, automation, and modern engineering.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-6 font-logo text-[0.62rem] uppercase tracking-[0.02em] text-[#7a7f82]">
-            <div className="flex items-center gap-1.5">
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-[#1800AD] text-[#1800AD]" />
-                ))}
-              </div>
-              <span>Rated 4.9 by 80+ clients</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4 text-[#1800AD]" /> ISO-aligned delivery
-            </div>
-          </div>
         </section>
 
-        {/* Interactive centered card stack section */}
-        <section className="container-x pb-32 flex flex-col items-center justify-center relative min-h-[680px]">
-          <div className="relative w-full max-w-[420px] h-[600px] flex items-center justify-center">
-            <CardStack services={services} />
-          </div>
+        {/* Custom Infinite Move Carousel Section */}
+        <section className="w-full pb-32 overflow-hidden relative">
+          <InfiniteCarousel list={servicesList} />
         </section>
 
         <CTASection />
@@ -219,271 +167,330 @@ function ServicesPage() {
   );
 }
 
-// Center Stack card rotator component
-function CardStack({ services }: { services: typeof import("./services").services }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFlattened, setIsFlattened] = useState(false);
+// Custom 3D Infinite Carousel Component
+function InfiniteCarousel({ list }: { list: ServiceItem[] }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  
+  // Triplicate the list to allow infinite wrapping on both ends
+  const duplicatedList = [...list, ...list, ...list];
+  const totalCount = list.length;
+  const cardWidth = 332; // 300px card width + 32px (2rem) gap
 
-  // Auto rotation and flattening cycle effect
+  // Scroll offset motion values
+  const xOffset = useMotionValue(0);
+  const springX = useSpring(xOffset, { damping: 40, stiffness: 200, mass: 0.5 });
+  
+  const isDragging = useRef(false);
+  const isHovered = useRef(false);
+  const isTabActive = useRef(true);
+  const speed = 1.75; // Pixels per frame (automatic scroll rate)
+  const dragStartOffset = useRef(0);
+  const dragStartX = useRef(0);
+  const lastDragTime = useRef(0);
+  const lastDragX = useRef(0);
+  const dragVelocity = useRef(0);
+
   useEffect(() => {
-    if (isDragging || isHovered) return;
-    const interval = setInterval(() => {
-      // Toggle flattened layout, then shift index on stack
-      setIsFlattened((prev) => {
-        if (prev) {
-          // transition from flat -> stacked: change card index
-          handleNext();
-          return false;
-        } else {
-          // transition from stacked -> flat
-          return true;
-        }
-      });
-    }, 2400);
-    return () => clearInterval(interval);
-  }, [currentIndex, isDragging, isHovered]);
+    // Tab visibility handling to pause loop when tab goes inactive
+    const handleVisibility = () => {
+      isTabActive.current = document.visibilityState === "visible";
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % services.length);
-    setDragOffset({ x: 0, y: 0 });
-  };
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const animateLoop = () => {
+      if (isTabActive.current && !isDragging.current && !isHovered.current) {
+        // Automatic scrolling logic (move left to right)
+        let nextX = xOffset.get() + speed;
+        
+        // Wrap offset when it exceeds one cycle (total list width)
+        const maxScroll = totalCount * cardWidth;
+        if (nextX > 0) {
+          nextX = -maxScroll + (nextX % maxScroll);
+        }
+        
+        xOffset.set(nextX);
+      } else if (!isDragging.current && Math.abs(dragVelocity.current) > 0.05) {
+        // Apply momentum deceleration after drag release
+        dragVelocity.current *= 0.95; // Decay rate
+        let nextX = xOffset.get() + dragVelocity.current;
+
+        const maxScroll = totalCount * cardWidth;
+        if (nextX > 0) {
+          nextX = -maxScroll + (nextX % maxScroll);
+        } else if (nextX < -maxScroll * 2) {
+          nextX = -maxScroll + (nextX % maxScroll);
+        }
+
+        xOffset.set(nextX);
+      }
+
+      // Live 3D Arc Perspective Calculations based on Card Viewport Position
+      if (trackRef.current && containerRef.current) {
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const containerCenter = containerRect.left + containerRect.width / 2;
+        const cardElements = trackRef.current.children;
+
+        for (let i = 0; i < cardElements.length; i++) {
+          const card = cardElements[i] as HTMLDivElement;
+          const cardRect = card.getBoundingClientRect();
+          const cardCenter = cardRect.left + cardRect.width / 2;
+          const dist = cardCenter - containerCenter;
+
+          // Calculate visual coefficients based on distance from center
+          const maxDist = containerRect.width / 1.5;
+          const ratio = Math.min(1, Math.max(-1, dist / maxDist));
+          
+          // Arc Layout Math:
+          const scale = 1 - Math.abs(ratio) * 0.12;
+          const translateY = Math.pow(Math.abs(ratio), 2) * 90; // Arc curves downwards on edges
+          const rotateZ = ratio * -18; // Rotates/tilts cards inwards towards the center
+          const opacity = 1 - Math.abs(ratio) * 0.35; // Soft opacity falloff
+
+          card.style.transform = `translate3d(0, ${translateY}px, 0) scale(${scale}) rotate(${rotateZ}deg)`;
+          card.style.opacity = `${opacity}`;
+          card.style.filter = "none"; // Remove blur completely
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animateLoop);
+    };
+
+    animationFrameId = requestAnimationFrame(animateLoop);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [totalCount]);
 
   // Drag interaction handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-    const startX = e.clientX;
-    const startY = e.clientY;
-
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const dx = moveEvent.clientX - startX;
-      const dy = moveEvent.clientY - startY;
-      setDragOffset({ x: dx, y: dy });
-    };
-
-    const handleMouseUp = (upEvent: MouseEvent) => {
-      setIsDragging(false);
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-
-      const dx = upEvent.clientX - startX;
-      const dy = upEvent.clientY - startY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      if (distance > 120) {
-        // Animate off screen then cycle
-        handleNext();
-      } else {
-        // Reset offset back to center
-        setDragOffset({ x: 0, y: 0 });
-      }
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
+  const handleStart = (clientX: number) => {
+    isDragging.current = true;
+    dragStartX.current = clientX;
+    dragStartOffset.current = xOffset.get();
+    lastDragX.current = clientX;
+    lastDragTime.current = performance.now();
+    dragVelocity.current = 0;
   };
 
-  // Touch interaction handlers for mobile support
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsDragging(true);
-    const startX = e.touches[0].clientX;
-    const startY = e.touches[0].clientY;
+  const handleMove = (clientX: number) => {
+    if (!isDragging.current) return;
+    const dx = clientX - dragStartX.current;
+    let nextX = dragStartOffset.current + dx;
 
-    const handleTouchMove = (moveEvent: TouchEvent) => {
-      const dx = moveEvent.touches[0].clientX - startX;
-      const dy = moveEvent.touches[0].clientY - startY;
-      setDragOffset({ x: dx, y: dy });
-    };
+    // Modulo wrapping during drag
+    const maxScroll = totalCount * cardWidth;
+    if (nextX > 0) {
+      nextX = -maxScroll + (nextX % maxScroll);
+    } else if (nextX < -maxScroll * 2) {
+      nextX = -maxScroll + (nextX % maxScroll);
+    }
 
-    const handleTouchEnd = (endEvent: TouchEvent) => {
-      setIsDragging(false);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("touchend", handleTouchEnd);
+    xOffset.set(nextX);
 
-      const dx = endEvent.changedTouches[0].clientX - startX;
-      const dy = endEvent.changedTouches[0].clientY - startY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      if (distance > 100) {
-        handleNext();
-      } else {
-        setDragOffset({ x: 0, y: 0 });
-      }
-    };
-
-    document.addEventListener("touchmove", handleTouchMove, { passive: true });
-    document.addEventListener("touchend", handleTouchEnd, { passive: true });
+    // Calculate real-time speed/velocity for momentum
+    const now = performance.now();
+    const dt = now - lastDragTime.current;
+    if (dt > 10) {
+      dragVelocity.current = (clientX - lastDragX.current) * 0.75;
+      lastDragX.current = clientX;
+      lastDragTime.current = now;
+    }
   };
 
-  // Stack rendering (max 3 cards shown at once)
-  const visibleCards = [
-    services[currentIndex],
-    services[(currentIndex + 1) % services.length],
-    services[(currentIndex + 2) % services.length],
-  ];
+  const handleEnd = () => {
+    isDragging.current = false;
+  };
 
   return (
     <div 
-      className="relative w-full h-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      ref={containerRef}
+      className="relative w-full cursor-grab active:cursor-grabbing select-none py-10"
+      onMouseEnter={() => { isHovered.current = true; }}
+      onMouseLeave={() => { isHovered.current = false; handleEnd(); }}
+      onMouseDown={(e) => handleStart(e.clientX)}
+      onMouseMove={(e) => handleMove(e.clientX)}
+      onMouseUp={handleEnd}
+      onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+      onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+      onTouchEnd={handleEnd}
+      style={{ perspective: "1000px" }}
     >
-      {visibleCards.map((service, index) => {
-        const isTop = index === 0;
-        const depth = index; // 0 is top, 1 is middle, 2 is bottom
-
-        // Card transform equations based on depth & flat vs stacked states
-        const scale = isTop 
-          ? (isDragging ? 1.02 : 1) 
-          : (isFlattened ? 0.95 : 1 - depth * 0.05);
-
-        // Translate cards horizontally side-by-side if flattened (left, middle, right)
-        // index 0 (top active card) stays centered, index 1 moves left, index 2 moves right
-        const flatOffsetX = index === 0 ? 0 : index === 1 ? -240 : 240;
-        const translateX = isTop 
-          ? dragOffset.x 
-          : (isFlattened ? flatOffsetX : 0);
-
-        const translateY = isTop 
-          ? dragOffset.y 
-          : (isFlattened ? 0 : depth * 25);
-
-        const rotation = isTop 
-          ? (dragOffset.x * 0.04) 
-          : (isFlattened ? (index === 0 ? 0 : index === 1 ? -3 : 3) : 0);
-
-        const zIndex = 30 - depth;
-
-        return (
-          <div
-            key={service.title}
-            className={`absolute inset-0 cursor-grab active:cursor-grabbing select-none`}
-            style={{
-              transform: `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotation}deg)`,
-              zIndex,
-              transition: isDragging && isTop ? "none" : "transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1.1), opacity 0.25s ease",
-              pointerEvents: isTop ? "auto" : "none",
-              opacity: isFlattened ? 1 : 1 - depth * 0.25,
-            }}
-            onMouseDown={isTop ? handleMouseDown : undefined}
-            onTouchStart={isTop ? handleTouchStart : undefined}
-            onClick={isTop ? () => { if (Math.abs(dragOffset.x) < 5 && Math.abs(dragOffset.y) < 5) handleNext(); } : undefined}
-          >
-            {/* Preserved card inner design exactly */}
-            <div
-              className="relative flex flex-col justify-between rounded-[2rem] p-6 shadow-[0_30px_60px_rgba(24,0,173,0.18)] min-h-[560px] h-full w-full border-2 bg-slate-50"
-              style={{
-                borderColor: `${service.color}15`,
-                boxShadow: isTop ? `0 25px 60px -15px ${service.color}35` : "none",
-              }}
-            >
-              {/* Floating skewed header chat bubble */}
-              <div 
-                className="w-[90%] rounded-3xl p-5 bg-white border shadow-md relative -rotate-3 transition-transform duration-500 group-hover:rotate-0 self-center mt-2 z-10"
-                style={{
-                  borderColor: `${service.color}15`,
-                  background: index % 3 === 0 ? "#FFF0F0" : index % 3 === 1 ? "#FFFFF0" : "#FFF5FF",
-                }}
-              >
-                <div className="flex items-center justify-between border-b border-slate-900/5 pb-3">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Client Request</span>
-                  <span className="grid h-8 w-8 place-items-center rounded-xl bg-white shadow-sm border border-slate-100">
-                    <img src={service.logo} alt={service.logoAlt} className="h-4.5 w-4.5 object-contain" />
-                  </span>
-                </div>
-
-                <p className="mt-4 text-xs font-semibold text-slate-700 italic leading-relaxed bg-white border rounded-2xl p-3 shadow-inner">
-                  "I want to explore {service.title} systems, outline a realistic strategy for scaling our operations."
-                </p>
-
-                <h3 className="mt-4 text-base font-black leading-tight text-slate-900 tracking-tight">
-                  {service.title}
-                </h3>
-
-                <p className="mt-2 text-[10px] leading-relaxed text-slate-500">
-                  {service.desc}
-                </p>
-              </div>
-
-              {/* Overlapping middle chat bubble listing features */}
-              <div 
-                className="w-[95%] rounded-3xl p-5 bg-white border border-slate-100 shadow-lg relative rotate-2 transition-transform duration-500 group-hover:rotate-0 -mt-8 self-center z-20"
-              >
-                <span className="text-[9px] font-black tracking-widest text-[#1800AD] uppercase block mb-2">Core Deliverables</span>
-                <ul className="space-y-1.5">
-                  {service.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-[10px] text-slate-600 font-medium">
-                      <span
-                        className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full"
-                        style={{ background: "rgba(24,0,173,0.05)" }}
-                      >
-                        <Check className="h-2 w-2" style={{ color: service.color }} />
-                      </span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Interactive bottom card button block */}
-              <div 
-                className="w-[90%] rounded-xl p-3 flex items-center justify-between transition-transform duration-500 rotate-1 self-center z-10"
-                style={{
-                  background: service.color,
-                  boxShadow: `0 8px 24px -6px ${service.color}60`,
-                }}
-              >
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-white">
-                  Swipe/Click Card <ArrowUpRight className="h-3 w-3" />
-                </span>
-                <span className="text-[9px] font-black text-white/70 tracking-widest">
-                  #{service.tag}
-                </span>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-
-      {/* Horizontal Page Indicator Navigation Dots */}
-      <div className="absolute -bottom-16 left-0 right-0 flex items-center justify-center gap-2.5 z-40 pointer-events-auto">
-        {services.map((service, sIdx) => {
-          const isActive = sIdx === currentIndex;
-          return (
-            <button
-              key={service.title}
-              onClick={() => {
-                setCurrentIndex(sIdx);
-                setDragOffset({ x: 0, y: 0 });
-                setIsFlattened(false);
-              }}
-              onMouseEnter={() => {
-                setCurrentIndex(sIdx);
-                setDragOffset({ x: 0, y: 0 });
-                setIsFlattened(false);
-              }}
-              className="group relative flex items-center justify-center h-6 w-6 focus:outline-none"
-              title={`View ${service.title}`}
-            >
-              {/* Tooltip */}
-              <span className="absolute bottom-7 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-white bg-slate-900 rounded-md opacity-0 scale-95 pointer-events-none transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 whitespace-nowrap shadow-md">
-                {service.title}
-              </span>
-              <span 
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  isActive ? "w-6" : "w-2 group-hover:w-3"
-                }`}
-                style={{
-                  background: isActive ? service.color : "rgba(24, 0, 173, 0.25)"
-                }}
-              />
-            </button>
-          );
-        })}
-      </div>
+      {/* Scrollable Track */}
+      <motion.div 
+        ref={trackRef}
+        className="flex gap-8 will-change-transform"
+        style={{ 
+          x: springX, 
+          width: `${duplicatedList.length * cardWidth}px`,
+          transformStyle: "preserve-3d"
+        }}
+      >
+        {duplicatedList.map((service, idx) => (
+          <CarouselCard 
+            key={`${service.title}-${idx}`} 
+            service={service} 
+          />
+        ))}
+      </motion.div>
     </div>
+  );
+}
+
+// 3D Glassmorphic Interactive Card Component
+function CarouselCard({ service }: { service: ServiceItem }) {
+  const Icon = service.icon;
+  const [hovered, setHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Custom spring tilt motion values
+  const tiltX = useMotionValue(0);
+  const tiltY = useMotionValue(0);
+  const springTiltX = useSpring(tiltX, { damping: 25, stiffness: 200 });
+  const springTiltY = useSpring(tiltY, { damping: 25, stiffness: 200 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left - width / 2;
+    const mouseY = e.clientY - rect.top - height / 2;
+
+    // Map coordinates to degrees of rotation (max 10deg)
+    tiltX.set((mouseY / (height / 2)) * -10);
+    tiltY.set((mouseX / (width / 2)) * 10);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+    tiltX.set(0);
+    tiltY.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      className="relative shrink-0 w-[300px] h-[430px] rounded-[28px] p-6 border border-white/30 bg-gradient-to-b from-white/80 to-white/45 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.06)] flex flex-col justify-between overflow-hidden cursor-pointer"
+      animate={{
+        y: hovered ? -12 : 0,
+        scale: hovered ? 1.04 : 1,
+        boxShadow: hovered 
+          ? "0 20px 40px rgba(0, 0, 0, 0.10), 0 0 24px rgba(24, 0, 173, 0.06)"
+          : "0 8px 32px 0 rgba(0, 0, 0, 0.06)"
+      }}
+      style={{
+        rotateX: springTiltX,
+        rotateY: springTiltY,
+        transformStyle: "preserve-3d"
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+    >
+      {/* Subtle background gradient fill */}
+      <div 
+        className="absolute inset-0 z-0 opacity-[0.09] transition-opacity duration-500 group-hover:opacity-[0.14]"
+        style={{ background: service.gradient }}
+      />
+      
+      {/* Glowing cursor aura effect */}
+      {hovered && (
+        <motion.div 
+          className="absolute pointer-events-none rounded-full blur-2xl opacity-30 z-0"
+          style={{
+            background: service.gradient,
+            width: "160px",
+            height: "160px",
+            left: "70px",
+            top: "130px",
+          }}
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        />
+      )}
+
+      {/* Card Content wrapper */}
+      <div className="z-10 flex flex-col h-full justify-between">
+        
+        {/* Top: Icon container */}
+        <div className="flex justify-between items-start">
+          <div 
+            className="h-12 w-12 rounded-2xl flex items-center justify-center border border-white shadow-sm transition-transform duration-300"
+            style={{ 
+              background: service.gradient,
+              boxShadow: "0 4px 14px 0 rgba(0,0,0,0.05)"
+            }}
+          >
+            <Icon className="h-6 w-6 text-white" />
+          </div>
+          <span className="text-[10px] font-black tracking-widest text-[#0B1324]/30">
+            #{service.tag}
+          </span>
+        </div>
+
+        {/* Middle: Title & Description */}
+        <div className="mt-8">
+          <h3 className="text-xl font-bold text-[#0B1324] leading-snug tracking-tight">
+            {service.title}
+          </h3>
+          <p className="mt-3 text-xs leading-relaxed text-slate-500 max-w-[90%]">
+            {service.desc}
+          </p>
+        </div>
+
+        {/* Bottom: Springy CTA Button */}
+        <div className="mt-6">
+          <Link to="/contact">
+            <motion.div 
+              className="w-full py-2.5 rounded-full flex items-center justify-center text-xs font-bold transition-all border border-slate-200/60 bg-white text-[#0B1324] shadow-[0_2px_10px_rgba(0,0,0,0.03)]"
+              animate={{
+                background: hovered ? service.gradient : "#ffffff",
+                color: hovered ? "#ffffff" : "#0B1324",
+                borderColor: hovered ? "transparent" : "rgba(11,19,36,0.08)",
+                boxShadow: hovered 
+                  ? "0 8px 20px rgba(24, 0, 173, 0.15)"
+                  : "0 2px 10px rgba(0,0,0,0.03)",
+                y: hovered ? -2 : 0
+              }}
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 350, damping: 15 }}
+            >
+              <span>Learn More</span>
+              <ArrowUpRight className="h-4 w-4 ml-1.5" />
+            </motion.div>
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// Typewriter heading component for Services Portfolio Page
+function TypewriterServicesHeading() {
+  const fullText = "Everything you need to grow online, under one roof.";
+  const [text, setText] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      index += 1;
+      setText(fullText.slice(0, index));
+      if (index >= fullText.length) {
+        clearInterval(interval);
+      }
+    }, 45);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <h1 className="h-display mt-3 text-4xl md:text-5xl lg:text-6xl font-black text-center tracking-tight leading-tight">
+      {text}
+      <span className="inline-block w-[3px] h-[0.8em] bg-[#1800AD] animate-pulse ml-1 align-middle" />
+    </h1>
   );
 }

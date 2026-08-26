@@ -23,12 +23,17 @@ import { SiteLayout } from "@/components/SiteLayout";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Cortvex" },
-      { name: "description", content: "Get in touch with Cortvex. Book a meeting or send us a project brief." },
-      { property: "og:title", content: "Contact Cortvex" },
-      { property: "og:description", content: "Start a project, book a meeting or ask a question." },
+      { title: "Contact Vexcort \u2014 Book a Meeting or Get a Quote" },
+      { name: "description", content: "Get in touch with the Vexcort team. Book a meeting, send a project brief, or ask a question about our web development, AI automation, or digital marketing services." },
+      { property: "og:title", content: "Contact Vexcort \u2014 Book a Meeting or Get a Quote" },
+      { property: "og:description", content: "Start a project, book a free consultation, or ask a question. The Vexcort team is ready to help you design, build, and scale your digital presence." },
+      { property: "og:image", content: "https://vexcort.com/textlogo.png" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:title", content: "Contact Vexcort \u2014 Book a Meeting or Get a Quote" },
+      { name: "twitter:description", content: "Start a project, book a free consultation, or ask a question. The Vexcort team is ready to help." },
+      { name: "twitter:image", content: "https://vexcort.com/textlogo.png" },
     ],
-    links: [{ rel: "canonical", href: "https://cortvex.com/contact" }],
+    links: [{ rel: "canonical", href: "https://vexcort.com/contact" }],
   }),
   component: ContactPage,
 });
@@ -44,7 +49,7 @@ const serviceOptions = [
   "Marketing",
   "Social Media",
 ];
-const budgetOptions = ["< $2k", "$2k – $5k", "$5k – $15k", "$15k – $50k", "$50k+"];
+const budgetOptions = ["< $2k", "$2k - $5k", "$5k - $15k", "$15k - $50k", "$50k+"];
 
 const trustItems = [
   { icon: Clock, label: "1-day response" },
@@ -53,7 +58,7 @@ const trustItems = [
   { icon: Zap, label: "Start in 7 days" },
 ];
 
-// ─── Floating Particles (reused from About page pattern) ─────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Floating Particles (reused from About page pattern) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 function FloatingParticles() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -81,7 +86,7 @@ function FloatingParticles() {
   );
 }
 
-// ─── Typewriter effect component for the header ────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Typewriter effect component for the header Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 function TypewriterHeading() {
   const fullText = "tell us about your project.";
   const [text, setText] = useState("");
@@ -131,7 +136,7 @@ function TypewriterHeading() {
   );
 }
 
-// ─── Animated word reveal (same pattern as About hero) ────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Animated word reveal (same pattern as About hero) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 function AnimatedWord({ word, delay, className = "" }: { word: string; delay: number; className?: string }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -152,7 +157,7 @@ function AnimatedWord({ word, delay, className = "" }: { word: string; delay: nu
   );
 }
 
-// ─── Scroll-reveal wrapper ─────────────────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Scroll-reveal wrapper Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -181,7 +186,7 @@ function FadeUp({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
-// ─── Premium Input Field ───────────────────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Premium Input Field Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 function Field({
   label,
   name,
@@ -238,9 +243,10 @@ function Field({
   );
 }
 
-// ─── Main Page ─────────────────────────────────────────────────────────────────
+// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Main Page Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedService, setSelectedService] = useState<string>("Web Development");
   const [selectedBudget, setSelectedBudget] = useState<string>("");
   const [focusedTextarea, setFocusedTextarea] = useState(false);
@@ -255,7 +261,7 @@ function ContactPage() {
 
   return (
     <SiteLayout>
-      {/* ── Keyframes ── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Keyframes Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes particle-float {
           0%, 100% { transform: translateY(0) translateX(0); opacity: 0.7; }
@@ -277,7 +283,7 @@ function ContactPage() {
       `}} />
 
       <div className="font-sans bg-[#F8F9FF]">
-        {/* ── HERO SECTION ── */}
+        {/* Ã¢â€â‚¬Ã¢â€â‚¬ HERO SECTION Ã¢â€â‚¬Ã¢â€â‚¬ */}
         <section
           className="relative overflow-hidden"
           style={{
@@ -348,11 +354,11 @@ function ContactPage() {
           </div>
         </section>
 
-        {/* ── FORM + SIDEBAR ── */}
+        {/* Ã¢â€â‚¬Ã¢â€â‚¬ FORM + SIDEBAR Ã¢â€â‚¬Ã¢â€â‚¬ */}
         <section className="py-8 container-x">
           <div className="grid gap-8 lg:grid-cols-12">
 
-            {/* ─ FORM CARD ─ */}
+            {/* Ã¢â€â‚¬ FORM CARD Ã¢â€â‚¬ */}
             <FadeUp delay={0} className="lg:col-span-8">
               <div
                 className="relative overflow-hidden rounded-[2rem] bg-white grid md:grid-cols-12"
@@ -424,13 +430,45 @@ function ContactPage() {
                 {/* Right Inner Form Content */}
                 <form
                   id="question-form"
-                  onSubmit={(e) => { 
+                  onSubmit={async (e) => { 
                     e.preventDefault(); 
                     if (!selectedBudget) {
                       alert("Please select a budget range.");
                       return;
                     }
-                    setSent(true); 
+                    setIsSubmitting(true);
+                    try {
+                      const fd = new FormData(e.currentTarget);
+                      const payload = {
+                        name: fd.get("name"),
+                        email: fd.get("email"),
+                        company: fd.get("company") || "",
+                        service: selectedService,
+                        budget: selectedBudget,
+                        description: fd.get("message") || ""
+                      };
+                      
+                      const cleanPath = window.location.pathname.replace(/\/contact\/?$/, "");
+                      const endpoint = `${window.location.origin}${cleanPath}/submit.php`;
+                      
+                      const response = await fetch(endpoint, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                      });
+                      
+                      if (response.ok) {
+                        setSent(true);
+                      } else {
+                        const errData = await response.json();
+                        alert(errData.error || "Failed to submit inquiry. Please try again.");
+                      }
+                    } catch (error) {
+                      console.error("Submission error:", error);
+                      alert("An error occurred. Please try again or email us directly at connect@vexcort.com.");
+                    } finally {
+                      setIsSubmitting(false);
+                    }
                   }}
                   className="md:col-span-8 p-8 md:p-10 flex flex-col justify-start"
                 >
@@ -453,7 +491,7 @@ function ContactPage() {
                         Details for: {inquiryType}
                       </h4>
 
-                      {/* Service selector — pill chips (Only for specific types) */}
+                      {/* Service selector Ã¢â‚¬â€ pill chips (Only for specific types) */}
                       {inquiryType !== "Contact Sales" && inquiryType !== "Outsourcing" ? (
                         <div className="mt-6">
                           <label className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgba(11,19,36,0.55)" }}>
@@ -482,7 +520,7 @@ function ContactPage() {
                         </div>
                       ) : null}
 
-                      {/* Budget selector — pill chips */}
+                      {/* Budget selector Ã¢â‚¬â€ pill chips */}
                       <div className="mt-6">
                         <label className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: "rgba(11,19,36,0.55)" }}>
                           Budget range <span style={{ color: "#0EA5A4" }}>*</span>
@@ -519,7 +557,7 @@ function ContactPage() {
                       name="message"
                       rows={5}
                       required
-                      placeholder="Tell us what you'd like to build, the problem you're solving, and any timeline or budget constraints…"
+                      placeholder="Tell us what you'd like to build, the problem you're solving, and any timeline or budget constraintsÃ¢â‚¬Â¦"
                       onFocus={() => setFocusedTextarea(true)}
                       onBlur={() => setFocusedTextarea(false)}
                       className="mt-2 w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-200 resize-none"
@@ -552,19 +590,22 @@ function ContactPage() {
                     ) : (
                       <button
                         type="submit"
-                        className="btn btn-primary relative overflow-hidden group"
+                        disabled={isSubmitting}
+                        className="btn btn-primary relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{ paddingLeft: "28px", paddingRight: "28px" }}
                       >
                         {/* shimmer */}
-                        <span
-                          className="pointer-events-none absolute inset-0 -z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          style={{
-                            background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
-                            animation: "shimmer-bar 1.6s ease-in-out infinite",
-                          }}
-                        />
+                        {!isSubmitting && (
+                          <span
+                            className="pointer-events-none absolute inset-0 -z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            style={{
+                              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%)",
+                              animation: "shimmer-bar 1.6s ease-in-out infinite",
+                            }}
+                          />
+                        )}
                         <Send className="relative z-10 h-4 w-4" />
-                        <span className="relative z-10">Send message</span>
+                        <span className="relative z-10">{isSubmitting ? "Sending..." : "Send message"}</span>
                       </button>
                     )}
                     <p className="text-xs" style={{ color: "rgba(11,19,36,0.4)" }}>
@@ -575,7 +616,7 @@ function ContactPage() {
               </div>
             </FadeUp>
 
-            {/* ─ SIDEBAR ─ */}
+            {/* Ã¢â€â‚¬ SIDEBAR Ã¢â€â‚¬ */}
             <aside className="space-y-5 lg:col-span-4">
 
               {/* Book a Meeting Card */}
@@ -600,30 +641,73 @@ function ContactPage() {
                       className="grid h-12 w-12 place-items-center rounded-2xl"
                       style={{
                         background: "rgba(24,0,173,0.06)",
-                        border: "1px solid rgba(24,0,173,0.15)",
-                        backdropFilter: "blur(8px)",
+                        border: "1.5px solid rgba(24,0,173,0.12)",
                       }}
                     >
-                      <Calendar className="h-6 w-6 text-[#1800AD]" />
+                      <Calendar className="h-5 w-5 text-[#1800AD]" />
                     </span>
-                    <h2 className="mt-5 text-xl font-bold text-[#0B1324] leading-tight" style={{ letterSpacing: "-0.02em" }}>
-                      Book a discovery call
-                    </h2>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      Prefer to talk? Grab a 30-minute slot and we'll map the fastest path to your goal.
+                    <h3 className="mt-6 text-xl font-bold text-slate-900 leading-tight tracking-tight">Book a 1:1 Call</h3>
+                    <p className="mt-2 text-[13px] text-slate-500 leading-relaxed">
+                      Prefer talking face-to-face? Schedule a video call with our lead developer to clarify requirements.
                     </p>
-                    <Link
-                      to="/signin"
-                      search={{ mode: "signup" }}
-                      className="mt-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 hover:gap-3"
-                      style={{
-                        background: "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)",
-                        color: "#ffffff",
-                        boxShadow: "0 8px 24px -8px rgba(24,0,173,0.45)",
-                      }}
+                    <a
+                      href="https://cal.com/Vexcort"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn mt-6 w-full rounded-2xl py-3 justify-center text-center font-bold flex items-center gap-1.5 bg-[#1800AD] text-white hover:opacity-90"
                     >
-                      Open calendar <ArrowUpRight className="h-4 w-4" />
-                    </Link>
+                      Schedule Video Meeting <ArrowUpRight className="h-4 w-4" />
+                    </a>
+                  </div>
+                </div>
+              </FadeUp>
+
+              {/* Social Channels Widget Box */}
+              <FadeUp delay={200}>
+                <div
+                  className="relative overflow-hidden rounded-3xl p-7 bg-white"
+                  style={{
+                    border: "1px solid rgba(24,0,173,0.12)",
+                    boxShadow: "0 28px 60px -20px rgba(24,0,173,0.14)",
+                  }}
+                >
+                  <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
+                    <span className="grid h-10 w-10 place-items-center rounded-full bg-[#1800AD]/5 border border-[#1800AD]/10">
+                      <MessageCircle className="h-5 w-5 text-[#1800AD]" />
+                    </span>
+                    <h3 className="text-base font-bold text-slate-900">Follow Vexcort</h3>
+                  </div>
+
+                  <div className="mt-5 grid grid-cols-2 gap-3">
+                    <a
+                      href="https://www.linkedin.com/company/Vexcort"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors"
+                    >
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn logo" className="h-4.5 w-4.5 object-contain" />
+                      <span className="text-xs font-bold text-slate-700">LinkedIn</span>
+                    </a>
+
+                    <a
+                      href="https://www.instagram.com/Vexcort_official"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors"
+                    >
+                      <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram logo" className="h-4.5 w-4.5 object-contain" />
+                      <span className="text-xs font-bold text-slate-700">Instagram</span>
+                    </a>
+
+                    <a
+                      href="https://www.facebook.com/Vexcort_official"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors col-span-2"
+                    >
+                      <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook logo" className="h-4.5 w-4.5 object-contain" />
+                      <span className="text-xs font-bold text-slate-700">Facebook</span>
+                    </a>
                   </div>
                 </div>
               </FadeUp>
@@ -656,11 +740,13 @@ function ContactPage() {
                     <div>
                       <h3 className="text-sm font-bold" style={{ color: "#0B1324", letterSpacing: "-0.01em" }}>Email us directly</h3>
                       <a
-                        href="mailto:connect@cortvex.com"
+                        href="https://mail.google.com/mail/?view=cm&fs=1&to=connect@vexcort.com&su=Project%20Inquiry%20%E2%80%94%20Vexcort"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="mt-1 block text-sm font-medium transition-colors hover:text-[#1800AD]"
                         style={{ color: "rgba(11,19,36,0.55)" }}
                       >
-                        connect@cortvex.com
+                        connect@vexcort.com
                       </a>
                     </div>
                   </div>
@@ -692,7 +778,7 @@ function ContactPage() {
                 </div>
               </FadeUp>
 
-              {/* Follow Cortvex */}
+              {/* Follow Vexcort */}
               <FadeUp delay={260}>
                 <div
                   className="relative overflow-hidden rounded-3xl p-7 bg-white"
@@ -716,13 +802,13 @@ function ContactPage() {
                     >
                       <MessageCircle className="h-5 w-5" style={{ color: "#1800AD" }} />
                     </span>
-                    <h3 className="text-sm font-bold" style={{ color: "#0B1324", letterSpacing: "-0.01em" }}>Follow Cortvex</h3>
+                    <h3 className="text-sm font-bold" style={{ color: "#0B1324", letterSpacing: "-0.01em" }}>Follow Vexcort</h3>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     {[
-                      { label: "LinkedIn", icon: Linkedin, href: "#", color: "#0A66C2" },
-                      { label: "Instagram", icon: Instagram, href: "#", color: "#E1306C" },
-                      { label: "Facebook", icon: Facebook, href: "#", color: "#1877F2" },
+                      { label: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/Vexcort", color: "#0A66C2" },
+                      { label: "Instagram", icon: Instagram, href: "https://www.instagram.com/Vexcort_official", color: "#E1306C" },
+                      { label: "Facebook", icon: Facebook, href: "https://www.facebook.com/Vexcort_official", color: "#1877F2" },
                     ].map(({ label, icon: Icon, href, color }) => (
                       <a
                         key={label}

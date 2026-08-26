@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "https://cortvex.com";
+const BASE_URL = "https://www.vexcort.com";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
@@ -10,10 +10,10 @@ export const Route = createFileRoute("/sitemap.xml")({
         const entries = [
           { path: "/", priority: "1.0" },
           { path: "/services", priority: "0.9" },
+          { path: "/portfolio", priority: "0.8" },
           { path: "/contact", priority: "0.8" },
+          { path: "/faq", priority: "0.7" },
           { path: "/about", priority: "0.7" },
-          { path: "/book-meeting", priority: "0.7" },
-          { path: "/signin", priority: "0.6" },
         ];
         const buildUrl = (path: string) => `${BASE_URL}${path}`;
         const urls = entries.map((e) =>

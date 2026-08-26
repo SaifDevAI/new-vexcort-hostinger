@@ -6,6 +6,7 @@ import { Logo } from "./Logo";
 const links = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
+  { to: "/portfolio", label: "Portfolio" },
   { to: "/faq", label: "FAQ" },
   { to: "/about", label: "About" },
 ] as const;
@@ -60,11 +61,13 @@ export function Navbar() {
   const activeNavLabel = !isHomeRoute
     ? location.pathname === "/services"
       ? "Services"
-      : location.pathname === "/faq"
-        ? "FAQ"
-        : location.pathname === "/about"
-          ? "About"
-          : ""
+      : location.pathname === "/portfolio"
+        ? "Portfolio"
+        : location.pathname === "/faq"
+          ? "FAQ"
+          : location.pathname === "/about"
+            ? "About"
+            : ""
     : servicesInView
       ? "Services"
       : "Home";

@@ -10,7 +10,13 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const hasShown = sessionStorage.getItem("cortvex_splash_shown");
+    let hasShown = "false";
+    try {
+      hasShown = sessionStorage.getItem("Vexcort_splash_shown") || "false";
+    } catch (e) {
+      console.warn("sessionStorage is not available:", e);
+    }
+
     if (hasShown === "true") {
       setShowSplash(false);
       return;
@@ -24,7 +30,11 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     // Auto-fadeout after 1.5s
     const timer = setTimeout(() => {
       setFadeOut(true);
-      sessionStorage.setItem("cortvex_splash_shown", "true");
+      try {
+        sessionStorage.setItem("Vexcort_splash_shown", "true");
+      } catch (e) {
+        console.warn("sessionStorage is not available:", e);
+      }
       setTimeout(() => {
         setShowSplash(false);
       }, 500);
@@ -35,7 +45,11 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
   const handleSplashEnd = () => {
     setFadeOut(true);
-    sessionStorage.setItem("cortvex_splash_shown", "true");
+    try {
+      sessionStorage.setItem("Vexcort_splash_shown", "true");
+    } catch (e) {
+      console.warn("sessionStorage is not available:", e);
+    }
     setTimeout(() => {
       setShowSplash(false);
     }, 500);
@@ -52,10 +66,11 @@ export function SiteLayout({ children }: { children: ReactNode }) {
           <div className="w-full max-w-[320px] px-6">
             <video
               ref={videoRef}
-              src="/splash_screen.mp4"
+              src="/splash_screen.mp4?v=2"
               autoPlay
               muted
               playsInline
+              aria-hidden="true"
               onPlay={(e) => {
                 // Apply speed increase as soon as playback starts
                 e.currentTarget.playbackRate = 1.45;

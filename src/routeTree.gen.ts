@@ -10,11 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SigninRouteImport } from './routes/signin'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as BookMeetingRouteImport } from './routes/book-meeting'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as IndexBak3RouteImport } from './routes/index.bak3'
@@ -26,14 +25,14 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SigninRoute = SigninRouteImport.update({
-  id: '/signin',
-  path: '/signin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -44,11 +43,6 @@ const FaqRoute = FaqRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookMeetingRoute = BookMeetingRouteImport.update({
-  id: '/book-meeting',
-  path: '/book-meeting',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -80,11 +74,10 @@ const IndexBakRoute = IndexBakRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/book-meeting': typeof BookMeetingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
-  '/signin': typeof SigninRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/index/bak': typeof IndexBakRoute
   '/index/bak2': typeof IndexBak2Route
@@ -93,11 +86,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/book-meeting': typeof BookMeetingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
-  '/signin': typeof SigninRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/index/bak': typeof IndexBakRoute
   '/index/bak2': typeof IndexBak2Route
@@ -107,11 +99,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/book-meeting': typeof BookMeetingRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
-  '/signin': typeof SigninRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/index/bak': typeof IndexBakRoute
   '/index/bak2': typeof IndexBak2Route
@@ -122,11 +113,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/book-meeting'
     | '/contact'
     | '/faq'
+    | '/portfolio'
     | '/services'
-    | '/signin'
     | '/sitemap.xml'
     | '/index/bak'
     | '/index/bak2'
@@ -135,11 +125,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/book-meeting'
     | '/contact'
     | '/faq'
+    | '/portfolio'
     | '/services'
-    | '/signin'
     | '/sitemap.xml'
     | '/index/bak'
     | '/index/bak2'
@@ -148,11 +137,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
-    | '/book-meeting'
     | '/contact'
     | '/faq'
+    | '/portfolio'
     | '/services'
-    | '/signin'
     | '/sitemap.xml'
     | '/index/bak'
     | '/index/bak2'
@@ -162,11 +150,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  BookMeetingRoute: typeof BookMeetingRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  PortfolioRoute: typeof PortfolioRoute
   ServicesRoute: typeof ServicesRoute
-  SigninRoute: typeof SigninRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   IndexBakRoute: typeof IndexBakRoute
   IndexBak2Route: typeof IndexBak2Route
@@ -182,18 +169,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/signin': {
-      id: '/signin'
-      path: '/signin'
-      fullPath: '/signin'
-      preLoaderRoute: typeof SigninRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -208,13 +195,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/book-meeting': {
-      id: '/book-meeting'
-      path: '/book-meeting'
-      fullPath: '/book-meeting'
-      preLoaderRoute: typeof BookMeetingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -258,11 +238,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  BookMeetingRoute: BookMeetingRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  PortfolioRoute: PortfolioRoute,
   ServicesRoute: ServicesRoute,
-  SigninRoute: SigninRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   IndexBakRoute: IndexBakRoute,
   IndexBak2Route: IndexBak2Route,
