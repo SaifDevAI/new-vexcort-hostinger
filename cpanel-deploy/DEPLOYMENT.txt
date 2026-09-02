@@ -1,5 +1,0 @@
-Cortvex cPanel deployment package
-
-Upload the contents of this folder to the subdomain document root in cPanel.
-The root index.html and per-route index.html files were prerendered from the TanStack Start build.
-Keep .htaccess in place so direct visits and refreshes on client-side routes work.

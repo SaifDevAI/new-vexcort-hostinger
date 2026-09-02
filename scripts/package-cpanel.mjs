@@ -15,6 +15,7 @@ const routes = [
   "/faq",
   "/contact",
   "/services",
+  "/portfolio",
   "/sitemap.xml",
 ];
 

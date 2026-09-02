@@ -16,9 +16,6 @@ import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as IndexBak3RouteImport } from './routes/index.bak3'
-import { Route as IndexBak2RouteImport } from './routes/index.bak2'
-import { Route as IndexBakRouteImport } from './routes/index.bak'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -55,21 +52,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexBak3Route = IndexBak3RouteImport.update({
-  id: '/index/bak3',
-  path: '/index/bak3',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexBak2Route = IndexBak2RouteImport.update({
-  id: '/index/bak2',
-  path: '/index/bak2',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexBakRoute = IndexBakRouteImport.update({
-  id: '/index/bak',
-  path: '/index/bak',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -79,9 +61,6 @@ export interface FileRoutesByFullPath {
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/index/bak': typeof IndexBakRoute
-  '/index/bak2': typeof IndexBak2Route
-  '/index/bak3': typeof IndexBak3Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,9 +70,6 @@ export interface FileRoutesByTo {
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/index/bak': typeof IndexBakRoute
-  '/index/bak2': typeof IndexBak2Route
-  '/index/bak3': typeof IndexBak3Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,9 +80,6 @@ export interface FileRoutesById {
   '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/index/bak': typeof IndexBakRoute
-  '/index/bak2': typeof IndexBak2Route
-  '/index/bak3': typeof IndexBak3Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -118,9 +91,6 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/services'
     | '/sitemap.xml'
-    | '/index/bak'
-    | '/index/bak2'
-    | '/index/bak3'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -130,9 +100,6 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/services'
     | '/sitemap.xml'
-    | '/index/bak'
-    | '/index/bak2'
-    | '/index/bak3'
   id:
     | '__root__'
     | '/'
@@ -142,9 +109,6 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/services'
     | '/sitemap.xml'
-    | '/index/bak'
-    | '/index/bak2'
-    | '/index/bak3'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -155,9 +119,6 @@ export interface RootRouteChildren {
   PortfolioRoute: typeof PortfolioRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  IndexBakRoute: typeof IndexBakRoute
-  IndexBak2Route: typeof IndexBak2Route
-  IndexBak3Route: typeof IndexBak3Route
 }
 
 declare module '@tanstack/react-router' {
@@ -211,27 +172,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/index/bak3': {
-      id: '/index/bak3'
-      path: '/index/bak3'
-      fullPath: '/index/bak3'
-      preLoaderRoute: typeof IndexBak3RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/index/bak2': {
-      id: '/index/bak2'
-      path: '/index/bak2'
-      fullPath: '/index/bak2'
-      preLoaderRoute: typeof IndexBak2RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/index/bak': {
-      id: '/index/bak'
-      path: '/index/bak'
-      fullPath: '/index/bak'
-      preLoaderRoute: typeof IndexBakRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -243,9 +183,6 @@ const rootRouteChildren: RootRouteChildren = {
   PortfolioRoute: PortfolioRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  IndexBakRoute: IndexBakRoute,
-  IndexBak2Route: IndexBak2Route,
-  IndexBak3Route: IndexBak3Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

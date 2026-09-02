@@ -67,7 +67,7 @@ const projects: Project[] = [
     metrics: "120+ Listings • sub-100ms Search Response",
     category: "Marketplace",
     gradient: "linear-gradient(135deg, #1E1B4B 0%, #1800AD 100%)",
-    image: "/media_1786809540712.png", // Correct Sanctuary image
+    image: "/sanctuary.png", // Correct Sanctuary image
   },
   {
     title: "Sarah Mitchell Real Estate",
