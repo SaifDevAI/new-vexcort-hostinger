@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&display=swap");
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -6,7 +12,31 @@
 @font-face {
   font-family: "Mokoto";
   src: url("/mokoto.regular.ttf") format("truetype");
-  font-weight: 400 900;
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mokoto";
+  src: url("/mokoto.regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mokoto";
+  src: url("/mokoto.regular.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Wistania";
+  src: url("/Wistania.ttf") format("truetype");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -15,6 +45,14 @@
   font-family: "Wistania";
   src: url("/Wistania.ttf") format("truetype");
   font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Wistania";
+  src: url("/Wistania.ttf") format("truetype");
+  font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
