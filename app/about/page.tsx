@@ -1,25 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, useRef, useCallback } from "react";
-import { ArrowUpRight, Linkedin, Calendar } from "lucide-react";
-import { SiteLayout } from "@/components/SiteLayout";
+'use client';
 
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Vexcort \u2014 Digital Agency, Team & Story" },
-      { name: "description", content: "Vexcort is a modern digital solutions company building premium websites, apps and AI systems for ambitious brands. Meet the team behind the work." },
-      { property: "og:title", content: "About Vexcort \u2014 Digital Agency, Team & Story" },
-      { property: "og:description", content: "A focused, senior team building modern digital products, AI systems, and growth engines for ambitious brands worldwide." },
-      { property: "og:image", content: "https://vexcort.com/textlogo.png" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:title", content: "About Vexcort \u2014 Digital Agency, Team & Story" },
-      { name: "twitter:description", content: "Meet the senior team at Vexcort building premium web, AI, and digital growth systems for ambitious brands." },
-      { name: "twitter:image", content: "https://vexcort.com/textlogo.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://vexcort.com/about" }],
-  }),
-  component: AboutPage,
-});
+import Link from 'next/link';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { ArrowUpRight, Linkedin, Calendar } from 'lucide-react';
+import { SiteLayout } from '@/components/SiteLayout';
 
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Team Data Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
 const team = [
@@ -266,7 +250,7 @@ function NeuralNetwork() {
 }
 
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Main Component Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-function AboutPage() {
+export default function Page() {
   const heroRef = useRef<HTMLElement>(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const blob1Ref = useRef<HTMLDivElement>(null);
@@ -667,8 +651,7 @@ function AboutPage() {
               </p>
             </div>
             <div className="lg:col-span-3 lg:text-right pt-6 lg:pt-12">
-              <Link
-                to="/contact"
+              <Link href="/contact"
                 className="inline-flex items-center gap-2.5 rounded-full bg-slate-950 text-white px-6 py-3.5 text-sm font-semibold transition-all hover:bg-slate-800 hover:shadow-lg"
               >
                 Book Discovery <ArrowUpRight className="h-4 w-4" />
@@ -689,8 +672,7 @@ function AboutPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
               <div className="relative z-10 text-white">
-                <Link
-                  to="/services"
+                <Link href="/services"
                   className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold hover:bg-white hover:text-slate-900 transition-all"
                 >
                   Explore Engineering <ArrowUpRight className="h-3.5 w-3.5" />
@@ -719,8 +701,7 @@ function AboutPage() {
                     <h3 className="text-xl sm:text-2xl font-black leading-snug mb-4">
                       AI Workflow Automations: Replace human bottlenecks with 24/7 digital labor pipelines.
                     </h3>
-                    <Link
-                      to="/services"
+                    <Link href="/services"
                       className="inline-flex items-center gap-1.5 rounded-full bg-white text-slate-950 px-4 py-2 text-xs font-semibold hover:scale-105 transition-all"
                     >
                       Deploy AI Workflows <ArrowUpRight className="h-3.5 w-3.5" />
@@ -749,8 +730,7 @@ function AboutPage() {
                       Bespoke iOS & Android environments tailored to scale.
                     </h4>
                   </div>
-                  <Link
-                    to="/services"
+                  <Link href="/services"
                     className="self-start inline-flex items-center gap-1.5 rounded-full bg-white hover:bg-slate-900 hover:text-white text-slate-950 px-4 py-2 text-xs font-bold transition-all shadow-sm border border-slate-200/50 mt-6"
                   >
                     Details <ArrowUpRight className="h-3.5 w-3.5" />
@@ -781,8 +761,7 @@ function AboutPage() {
               <p className="text-slate-600 text-sm leading-relaxed">
                 Build high-intent organic search pipelines combined with high-fidelity customer experiences that turn visitors into pipeline revenue.
               </p>
-              <Link
-                to="/services"
+              <Link href="/services"
                 className="self-start inline-flex items-center gap-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white px-6 py-3.5 text-sm font-semibold transition-all"
               >
                 Explore Services <span className="translate-x-0.5">&rarr;</span>
@@ -800,8 +779,7 @@ function AboutPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
               <div className="relative z-10 flex flex-col gap-3">
-                <Link
-                  to="/services"
+                <Link href="/services"
                   className="self-start inline-flex items-center gap-1.5 rounded-full bg-white/20 border border-white/30 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-white hover:text-slate-900 transition-all"
                 >
                   See Details <ArrowUpRight className="h-3.5 w-3.5" />
@@ -824,8 +802,7 @@ function AboutPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
               <div className="relative z-10 flex flex-col gap-3">
-                <Link
-                  to="/services"
+                <Link href="/services"
                   className="self-start inline-flex items-center gap-1.5 rounded-full bg-white/20 border border-white/30 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-white hover:text-slate-900 transition-all"
                 >
                   See Details <ArrowUpRight className="h-3.5 w-3.5" />
@@ -1280,8 +1257,7 @@ function AboutPage() {
                 </p>
 
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                  <Link
-                    to="/contact"
+                  <Link href="/contact"
                     className="group relative inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-sm font-bold text-white overflow-hidden transition-all duration-300"
                     style={{
                       background: "linear-gradient(135deg, #1800AD, #0EA5A4)",
@@ -1294,8 +1270,7 @@ function AboutPage() {
                     <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </Link>
 
-                  <Link
-                    to="/services"
+                  <Link href="/services"
                     className="inline-flex items-center gap-2 rounded-full border px-8 py-4 text-sm font-semibold transition-all duration-300"
                     style={{ borderColor: "rgba(24,0,173,0.2)", color: "#1800AD", background: "rgba(24,0,173,0.03)" }}
                     onMouseEnter={e => {

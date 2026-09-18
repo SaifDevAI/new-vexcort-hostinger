@@ -1,27 +1,10 @@
-import { useState, useRef, useEffect } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { SiteLayout } from "@/components/SiteLayout";
-import { CTASection } from "@/components/CTASection";
-import { ArrowUpRight, ExternalLink, Globe, Layout, Laptop, Sparkles, X, Eye } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+'use client';
 
-export const Route = createFileRoute("/portfolio")({
-  head: () => ({
-    meta: [
-      { title: "Portfolio - Vexcort | Custom Websites, Apps & AI Workflows" },
-      { name: "description", content: "Explore case studies and web applications engineered by Vexcort. Premium web development, SaaS dashboards, and high-performance client sites." },
-      { property: "og:title", content: "Vexcort Portfolio — Custom Digital Solutions" },
-      { property: "og:description", content: "Explore the live platforms, SaaS products, and bespoke web solutions designed and shipped by Vexcort." },
-      { property: "og:image", content: "https://vexcort.com/textlogo.png" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:title", content: "Portfolio - Vexcort" },
-      { name: "twitter:description", content: "Explore our latest digital platforms, Web Dev systems, and custom online projects." },
-      { name: "twitter:image", content: "https://vexcort.com/textlogo.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://vexcort.com/portfolio" }],
-  }),
-  component: PortfolioPage,
-});
+import { useState, useRef, useEffect } from 'react';
+import { SiteLayout } from '@/components/SiteLayout';
+import { CTASection } from '@/components/CTASection';
+import { ArrowUpRight, ExternalLink, Globe, Layout, Laptop, Sparkles, X, Eye } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Project {
   title: string;
@@ -93,7 +76,7 @@ const projects: Project[] = [
   },
 ];
 
-function PortfolioPage() {
+export default function Page() {
   const [activeFrameUrl, setActiveFrameUrl] = useState<string | null>(null);
   const [activeFrameTitle, setActiveFrameTitle] = useState<string>("");
   const [activeIndex, setActiveIndex] = useState(0);

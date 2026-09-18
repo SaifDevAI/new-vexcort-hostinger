@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+'use client';
+
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Logo } from "./Logo";
 
@@ -63,7 +65,7 @@ export function Footer() {
                 clarity and measurable outcomes.
               </p>
               <Link
-                to="/contact"
+                href="/contact"
                 className="btn mt-6 bg-foreground text-white hover:opacity-90 rounded-full"
               >
                 Contact Us <ArrowUpRight className="h-4 w-4" />
@@ -79,9 +81,7 @@ export function Footer() {
                   {col.links.map((l) => (
                     <li key={l.label}>
                       <Link
-                        to={l.to}
-                        hash={"hash" in l ? l.hash : undefined}
-                        search={"search" in l ? l.search : undefined}
+                        href={l.to}
                         className="text-[1.03rem] text-foreground/78 hover:text-[color:var(--brand)]"
                       >
                         {l.label}
@@ -122,6 +122,7 @@ export function Footer() {
                       aria-label={s.label}
                       className="grid h-11 w-11 place-items-center rounded-xl border border-[color:var(--color-border)] bg-white/85 transition hover:border-[color:var(--brand)]"
                     >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={s.icon}
                         alt={`${s.label} logo`}
@@ -137,16 +138,16 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Premium Accent Footer Strip (Aligned to Web's Theme Color) */}
+      {/* Premium Accent Footer Strip */}
       <div className="relative mt-16 border-t border-[color:var(--color-border)] bg-[#FAF9F6] py-16 pointer-events-none select-none overflow-hidden">
         {/* Organic centering radial gradient glows */}
-        <div 
+        <div
           className="absolute left-1/2 top-1/2 z-0 h-[220px] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 filter blur-[90px]"
           style={{
             background: "radial-gradient(circle, rgba(14,165,164,0.4) 0%, rgba(24,0,173,0.2) 60%, transparent 100%)",
           }}
         />
-        <div 
+        <div
           className="absolute left-1/2 top-1/2 z-0 h-[100px] w-[40%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-35 filter blur-[40px]"
           style={{
             background: "radial-gradient(circle, #0EA5A4 0%, transparent 70%)",
@@ -155,7 +156,7 @@ export function Footer() {
 
         <div className="container-x relative z-10 flex flex-col items-center">
           {/* Centered Massive Wordmark */}
-          <h2 
+          <h2
             className="font-logo text-[12vw] font-black uppercase leading-none tracking-[0.06em] text-slate-800/12 sm:text-[14vw] md:text-[15vw] transition-all duration-700 hover:text-slate-800/20"
             style={{
               textShadow: "0 0 45px rgba(14,165,164,0.18), 0 0 90px rgba(24,0,173,0.12)",
@@ -170,8 +171,8 @@ export function Footer() {
             <p className="font-logo text-[10px] tracking-[0.2em] uppercase text-[#0EA5A4] drop-shadow-[0_0_8px_rgba(14,165,164,0.25)]">
               METICULOUSLY CRAFTED • AI & DIGITAL SYSTEMS
             </p>
-            <a 
-              href="mailto:connect@vexcort.com" 
+            <a
+              href="mailto:connect@vexcort.com"
               className="text-foreground/60 hover:text-[#0EA5A4] transition-colors"
             >
               connect@vexcort.com

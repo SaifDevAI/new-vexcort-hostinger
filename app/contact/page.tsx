@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect, useRef } from "react";
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
 import {
   Calendar,
   Mail,
@@ -17,26 +18,8 @@ import {
   Phone,
   Zap,
   Facebook,
-} from "lucide-react";
-import { SiteLayout } from "@/components/SiteLayout";
-
-export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Vexcort \u2014 Book a Meeting or Get a Quote" },
-      { name: "description", content: "Get in touch with the Vexcort team. Book a meeting, send a project brief, or ask a question about our web development, AI automation, or digital marketing services." },
-      { property: "og:title", content: "Contact Vexcort \u2014 Book a Meeting or Get a Quote" },
-      { property: "og:description", content: "Start a project, book a free consultation, or ask a question. The Vexcort team is ready to help you design, build, and scale your digital presence." },
-      { property: "og:image", content: "https://vexcort.com/textlogo.png" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:title", content: "Contact Vexcort \u2014 Book a Meeting or Get a Quote" },
-      { name: "twitter:description", content: "Start a project, book a free consultation, or ask a question. The Vexcort team is ready to help." },
-      { name: "twitter:image", content: "https://vexcort.com/textlogo.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://vexcort.com/contact" }],
-  }),
-  component: ContactPage,
-});
+} from 'lucide-react';
+import { SiteLayout } from '@/components/SiteLayout';
 
 const serviceOptions = [
   "Web Development",
@@ -244,7 +227,7 @@ function Field({
 }
 
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Main Page Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-function ContactPage() {
+export default function Page() {
   const [sent, setSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedService, setSelectedService] = useState<string>("Web Development");

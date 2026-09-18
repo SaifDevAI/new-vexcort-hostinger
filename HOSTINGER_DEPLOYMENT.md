@@ -1,35 +1,40 @@
-# Deploying Vexcort to Hostinger Node.js Hosting
+# Deploying Vexcort (Next.js) to Hostinger Node.js Hosting
 
-## Option A: Hostinger Node.js Web Application (Recommended)
+## Step 1: Push / Upload Files to Hostinger
 
-1. **Upload Files**:
-   Upload the project files to your domain directory (e.g., `public_html` or application folder) via Hostinger File Manager or Git.
-   *(You do not need to upload `node_modules` — they will be installed on the server).*
-
-2. **Configure Node.js in Hostinger hPanel**:
-   - Go to **Websites** -> **Manage** -> **Node.js**.
-   - **Node.js version**: Select **v20.x** or **v22.x**.
-   - **Application root**: Select or enter your project root folder (e.g., `/public_html` or `/vexcort`).
-   - **Application startup file**: Set to `server.mjs`.
-   - **Application mode**: `Production`.
-
-3. **Install Dependencies & Build**:
-   Click **NPM Install** in the Hostinger Node.js panel (or run via SSH terminal):
-   ```bash
-   npm install
-   npm run build
-   ```
-
-4. **Start/Restart Application**:
-   Click **Restart Application** in the Hostinger panel.
-   The server will start listening on the assigned environment port.
+1. **Via Git Deployment (Recommended)**:
+   - Connect your repository: `https://github.com/SaifDevAI/new-vexcort-hostinger.git`
+   - Branch: `main`
+   
+2. **Via File Manager / FTP**:
+   - Upload the project files to your domain directory (e.g., `/public_html` or application folder).
+   - *(Do not upload `node_modules` or `.next` — they will be built on the server).*
 
 ---
 
-## Option B: Static / cPanel Export (Hostinger Shared / Cloud Hosting)
+## Step 2: Configure Node.js in Hostinger hPanel
 
-If using static hosting without the Node.js runtime process:
+1. Navigate to **Websites** &rarr; **Manage** &rarr; **Node.js**.
+2. Set configuration:
+   - **Node.js version**: Select **v20.x** or **v22.x**.
+   - **Application root**: Select or enter your project root folder (e.g., `/public_html` or `/vexcort`).
+   - **Application startup file**: Set to `server.js`.
+   - **Application mode**: `Production`.
+
+---
+
+## Step 3: Install Dependencies & Build
+
+In the Hostinger Node.js panel (or via SSH terminal in project root):
+
 ```bash
-npm run package:cpanel
+npm install
+npm run build
 ```
-Upload everything inside `vexcort_cpanel` directly to your `public_html` folder.
+
+---
+
+## Step 4: Start / Restart Application
+
+Click **Restart Application** in the Hostinger hPanel.
+Your Next.js site will immediately be live with SSR, static optimization, dynamic routing, and fast performance.

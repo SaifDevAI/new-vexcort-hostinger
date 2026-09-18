@@ -1,10 +1,11 @@
+'use client';
+
 import type { ReactNode } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { useState, useEffect, useRef } from "react";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
-  // Default to true if sessionStorage has not been checked, avoiding rendering pages underneath
   const [showSplash, setShowSplash] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -22,12 +23,10 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Double the playback speed of the splash video once it loads
     if (videoRef.current) {
       videoRef.current.playbackRate = 1.45;
     }
 
-    // Auto-fadeout after 1.5s
     const timer = setTimeout(() => {
       setFadeOut(true);
       try {
@@ -72,7 +71,6 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               playsInline
               aria-hidden="true"
               onPlay={(e) => {
-                // Apply speed increase as soon as playback starts
                 e.currentTarget.playbackRate = 1.45;
               }}
               onEnded={handleSplashEnd}

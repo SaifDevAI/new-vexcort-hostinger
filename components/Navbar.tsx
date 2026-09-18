@@ -1,5 +1,8 @@
+'use client';
+
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "@tanstack/react-router";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Logo } from "./Logo";
 
@@ -15,11 +18,10 @@ const navActiveClass =
   "text-[color:var(--brand)] bg-[color:var(--brand-soft)] shadow-[0_10px_24px_-18px_rgba(24,0,173,0.45)] ring-1 ring-[color:var(--color-border)]";
 
 export function Navbar() {
-  const location = useLocation();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesInView, setServicesInView] = useState(false);
-  const [faqInView, setFaqInView] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -29,43 +31,38 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (location.pathname !== "/") {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname !== "/") {
       setServicesInView(false);
-      setFaqInView(false);
       return;
     }
 
     const servicesEl = document.getElementById("home-services-section");
-    const faqEl = document.getElementById("home-faq-section");
-    if (!servicesEl && !faqEl) return;
+    if (!servicesEl) return;
 
     const servicesObserver = new IntersectionObserver(
       ([entry]) => setServicesInView(entry.isIntersecting),
       { root: null, threshold: 0.35, rootMargin: "-80px 0px -45% 0px" },
     );
-    const faqObserver = new IntersectionObserver(([entry]) => setFaqInView(entry.isIntersecting), {
-      root: null,
-      threshold: 0.35,
-      rootMargin: "-80px 0px -45% 0px",
-    });
 
-    if (servicesEl) servicesObserver.observe(servicesEl);
-    if (faqEl) faqObserver.observe(faqEl);
+    servicesObserver.observe(servicesEl);
     return () => {
       servicesObserver.disconnect();
-      faqObserver.disconnect();
     };
-  }, [location.pathname]);
+  }, [pathname]);
 
-  const isHomeRoute = location.pathname === "/";
+  const isHomeRoute = pathname === "/";
   const activeNavLabel = !isHomeRoute
-    ? location.pathname === "/services"
+    ? pathname === "/services"
       ? "Services"
-      : location.pathname === "/portfolio"
+      : pathname === "/portfolio"
         ? "Portfolio"
-        : location.pathname === "/faq"
+        : pathname === "/faq"
           ? "FAQ"
-          : location.pathname === "/about"
+          : pathname === "/about"
             ? "About"
             : ""
     : servicesInView
@@ -87,8 +84,7 @@ export function Navbar() {
           {links.map((l) => (
             <li key={`${l.to}-${l.label}`}>
               <Link
-                to={l.to}
-                activeOptions={{ exact: l.to === "/" }}
+                href={l.to}
                 className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors hover:text-foreground ${
                   l.label === activeNavLabel ? navActiveClass : "text-foreground/70"
                 }`}
@@ -102,7 +98,7 @@ export function Navbar() {
 
         <div className="hidden items-center gap-2 lg:flex">
           <Link
-            to="/contact"
+            href="/contact"
             className="btn btn-primary px-5 py-2 text-sm rounded-full font-bold flex items-center gap-1"
           >
             Contact Us <ArrowUpRight className="h-4 w-4" />
@@ -128,7 +124,7 @@ export function Navbar() {
           {links.map((l) => (
             <li key={`${l.to}-${l.label}`}>
               <Link
-                to={l.to}
+                href={l.to}
                 onClick={() => setOpen(false)}
                 className={`block rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-[color:var(--color-surface)] ${
                   l.label === activeNavLabel
@@ -143,7 +139,7 @@ export function Navbar() {
           ))}
           <li className="mt-2 pt-2 border-t border-slate-100">
             <Link
-              to="/contact"
+              href="/contact"
               onClick={() => setOpen(false)}
               className="btn btn-primary w-full rounded-xl py-3 justify-center text-center font-bold flex items-center gap-1.5"
             >

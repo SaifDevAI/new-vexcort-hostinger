@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState, useRef } from "react";
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useState, useRef } from 'react';
 import { 
   ArrowUpRight, 
   Check, 
@@ -12,28 +14,10 @@ import {
   Search, 
   Megaphone, 
   Share2 
-} from "lucide-react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { SiteLayout } from "@/components/SiteLayout";
-import { CTASection } from "@/components/CTASection";
-
-export const Route = createFileRoute("/services")({
-  head: () => ({
-    meta: [
-      { title: "Vexcort Services \u2014 Web Dev, AI & SEO Agency" },
-      { name: "description", content: "Web development, web design, AI automation, chatbots, voice bots, app development, SEO, marketing and social media handling." },
-      { property: "og:title", content: "Vexcort Services \u2014 Web Dev, AI Automation & SEO" },
-      { property: "og:description", content: "Explore Vexcort's full suite of digital services: web development, AI automation, app development, chatbots, SEO, and social media marketing for modern brands." },
-      { property: "og:image", content: "https://vexcort.com/textlogo.png" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:title", content: "Vexcort Services \u2014 Web Dev, AI & SEO Agency" },
-      { name: "twitter:description", content: "Explore Vexcort's full suite: web development, AI automation, app development, SEO, and social media marketing." },
-      { name: "twitter:image", content: "https://vexcort.com/textlogo.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://vexcort.com/services" }],
-  }),
-  component: ServicesPage,
-});
+} from 'lucide-react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { SiteLayout } from '@/components/SiteLayout';
+import { CTASection } from '@/components/CTASection';
 
 interface ServiceItem {
   icon: React.ComponentType<{ className?: string }>;
@@ -119,7 +103,7 @@ const servicesList: ServiceItem[] = [
   },
 ];
 
-function ServicesPage() {
+export default function Page() {
   const servicesSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -445,7 +429,7 @@ function CarouselCard({ service }: { service: ServiceItem }) {
 
         {/* Bottom: Springy CTA Button */}
         <div className="mt-6">
-          <Link to="/contact">
+          <Link href="/contact">
             <motion.div 
               className="w-full py-2.5 rounded-full flex items-center justify-center text-xs font-bold transition-all border border-slate-200/60 bg-white text-[#0B1324] shadow-[0_2px_10px_rgba(0,0,0,0.03)]"
               animate={{

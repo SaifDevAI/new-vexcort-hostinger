@@ -1,7 +1,6 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @import "tw-animate-css";
 
-@source "../src";
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
@@ -60,9 +59,9 @@
   --radius: 0.875rem;
 
   /* Brand: Blue + Teal */
-  --brand: #1800AD; /* Primary */
-  --brand-dark: #1E3A8A; /* Dark */
-  --brand-accent: #0EA5A4; /* Accent */
+  --brand: #1800AD;
+  --brand-dark: #1E3A8A;
+  --brand-accent: #0EA5A4;
   --brand-foreground: #FFFFFF;
   --brand-soft: color-mix(in srgb, #1800AD 12%, #FFFFFF);
   --brand-glow: color-mix(in srgb, #0EA5A4 35%, transparent);
@@ -517,11 +516,11 @@
   animation-duration: 20s;
 }
 
-  .logo-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-    width: 144px;
-    height: 144px;
-  }
+.logo-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 144px;
+  height: 144px;
+}

@@ -1,34 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect, useRef } from "react";
-import { ArrowUpRight, Plus, HelpCircle, MessageCircle, Zap, Globe, Bot, BarChart3, Smartphone, ChevronDown } from "lucide-react";
-import { SiteLayout } from "@/components/SiteLayout";
+'use client';
 
-export const Route = createFileRoute("/faq")({
-  head: () => ({
-    meta: [
-      { title: "FAQ - Vexcort | Web Dev, AI Automation & Services" },
-      {
-        name: "description",
-        content:
-          "Get answers to common questions about Vexcort's web development, AI automation, SEO, chatbots, app development, and digital marketing services. Start your project today.",
-      },
-      { property: "og:title", content: "FAQ - Vexcort | Frequently Asked Questions" },
-      {
-        property: "og:description",
-        content:
-          "Clear answers about pricing, timelines, tech stacks, and how Vexcort delivers premium digital products for ambitious brands.",
-      },
-      { property: "og:image", content: "https://vexcort.com/textlogo.png" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:title", content: "FAQ - Vexcort | Web Dev, AI Automation & Services" },
-      { name: "twitter:description", content: "Clear answers about pricing, timelines, tech stacks, and how Vexcort delivers premium digital products for ambitious brands." },
-      { name: "twitter:image", content: "https://vexcort.com/textlogo.png" },
-      { name: "robots", content: "index, follow" },
-    ],
-    links: [{ rel: "canonical", href: "https://vexcort.com/faq" }],
-  }),
-  component: FAQPage,
-});
+import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react';
+import { ArrowUpRight, Plus, HelpCircle, MessageCircle, Zap, Globe, Bot, BarChart3, Smartphone, ChevronDown } from 'lucide-react';
+import { SiteLayout } from '@/components/SiteLayout';
 
 const categories = [
   { id: "all",     label: "All Questions", Icon: HelpCircle },
@@ -138,7 +113,7 @@ function AccordionItem({ q, a, index }: { q: string; a: string; index: number })
   );
 }
 
-function FAQPage() {
+export default function Page() {
   const [heroPhase, setHeroPhase] = useState(0);
   const [activeCat, setActiveCat] = useState("all");
   const [showAll, setShowAll] = useState(false);
@@ -285,8 +260,7 @@ function FAQPage() {
               >
                 WhatsApp Us
               </a>
-              <Link
-                to="/contact"
+              <Link href="/contact"
                 className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-semibold transition-all duration-200 hover:opacity-90"
                 style={{ background: "linear-gradient(135deg, #1800AD 0%, #0EA5A4 100%)", color: "#ffffff", boxShadow: "0 8px 24px -8px rgba(24,0,173,0.45)" }}
               >
