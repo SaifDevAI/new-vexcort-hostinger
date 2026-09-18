@@ -9,9 +9,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── Local Self-Hosted Fonts (Guaranteed 100% Reliable Loading) ── */
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/SpaceGrotesk-latin.woff2") format("woff2"),
+       url("/fonts/SpaceGrotesk-latinext.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: "Mokoto";
-  src: url("/mokoto.regular.ttf") format("truetype");
+  src: url("/fonts/mokoto.regular.ttf") format("truetype"),
+       url("/mokoto.regular.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -19,7 +30,8 @@
 
 @font-face {
   font-family: "Mokoto";
-  src: url("/mokoto.regular.ttf") format("truetype");
+  src: url("/fonts/mokoto.regular.ttf") format("truetype"),
+       url("/mokoto.regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -27,7 +39,8 @@
 
 @font-face {
   font-family: "Mokoto";
-  src: url("/mokoto.regular.ttf") format("truetype");
+  src: url("/fonts/mokoto.regular.ttf") format("truetype"),
+       url("/mokoto.regular.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -35,7 +48,8 @@
 
 @font-face {
   font-family: "Wistania";
-  src: url("/Wistania.ttf") format("truetype");
+  src: url("/fonts/Wistania.ttf") format("truetype"),
+       url("/Wistania.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -43,7 +57,8 @@
 
 @font-face {
   font-family: "Wistania";
-  src: url("/Wistania.ttf") format("truetype");
+  src: url("/fonts/Wistania.ttf") format("truetype"),
+       url("/Wistania.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -51,8 +66,17 @@
 
 @font-face {
   font-family: "Wistania";
-  src: url("/Wistania.ttf") format("truetype");
+  src: url("/fonts/Wistania.ttf") format("truetype"),
+       url("/Wistania.ttf") format("truetype");
   font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("/fonts/Orbitron.woff2") format("woff2");
+  font-weight: 500 900;
   font-style: normal;
   font-display: swap;
 }
@@ -148,11 +172,11 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
+    font-family: "Space Grotesk", "Inter", sans-serif;
     font-feature-settings: "ss01", "cv11";
   }
   h1, h2, h3, h4 {
-    font-family: var(--font-display);
+    font-family: "Space Grotesk", "Inter", sans-serif;
     letter-spacing: -0.02em;
   }
   h1 { font-weight: 700; }
@@ -470,10 +494,14 @@
   }
 
   .logo-mark {
-    font-family: var(--font-logo);
+    font-family: "Mokoto", "Orbitron", "Space Grotesk", monospace !important;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
+  }
+
+  .font-logo {
+    font-family: "Mokoto", "Orbitron", "Space Grotesk", monospace !important;
   }
 
   .section { @apply py-20 md:py-28; }
