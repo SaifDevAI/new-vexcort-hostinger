@@ -82,9 +82,9 @@
 }
 
 @theme inline {
-  --font-sans: "Mokoto", "Space Grotesk", "Inter", sans-serif;
-  --font-display: "Mokoto", "Space Grotesk", "Inter", sans-serif;
-  --font-logo: "Mokoto", "Orbitron", "Space Grotesk", monospace;
+  --font-sans: ui-sans-serif, system-ui, sans-serif, monospace;
+  --font-display: ui-sans-serif, system-ui, sans-serif, monospace;
+  --font-logo: "Mokoto", "Orbitron", ui-sans-serif, system-ui, monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -172,11 +172,11 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: "Mokoto", "Space Grotesk", "Inter", sans-serif;
+    font-family: ui-sans-serif, system-ui, sans-serif, monospace;
     font-feature-settings: "ss01", "cv11";
   }
   h1, h2, h3, h4 {
-    font-family: "Mokoto", "Space Grotesk", "Inter", sans-serif;
+    font-family: ui-sans-serif, system-ui, sans-serif, monospace;
     letter-spacing: -0.02em;
   }
   h1 { font-weight: 700; }
