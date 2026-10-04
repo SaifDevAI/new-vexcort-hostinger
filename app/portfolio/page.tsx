@@ -79,11 +79,15 @@ const projects: Project[] = [
 export default function Page() {
   const [activeFrameUrl, setActiveFrameUrl] = useState<string | null>(null);
   const [activeFrameTitle, setActiveFrameTitle] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const filteredProjects = selectedCategory === "All"
-    ? projects
-    : projects.filter((p) => p.category === selectedCategory);
+  // Rotate index automatically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % projects.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
 
   const schema = {
     "@context": "https://schema.org",
@@ -113,128 +117,99 @@ export default function Page() {
           }}
         />
 
-        {/* Modern Clean Portfolio Showcase Section */}
-        <section className="relative w-full z-10 pt-32 pb-16">
-          <div className="container-x max-w-7xl mx-auto">
-            {/* Header Title */}
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-[#0EA5A4]/10 text-[#0EA5A4] border border-[#0EA5A4]/20 mb-4">
-                Selected Work &amp; Case Studies
-              </span>
-              <h1 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight">
-                Crafted Digital Systems &amp; Products
-              </h1>
-              <p className="text-slate-600 text-sm sm:text-base mt-4 leading-relaxed">
-                Explore our portfolio of high-performance web applications, autonomous AI agents, luxury real estate platforms, and digital portals.
-              </p>
-            </div>
+        {/* 3D Semi-Circle Rotating Carousel Section */}
+        <section className="relative w-full min-h-[95vh] flex flex-col items-center justify-start overflow-hidden z-10 pt-36 pb-12">
+          {/* Header Title positioned above the cards */}
+          <div className="relative z-30 flex flex-col items-center pointer-events-none select-none mb-6">
+            <h1 
+              className="font-logo text-5xl md:text-7xl font-black uppercase tracking-[0.12em] text-slate-800/90"
+              style={{
+                textShadow: "0 0 40px rgba(14,165,164,0.14), 0 0 80px rgba(24,0,173,0.08)"
+              }}
+            >
+              PORTFOLIO
+            </h1>
+            <p className="font-logo text-[9px] tracking-[0.25em] text-[#0EA5A4] uppercase mt-2 drop-shadow-[0_0_8px_rgba(14,165,164,0.25)] animate-pulse">
+              SHIPPED DIGITAL SYSTEMS
+            </p>
+          </div>
 
-            {/* Filter Categories */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-              {["All", "Corporate", "AI Voice Agent", "Marketplace", "Dashboard"].map((cat) => {
-                const isSelected = selectedCategory === cat;
+          {/* Premium Semi-Circle Arc Visualizer (3D Cylinder Mapping) */}
+          <div className="relative w-full max-w-6xl h-[420px] flex items-center justify-center mt-6 z-20">
+            <div className="absolute w-full h-full flex items-center justify-center">
+              {projects.map((proj, idx) => {
+                // Calculate position along a half-circle arc
+                const count = projects.length;
+                
+                // Relative index calculation for circular shift relative to activeIndex
+                let relativeIdx = idx - activeIndex;
+                if (relativeIdx < -count / 2) relativeIdx += count;
+                if (relativeIdx > count / 2) relativeIdx -= count;
+
+                // Map relativeIndex to angle on a semi-circle (from -90 to +90 degrees)
+                const angleStep = 32; // slightly tighter spacing angle in degrees
+                const angle = relativeIdx * angleStep;
+                
+                // Polar coordinates calculations
+                const radiusX = 400; // Horizontal radius of the ellipse
+                const radiusY = 120; // Vertical radius of the ellipse (gives the 3D tilt look)
+                
+                const rad = (angle * Math.PI) / 180;
+                const tx = Math.sin(rad) * radiusX;
+                // Move elements to the foreground/background using cos
+                const tz = (Math.cos(rad) - 1) * 320; 
+                const ty = Math.cos(rad) * radiusY - radiusY + 60; // Push down to clear the title
+
+                const opacity = Math.max(0.15, Math.cos(rad));
+                const scale = Math.max(0.6, 0.65 + Math.cos(rad) * 0.35);
+
+                const isActive = activeIndex === idx;
+
                 return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
-                      isSelected
-                        ? "bg-[#1800AD] text-white shadow-md shadow-[#1800AD]/25"
-                        : "bg-white text-slate-600 border border-slate-200/80 hover:border-slate-300 hover:bg-slate-50"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Premium Clean Project Showcase Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-              {filteredProjects.map((proj) => (
-                <div
-                  key={proj.title}
-                  className="group relative bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 flex flex-col"
-                >
-                  {/* Card Visual / Thumbnail */}
                   <div
-                    className="relative h-60 w-full overflow-hidden bg-slate-100 cursor-pointer"
+                    key={proj.title}
+                    style={{
+                      transform: `translate3d(${tx}px, ${ty}px, ${tz}px) scale(${scale})`,
+                      zIndex: isActive ? 50 : 10 + Math.round(Math.cos(rad) * 10),
+                      opacity: opacity,
+                      transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s, z-index 0.8s",
+                    }}
+                    className="absolute w-[300px] sm:w-[360px] h-[200px] sm:h-[240px] rounded-[2.5rem] overflow-hidden bg-white border border-slate-200/60 flex flex-col justify-end p-6 group cursor-pointer shadow-[0_20px_50px_-20px_rgba(24,0,173,0.18)] hover:border-[#0EA5A4] hover:shadow-[0_25px_60px_-15px_rgba(14,165,164,0.3)] transition-all duration-300"
                     onClick={() => {
-                      setActiveFrameUrl(proj.url);
-                      setActiveFrameTitle(proj.title);
+                      if (isActive) {
+                        setActiveFrameUrl(proj.url);
+                        setActiveFrameTitle(proj.title);
+                      } else {
+                        setActiveIndex(idx);
+                      }
                     }}
                   >
-                    <img
-                      src={proj.image}
-                      alt={proj.title}
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    {/* Visual Screenshot Cover */}
+                    <img 
+                      src={proj.image} 
+                      alt={proj.title} 
+                      className="absolute inset-0 w-full h-full object-cover object-top opacity-90 transition-all duration-500 group-hover:scale-102 group-hover:opacity-100" 
                     />
-                    <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/40 transition-colors duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/30 to-transparent pointer-events-none" />
                     
-                    {/* Badge */}
-                    <div className="absolute top-4 left-4 z-10">
-                      <span className="text-[10px] font-bold uppercase tracking-wider bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-white border border-white/10">
+                    {/* Category Label */}
+                    <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-10">
+                      <span className="text-[8px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-white">
                         {proj.category}
                       </span>
-                    </div>
-
-                    {/* Hover Quick Action */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                      <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-white text-slate-900 shadow-lg">
-                        <Eye className="w-3.5 h-3.5" /> Interactive Preview
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-6 flex flex-col flex-1 justify-between">
-                    <div>
-                      <div className="text-[11px] font-bold text-[#0EA5A4] uppercase tracking-wider mb-1.5">
-                        {proj.metrics}
-                      </div>
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#1800AD] transition-colors">
-                        {proj.title}
-                      </h3>
-                      <p className="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
-                        {proj.description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-1.5 mt-4">
-                        {proj.tags.slice(0, 3).map((t) => (
-                          <span
-                            key={t}
-                            className="text-[10px] font-medium bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Bottom Action Bar */}
-                    <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <button
-                        onClick={() => {
-                          setActiveFrameUrl(proj.url);
-                          setActiveFrameTitle(proj.title);
-                        }}
-                        className="text-xs font-bold text-slate-700 hover:text-[#1800AD] inline-flex items-center gap-1 transition-colors"
-                      >
-                        Preview <Eye className="w-3.5 h-3.5" />
+                      <button className="h-8 w-8 rounded-full bg-white/15 backdrop-blur-md border border-white/10 flex items-center justify-center text-white transition-all group-hover:bg-teal-500 group-hover:border-transparent">
+                        <Eye className="h-3.5 w-3.5" />
                       </button>
-                      <a
-                        href={proj.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-bold text-[#1800AD] hover:text-[#0EA5A4] transition-colors"
-                      >
-                        Visit Live Site <ArrowUpRight className="w-3.5 h-3.5" />
-                      </a>
+                    </div>
+
+                    {/* Metadata overlay */}
+                    <div className="relative z-10 text-white">
+                      <span className="text-[8.5px] font-bold text-teal-400 uppercase tracking-widest">{proj.metrics}</span>
+                      <h3 className="text-sm sm:text-base font-black tracking-tight mt-0.5 leading-none">{proj.title}</h3>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
