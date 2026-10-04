@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { SiteLayout } from '@/components/SiteLayout';
 import { CTASection } from '@/components/CTASection';
-import { ImageStreamHero } from '@/components/ui/ImageStreamHero';
 import { ArrowUpRight, ExternalLink, Globe, Layout, Laptop, Sparkles, X, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -29,7 +28,7 @@ const projects: Project[] = [
     metrics: "B2B Medical Portal • Fast Performance",
     category: "Corporate",
     gradient: "linear-gradient(135deg, #1E3A8A 0%, #0D9488 100%)",
-    image: "/sonulynx.png",
+    image: "/sonulynx.png", // Correct Sonolynx image matching the upload by name
   },
   {
     title: "Soul Imaging Voice Agent",
@@ -40,7 +39,7 @@ const projects: Project[] = [
     metrics: "Sub-1s Voice Response Latency • Live AI Agent",
     category: "AI Voice Agent",
     gradient: "linear-gradient(135deg, #4c1d95 0%, #2563eb 100%)",
-    image: "/soulimaging.png",
+    image: "/soulimaging.png", // Correct Soul Imaging image matching the upload by name
   },
   {
     title: "Sanctuary Real Estate",
@@ -51,7 +50,7 @@ const projects: Project[] = [
     metrics: "120+ Listings • sub-100ms Search Response",
     category: "Marketplace",
     gradient: "linear-gradient(135deg, #1E1B4B 0%, #1800AD 100%)",
-    image: "/sanctuary.png",
+    image: "/sanctuary.png", // Correct Sanctuary image
   },
   {
     title: "Sarah Mitchell Real Estate",
@@ -62,7 +61,7 @@ const projects: Project[] = [
     metrics: "High Conversion • Smooth Transitions",
     category: "Dashboard",
     gradient: "linear-gradient(135deg, #022C22 0%, #0EA5A4 100%)",
-    image: "/sarah_mitchell.png",
+    image: "/sarah_mitchell.png", // Correct Sarah Mitchell Real Estate image matching name
   },
   {
     title: "Astra Surgery",
@@ -73,13 +72,22 @@ const projects: Project[] = [
     metrics: "Responsive Layout • Fast Form Loadtime",
     category: "Corporate",
     gradient: "linear-gradient(135deg, #0F172A 0%, #334155 100%)",
-    image: "/astra.png",
+    image: "/astra.png", // Correct Astra Surgery image matching name
   },
 ];
 
 export default function Page() {
   const [activeFrameUrl, setActiveFrameUrl] = useState<string | null>(null);
   const [activeFrameTitle, setActiveFrameTitle] = useState<string>("");
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Rotate index automatically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % projects.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
 
   const schema = {
     "@context": "https://schema.org",
@@ -101,22 +109,113 @@ export default function Page() {
       />
       <div className="relative z-10 bg-[#FAF9F6] text-[#0B1324] min-h-screen overflow-hidden flex flex-col justify-between">
         
-        {/* Integrated ImageStreamHero Component */}
-        <ImageStreamHero
-          badge="Selected Projects"
-          headline="Engineered Digital Experiences"
-          subheadline="Explore our featured portfolio: high-performance web systems, autonomous AI voice workflows, and luxury platforms."
-          projects={projects}
-          onOpenPreview={(url, title) => {
-            setActiveFrameUrl(url);
-            setActiveFrameTitle(title);
+        {/* Soft, aligned background decoration */}
+        <div 
+          className="absolute inset-x-0 top-0 h-[600px] pointer-events-none opacity-20"
+          style={{
+            backgroundImage: "radial-gradient(circle at 50% -100px, rgba(24,0,173,0.15) 0%, transparent 60%)"
           }}
-          ctaText="Explore System Specifications"
-          ctaLink="#system-specifications"
         />
 
+        {/* 3D Semi-Circle Rotating Carousel Section */}
+        <section className="relative w-full min-h-[95vh] flex flex-col items-center justify-start overflow-hidden z-10 pt-36 pb-12">
+          {/* Header Title positioned above the cards */}
+          <div className="relative z-30 flex flex-col items-center pointer-events-none select-none mb-6">
+            <h1 
+              className="font-logo text-5xl md:text-7xl font-black uppercase tracking-[0.12em] text-slate-800/90"
+              style={{
+                textShadow: "0 0 40px rgba(14,165,164,0.14), 0 0 80px rgba(24,0,173,0.08)"
+              }}
+            >
+              PORTFOLIO
+            </h1>
+            <p className="font-logo text-[9px] tracking-[0.25em] text-[#0EA5A4] uppercase mt-2 drop-shadow-[0_0_8px_rgba(14,165,164,0.25)] animate-pulse">
+              SHIPPED DIGITAL SYSTEMS
+            </p>
+          </div>
+
+          {/* Premium Semi-Circle Arc Visualizer (3D Cylinder Mapping) */}
+          <div className="relative w-full max-w-6xl h-[420px] flex items-center justify-center mt-6 z-20">
+            <div className="absolute w-full h-full flex items-center justify-center">
+              {projects.map((proj, idx) => {
+                // Calculate position along a half-circle arc
+                const count = projects.length;
+                
+                // Relative index calculation for circular shift relative to activeIndex
+                let relativeIdx = idx - activeIndex;
+                if (relativeIdx < -count / 2) relativeIdx += count;
+                if (relativeIdx > count / 2) relativeIdx -= count;
+
+                // Map relativeIndex to angle on a semi-circle (from -90 to +90 degrees)
+                const angleStep = 32; // slightly tighter spacing angle in degrees
+                const angle = relativeIdx * angleStep;
+                
+                // Polar coordinates calculations
+                const radiusX = 400; // Horizontal radius of the ellipse
+                const radiusY = 120; // Vertical radius of the ellipse (gives the 3D tilt look)
+                
+                const rad = (angle * Math.PI) / 180;
+                const tx = Math.sin(rad) * radiusX;
+                // Move elements to the foreground/background using cos
+                const tz = (Math.cos(rad) - 1) * 320; 
+                const ty = Math.cos(rad) * radiusY - radiusY + 60; // Push down to clear the title
+
+                const opacity = Math.max(0.15, Math.cos(rad));
+                const scale = Math.max(0.6, 0.65 + Math.cos(rad) * 0.35);
+
+                const isActive = activeIndex === idx;
+
+                return (
+                  <div
+                    key={proj.title}
+                    style={{
+                      transform: `translate3d(${tx}px, ${ty}px, ${tz}px) scale(${scale})`,
+                      zIndex: isActive ? 50 : 10 + Math.round(Math.cos(rad) * 10),
+                      opacity: opacity,
+                      transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s, z-index 0.8s",
+                    }}
+                    className="absolute w-[300px] sm:w-[360px] h-[200px] sm:h-[240px] rounded-[2.5rem] overflow-hidden bg-white border border-slate-200/60 flex flex-col justify-end p-6 group cursor-pointer shadow-[0_20px_50px_-20px_rgba(24,0,173,0.18)] hover:border-[#0EA5A4] hover:shadow-[0_25px_60px_-15px_rgba(14,165,164,0.3)] transition-all duration-300"
+                    onClick={() => {
+                      if (isActive) {
+                        setActiveFrameUrl(proj.url);
+                        setActiveFrameTitle(proj.title);
+                      } else {
+                        setActiveIndex(idx);
+                      }
+                    }}
+                  >
+                    {/* Visual Screenshot Cover */}
+                    <img 
+                      src={proj.image} 
+                      alt={proj.title} 
+                      className="absolute inset-0 w-full h-full object-cover object-top opacity-90 transition-all duration-500 group-hover:scale-102 group-hover:opacity-100" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/30 to-transparent pointer-events-none" />
+                    
+                    {/* Category Label */}
+                    <div className="absolute top-5 left-5 right-5 flex justify-between items-center z-10">
+                      <span className="text-[8px] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-white">
+                        {proj.category}
+                      </span>
+                      <button className="h-8 w-8 rounded-full bg-white/15 backdrop-blur-md border border-white/10 flex items-center justify-center text-white transition-all group-hover:bg-teal-500 group-hover:border-transparent">
+                        <Eye className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+
+                    {/* Metadata overlay */}
+                    <div className="relative z-10 text-white">
+                      <span className="text-[8.5px] font-bold text-teal-400 uppercase tracking-widest">{proj.metrics}</span>
+                      <h3 className="text-sm sm:text-base font-black tracking-tight mt-0.5 leading-none">{proj.title}</h3>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
         {/* Detailed Projects Information on Scroll */}
-        <section id="system-specifications" className="relative z-20 container-x py-24 border-t border-slate-200/40 bg-white">
+        <section className="relative z-20 container-x py-24 border-t border-slate-200/40 bg-white">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <h2 className="font-logo text-3xl md:text-4xl font-bold uppercase tracking-wider text-slate-800">
               System Specifications
